@@ -16,6 +16,8 @@ public class Mecanum extends LinearOpMode {
     private DcMotor Left_Back;
     private DcMotor Right_Back;
 
+    private DcMotor Arm;
+
     private OpticalDistanceSensor distance_Sensor;
 
     @Override
@@ -26,6 +28,7 @@ public class Mecanum extends LinearOpMode {
         Right_Front = hardwareMap.dcMotor.get("Right_Front");
         Left_Back = hardwareMap.dcMotor.get("Left_Back");
         Right_Back = hardwareMap.dcMotor.get("Right_Back");
+        Arm = hardwareMap.dcMotor.get("Arm");
         //IMU imu = hardwareMap.get(IMU.class, "imu");
 
 // Wait for the game to start (driver presses PLAY)
@@ -41,14 +44,14 @@ public class Mecanum extends LinearOpMode {
             double x = gamepad1.left_stick_x * 1;
             double rx = -gamepad1.right_stick_x;
 
-          if (Math.abs(gamepad1.left_stick_x) < 0.01 && Math.abs(gamepad1.left_stick_x) < 0.01){
+          if (Math.abs(gamepad1.left_stick_x) < 0.01){
               Left_Front.setPower(0);
               Left_Back.setPower(0);
               Right_Front.setPower(0);
               Right_Back.setPower(0);
 
           }
-            if (Math.abs(gamepad1.left_stick_y) < 0.01 && Math.abs(gamepad1.right_stick_y) < 0.01){
+            if (Math.abs(gamepad1.left_stick_y) < 0.01){
                 Left_Front.setPower(0);
                 Left_Back.setPower(0);
                 Right_Front.setPower(0);
@@ -91,16 +94,24 @@ public class Mecanum extends LinearOpMode {
             //imu.initialize(parameters);
 
             if (gamepad1.a){
-                Left_Front.setPower(1);
+                Arm.setTargetPosition(99);
+                Arm.setPower(1);
+                Arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             }
             if (gamepad1.b){
-                Left_Back.setPower(1);
+                Arm.setTargetPosition(0);
+                Arm.setPower(1);
+                Arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             }
             if (gamepad1.y){
                 Right_Front.setPower(1);
             }
             if (gamepad1.x){
                 Right_Back.setPower(1);
+            }
+            if (Arm.getCurrentPosition() >= 100){
+                Arm.setTargetPosition(99);
+                Arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             }
         }
     }
