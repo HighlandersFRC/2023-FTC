@@ -78,8 +78,6 @@ public class Mecanum extends LinearOpMode {
             telemetry.addData("Trigger", gamepad1.right_trigger);
             telemetry.addData("Bumper", gamepad1.right_bumper);
             telemetry.addData("Stick Y", gamepad1.right_stick_y);
-            telemetry.addData("", gamepad1.right_bumper);
-            telemetry.addData("", gamepad1.left_trigger);
 
             telemetry.addLine("");
             telemetry.addData("Distance Sensor", distance_Sensor);
