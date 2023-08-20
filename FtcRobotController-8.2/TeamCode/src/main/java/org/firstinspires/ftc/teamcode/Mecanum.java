@@ -8,6 +8,8 @@ import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
 
+import org.firstinspires.ftc.teamcode.PID1;
+
 @TeleOp
 
 public class Mecanum extends LinearOpMode {
@@ -15,10 +17,12 @@ public class Mecanum extends LinearOpMode {
     private DcMotor Right_Front;
     private DcMotor Left_Back;
     private DcMotor Right_Back;
-
+    private DcMotor Left_Intake;
+    private DcMotor Right_Intake;
     private DcMotor Arm;
-
     private OpticalDistanceSensor distance_Sensor;
+
+    PID1 PID = new PID1();
 
     @Override
     public void runOpMode() {
@@ -28,6 +32,8 @@ public class Mecanum extends LinearOpMode {
         Right_Front = hardwareMap.dcMotor.get("Right_Front");
         Left_Back = hardwareMap.dcMotor.get("Left_Back");
         Right_Back = hardwareMap.dcMotor.get("Right_Back");
+        Left_Intake = hardwareMap.dcMotor.get("Left_Intake");
+        Right_Intake = hardwareMap.dcMotor.get("Right_Intake");
         Arm = hardwareMap.dcMotor.get("Arm");
         //IMU imu = hardwareMap.get(IMU.class, "imu");
 
@@ -39,9 +45,35 @@ public class Mecanum extends LinearOpMode {
 
 // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
+            PID.setPID(0.75,0.2 ,0.3);
+                if (gamepad1.a) {
+                    PID.setSetPoint(-329);
+                    Arm.setPower(1);
+                    Arm.setTargetPosition(PID.getSetPoint());
+                }
+                if (gamepad1.b) {
+                    PID.setSetPoint(0);
+                    Arm.setPower(1);
+                    Arm.setTargetPosition(PID.getSetPoint());
+                }
+                else {
+                    Arm.setPower(0);
+                }
+            if (gamepad1.x){
+                Left_Intake.setPower(-1);
+                Right_Intake.setPower(1);
+            }
+            else {
+                Right_Intake.setPower(0);
+                Left_Intake.setPower(0);
+            }
+            if (gamepad1.y){
+                Left_Intake.setPower(0.5);
+                Right_Intake.setPower(-0.5);
+            }
             //double directionFacing =
-            double y = -gamepad1.left_stick_y;
-            double x = gamepad1.left_stick_x * 1;
+            double y = gamepad1.left_stick_y;
+            double x = -gamepad1.left_stick_x * 1;
             double rx = -gamepad1.right_stick_x;
 
           if (Math.abs(gamepad1.left_stick_x) < 0.01){
@@ -74,6 +106,7 @@ public class Mecanum extends LinearOpMode {
             telemetry.addData("Front-Right Position", Right_Front.getCurrentPosition());
             telemetry.addData("Back-Left Position", Left_Back.getCurrentPosition());
             telemetry.addData("Back-Right Position", Right_Back.getCurrentPosition());
+            telemetry.addData("Arm Encoder", Arm.getCurrentPosition());
 
             telemetry.addLine("");
             telemetry.addLine("Controller Inputs");
@@ -92,26 +125,5 @@ public class Mecanum extends LinearOpMode {
            //         RevHubOrientationOnRobot.LogoFacingDirection.UP,
              //       RevHubOrientationOnRobot.UsbFacingDirection.FORWARD));
             //imu.initialize(parameters);
-
-            if (gamepad1.a){
-                Arm.setTargetPosition(99);
-                Arm.setPower(1);
-                Arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            }
-            if (gamepad1.b){
-                Arm.setTargetPosition(0);
-                Arm.setPower(1);
-                Arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            }
-            if (gamepad1.y){
-                Right_Front.setPower(1);
-            }
-            if (gamepad1.x){
-                Right_Back.setPower(1);
-            }
-            if (Arm.getCurrentPosition() >= 100){
-                Arm.setTargetPosition(99);
-                Arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            }
         }
-    }
+}
