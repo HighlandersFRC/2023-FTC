@@ -21,7 +21,6 @@ public class Mecanum extends LinearOpMode {
     private DcMotor Right_Intake;
     private DcMotor Arm;
     private OpticalDistanceSensor distance_Sensor;
-
     PID1 PID = new PID1();
 
     @Override
@@ -50,11 +49,13 @@ public class Mecanum extends LinearOpMode {
                     PID.setSetPoint(-329);
                     Arm.setPower(1);
                     Arm.setTargetPosition(PID.getSetPoint());
+                    Arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 }
                 if (gamepad1.b) {
                     PID.setSetPoint(0);
                     Arm.setPower(1);
                     Arm.setTargetPosition(PID.getSetPoint());
+                    Arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 }
                 else {
                     Arm.setPower(0);
@@ -81,14 +82,12 @@ public class Mecanum extends LinearOpMode {
               Left_Back.setPower(0);
               Right_Front.setPower(0);
               Right_Back.setPower(0);
-
           }
-            if (Math.abs(gamepad1.left_stick_y) < 0.01){
-                Left_Front.setPower(0);
-                Left_Back.setPower(0);
-                Right_Front.setPower(0);
-                Right_Back.setPower(0);
-
+          if (Math.abs(gamepad1.left_stick_y) < 0.01){
+              Left_Front.setPower(0);
+              Left_Back.setPower(0);
+              Right_Front.setPower(0);
+              Right_Back.setPower(0);
             }
             double denominator = Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rx), 1);
             double frontLeftPower = (y + x + rx) / denominator;
@@ -110,10 +109,6 @@ public class Mecanum extends LinearOpMode {
 
             telemetry.addLine("");
             telemetry.addLine("Controller Inputs");
-            telemetry.addData("Stick X", gamepad1.right_stick_x);
-            telemetry.addData("Trigger", gamepad1.right_trigger);
-            telemetry.addData("Bumper", gamepad1.right_bumper);
-            telemetry.addData("Stick Y", gamepad1.right_stick_y);
 
             telemetry.addLine("");
             telemetry.addData("Distance Sensor", distance_Sensor);
