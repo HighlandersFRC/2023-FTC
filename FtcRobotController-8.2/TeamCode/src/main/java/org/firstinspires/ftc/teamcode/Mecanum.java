@@ -46,6 +46,14 @@ public class Mecanum extends LinearOpMode {
 
 // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
+            double leftTrigger = 0;
+            if (gamepad1.left_trigger >= -1) {
+                leftTrigger = 0;
+            }
+            if (gamepad1.left_trigger >= -0.99) {
+                leftTrigger = Math.abs(gamepad1.left_trigger) + 1;
+                leftTrigger = leftTrigger / 2;
+            }
             PID.setMaxOutput(1);
             PID.setMinOutput(-1);
             PID.setPID(0.003,0 ,0.001);
@@ -55,12 +63,14 @@ public class Mecanum extends LinearOpMode {
                 PID.setSetPoint(-940);
             }
             if (gamepad1.b){
-                PID.setSetPoint(-85);
+                PID.setSetPoint(-15);
             }
 
             if (gamepad1.x){
                 PID.setSetPoint(-550);
             }
+            Right_Intake.setPower(-leftTrigger);
+            Left_Intake.setPower(leftTrigger);
           /*  else {
                 Right_Intake.setPower(0);
                 Left_Intake.setPower(0);
@@ -106,6 +116,7 @@ public class Mecanum extends LinearOpMode {
 
             telemetry.addLine("");
             telemetry.addLine("Controller Inputs");
+            telemetry.addData("Left Trigger", leftTrigger);
             telemetry.addData("PID Result", PID.getResult());
 
             telemetry.addLine("");
