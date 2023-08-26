@@ -47,13 +47,38 @@ public class Mecanum extends LinearOpMode {
 // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
             double leftTrigger = 0;
+            double rightTrigger = 0;
             if (gamepad1.left_trigger >= -1) {
                 leftTrigger = 0;
             }
             if (gamepad1.left_trigger >= -0.99) {
-                leftTrigger = Math.abs(gamepad1.left_trigger) + 1;
-                leftTrigger = leftTrigger / 2;
+                leftTrigger = Math.abs(gamepad1.left_trigger);
             }
+            if (leftTrigger == 0.5){
+                leftTrigger = 0;
+            }
+/*            if (leftTrigger >= 0.01){
+                leftTrigger = leftTrigger * 0.5;
+            }*/
+            if (leftTrigger <= 0.1){
+                leftTrigger = 0;
+            }
+            if (gamepad1.right_trigger >= -1) {
+                rightTrigger = 0;
+            }
+            if (gamepad1.right_trigger >= -0.99) {
+                rightTrigger = Math.abs(gamepad1.right_trigger);
+            }
+            if (rightTrigger == 0.5){
+                rightTrigger = 0;
+            }
+     /*       if (rightTrigger >= 0.01){
+                rightTrigger = rightTrigger * 0.5;
+            }*/
+            if (rightTrigger <= 0.1){
+                rightTrigger = 0;
+            }
+
             PID.setMaxOutput(1);
             PID.setMinOutput(-1);
             PID.setPID(0.003,0 ,0.001);
@@ -71,6 +96,10 @@ public class Mecanum extends LinearOpMode {
             }
             Right_Intake.setPower(-leftTrigger);
             Left_Intake.setPower(leftTrigger);
+            Right_Intake.setPower(-rightTrigger);
+            Left_Intake.setPower(rightTrigger
+            );
+
           /*  else {
                 Right_Intake.setPower(0);
                 Left_Intake.setPower(0);
@@ -117,6 +146,9 @@ public class Mecanum extends LinearOpMode {
             telemetry.addLine("");
             telemetry.addLine("Controller Inputs");
             telemetry.addData("Left Trigger", leftTrigger);
+            telemetry.addData("Real Left Trigger", gamepad1.left_trigger);
+            telemetry.addData("Right Trigger", rightTrigger);
+            telemetry.addData("Real Right Trigger", gamepad1.right_trigger);
             telemetry.addData("PID Result", PID.getResult());
 
             telemetry.addLine("");
