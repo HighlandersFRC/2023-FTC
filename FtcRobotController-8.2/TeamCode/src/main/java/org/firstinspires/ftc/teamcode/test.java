@@ -59,7 +59,7 @@ public class test extends LinearOpMode {
             //Code for arm
 
             if (gamepad1.y) {
-                Arm.setTargetPosition(-100);
+                Arm.setTargetPosition(-102);
                 Arm.setPower(-1);
 
             }
