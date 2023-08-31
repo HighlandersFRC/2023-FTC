@@ -41,8 +41,6 @@ public class test extends LinearOpMode {
 
 // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
-            double LeftY = gamepad1.left_stick_y;
-            double LeftX = gamepad1.left_stick_x;
             double vertical;
             double horizontal;
             double pivot;
@@ -60,8 +58,8 @@ public class test extends LinearOpMode {
 
             //Code for arm
 
-            if (gamepad1.y) ;
-            {   Arm.setTargetPosition(100);
+            if (gamepad1.y) {
+                Arm.setTargetPosition(100);
                 Arm.setPower(-1);
 
             }
