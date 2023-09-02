@@ -4,21 +4,22 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0f7736c9-0025-4836-989b-66bdc744ef8b" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/FtcRobotController-8.2/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/Mecanum.java" beforeDir="false" afterPath="$PROJECT_DIR$/FtcRobotController-8.2/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/Mecanum.java" afterDir="false" />
+    <list default="true" id="5b3a23e3-f139-47c3-9894-1d64160ca9fb" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
-  <component name="ProjectId" id="2UBGkDywRVVbbF05Jdg7zBrncgm" />
+  <component name="ProjectId" id="2UX1InlvzmpXBPX1r0OXFJVQfcW" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -28,19 +29,19 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.cidr.known.project.marker": "true",
-    "android.gradle.sync.needed": "true",
     "cidr.known.project.marker": "true",
-    "last_opened_file_path": "C:/Users//Documents/2023-FTC/FtcRobotController-8.2"
+    "last_opened_file_path": "C:/Users/doadj/Documents/GitHub/2023-FTC/FtcRobotController-8.2",
+    "settings.editor.selected.configurable": "reference.settings.ide.settings.new.ui"
   }
 }]]></component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="0f7736c9-0025-4836-989b-66bdc744ef8b" name="Changes" comment="" />
-      <created>1692405701251</created>
+      <changelist id="5b3a23e3-f139-47c3-9894-1d64160ca9fb" name="Changes" comment="" />
+      <created>1693071033387</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1692405701251</updated>
+      <updated>1693071033387</updated>
     </task>
     <servers />
   </component>
