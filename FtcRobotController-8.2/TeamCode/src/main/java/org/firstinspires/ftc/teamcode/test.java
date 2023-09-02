@@ -28,6 +28,7 @@ public class test extends LinearOpMode {
     private DcMotor Left_Back;
     private DcMotor Right_Back;
 
+    PID1 PID = new PID1();
     @Override
 
     public void runOpMode() {
@@ -51,29 +52,31 @@ public class test extends LinearOpMode {
             vertical = -gamepad1.left_stick_y;
 
             //Mecanum drive
-            Right_Front.setPower(pivot + (vertical + horizontal));
-            Right_Back.setPower(pivot + (vertical - horizontal));
-            Left_Back.setPower(pivot + (-vertical - horizontal));
-            Left_Front.setPower(pivot + (-vertical + horizontal));
+            Right_Front.setPower(pivot + (-vertical + horizontal));
+            Right_Back.setPower(pivot + (-vertical - horizontal));
+            Left_Back.setPower(pivot + (vertical - horizontal));
+            Left_Front.setPower(pivot + (vertical + horizontal));
 
             //Code for arm
 
             if (gamepad1.y) {
-                Arm.setTargetPosition(-900);
+
                 Arm.setPower(-1);
 
             }
         }
             if (gamepad1.a) {
-                Arm.setTargetPosition(900);
-                Arm.setPower(1);
+
+            Arm.setPower(1);
 
 
-            if (gamepad1.b) {
-                Arm.setTargetPosition(-450);
-                Arm.setPower(-.5);
 
-            }
+                }if (gamepad1.b) {
+
+
+            Arm.setPower(-.5);
+
+
         }
     }
 }
