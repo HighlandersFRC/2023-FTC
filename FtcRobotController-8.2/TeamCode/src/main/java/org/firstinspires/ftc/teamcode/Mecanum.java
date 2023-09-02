@@ -54,7 +54,6 @@ public class Mecanum extends LinearOpMode {
             PID.setPID(0.003,0 ,0.001);
             PID.updatePID(Arm1.getCurrentPosition());
             Arm1.setPower(PID.getResult() - 0.001);
-            PID.updatePID(Arm2.getCurrentPosition());
             Arm2.setPower(PID.getResult() - 0.001);
             if (gamepad1.a){
                 PID.setSetPoint(-940);
@@ -86,8 +85,8 @@ public class Mecanum extends LinearOpMode {
 //                Right_Intake.setPower(-0.5);
 //            }
 //            //double directionFacing =
-            double y = gamepad1.left_stick_y;
-            double x = -gamepad1.left_stick_x * 1;
+            double y = -gamepad1.left_stick_y;
+            double x = gamepad1.left_stick_x * 1.1;
             double rx = -gamepad1.right_stick_x;
 
           if (Math.abs(gamepad1.left_stick_x) < 0.01){
