@@ -20,10 +20,10 @@ public class Mecanum extends LinearOpMode {
     private DcMotor Right_Back;
     private DcMotor Left_Intake;
     private DcMotor Right_Intake;
-    private DcMotor Arm;
+    private DcMotor Arm1;
+    private DcMotor Arm2;
     private OpticalDistanceSensor distance_Sensor;
     PID1 PID = new PID1();
-    PID1 PID2 = new PID1();
 
     @Override
     public void runOpMode() {
@@ -35,8 +35,8 @@ public class Mecanum extends LinearOpMode {
         Right_Back = hardwareMap.dcMotor.get("Right_Back");
         Left_Intake = hardwareMap.dcMotor.get("Left_Intake");
         Right_Intake = hardwareMap.dcMotor.get("Right_Intake");
-        Arm = hardwareMap.dcMotor.get("Arm");
-        //IMU imu = hardwareMap.get(IMU.class, "imu");
+        Arm1 = hardwareMap.dcMotor.get("Arm1");
+        Arm2 = hardwareMap.dcMotor.get("Arm2");
 
 // Wait for the game to start (driver presses PLAY)
 
@@ -46,44 +46,16 @@ public class Mecanum extends LinearOpMode {
 
 // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
-            double leftTrigger = 0;
-            double rightTrigger = 0;
-            if (gamepad1.left_trigger >= -1) {
-                leftTrigger = 0;
-            }
-            if (gamepad1.left_trigger >= -0.99) {
-                leftTrigger = Math.abs(gamepad1.left_trigger);
-            }
-            if (leftTrigger == 0.5){
-                leftTrigger = 0;
-            }
-/*            if (leftTrigger >= 0.01){
-                leftTrigger = leftTrigger * 0.5;
-            }*/
-            if (leftTrigger <= 0.1){
-                leftTrigger = 0;
-            }
-            if (gamepad1.right_trigger >= -1) {
-                rightTrigger = 0;
-            }
-            if (gamepad1.right_trigger >= -0.99) {
-                rightTrigger = Math.abs(gamepad1.right_trigger);
-            }
-            if (rightTrigger == 0.5){
-                rightTrigger = 0;
-            }
-     /*       if (rightTrigger >= 0.01){
-                rightTrigger = rightTrigger * 0.5;
-            }*/
-            if (rightTrigger <= 0.1){
-                rightTrigger = 0;
-            }
+            double leftTrigger = gamepad1.left_trigger;
+            double rightTrigger = gamepad1.right_trigger;
 
             PID.setMaxOutput(1);
             PID.setMinOutput(-1);
             PID.setPID(0.003,0 ,0.001);
-            PID.updatePID(Arm.getCurrentPosition());
-            Arm.setPower(PID.getResult() - 0.001);
+            PID.updatePID(Arm1.getCurrentPosition());
+            Arm1.setPower(PID.getResult() - 0.001);
+            PID.updatePID(Arm2.getCurrentPosition());
+            Arm2.setPower(PID.getResult() - 0.001);
             if (gamepad1.a){
                 PID.setSetPoint(-940);
             }
@@ -94,14 +66,19 @@ public class Mecanum extends LinearOpMode {
             if (gamepad1.x){
                 PID.setSetPoint(-550);
             }
+            if (gamepad1.y){
+                PID.setSetPoint(-275);
+            }
             Right_Intake.setPower(-leftTrigger);
             Left_Intake.setPower(leftTrigger);
             Right_Intake.setPower(-rightTrigger);
-            Left_Intake.setPower(rightTrigger
-            );
+            Left_Intake.setPower(rightTrigger);
 
           /*  else {
                 Right_Intake.setPower(0);
+
+
+
                 Left_Intake.setPower(0);
             }*/
 //            if (gamepad1.y){
@@ -141,7 +118,8 @@ public class Mecanum extends LinearOpMode {
             telemetry.addData("Front-Right Position", Right_Front.getCurrentPosition());
             telemetry.addData("Back-Left Position", Left_Back.getCurrentPosition());
             telemetry.addData("Back-Right Position", Right_Back.getCurrentPosition());
-            telemetry.addData("Arm Encoder", Arm.getCurrentPosition());
+            telemetry.addData("Arm One Encoder", Arm1.getCurrentPosition());
+            telemetry.addData("Arm Two Encoder", Arm2.getCurrentPosition());
 
             telemetry.addLine("");
             telemetry.addLine("Controller Inputs");

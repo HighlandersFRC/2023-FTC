@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
 import androidx.annotation.NonNull;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,6 +14,6 @@ public class Schedule {
     }
 
     public void update(){
-
+CommandList.toString();
     }
 }
