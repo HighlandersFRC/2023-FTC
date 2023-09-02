@@ -11,7 +11,7 @@ public class test1 extends LinearOpMode {
     private DcMotor Right_Front;
     private DcMotor Left_Back;
     private DcMotor Right_Back;
-    private DcMotor Arm;
+    private DcMotor Arm1;
     @Override
 
     public void runOpMode() {
@@ -19,7 +19,7 @@ public class test1 extends LinearOpMode {
         Right_Front = hardwareMap.dcMotor.get("Right_Front");
         Left_Back = hardwareMap.dcMotor.get("Left_Back");
         Right_Back = hardwareMap.dcMotor.get("Right_Back");
-        Arm = hardwareMap.dcMotor.get("Arm");
+        Arm1 = hardwareMap.dcMotor.get("Arm1");
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
@@ -30,37 +30,36 @@ public class test1 extends LinearOpMode {
                 double vertical;
                 double horizontal;
                 double pivot;
-                boolean lift;
-                boolean down;
             // The codes to define the wheels way
                 vertical = gamepad1.left_stick_y;
-                horizontal = gamepad1.left_stick_x;
-                pivot = gamepad1.right_stick_x;
-
-                //The arm is using the y button to go up
-                lift = gamepad1.y;
-
-                //The arm is using the y button to go up
-                down = gamepad1.a;
+                horizontal = -gamepad1.left_stick_x;
+                pivot = -gamepad1.right_stick_x;
 
             //The code for the Mecanum drive
-                Right_Front.setPower(pivot+( vertical - horizontal));
+                Right_Front.setPower(pivot+( vertical + horizontal));
                 Right_Back.setPower(pivot+( vertical + horizontal));
-                Left_Front.setPower(pivot+( -vertical - horizontal));
+                Left_Front.setPower(pivot+( -vertical + horizontal));
                 Left_Back.setPower(pivot+( -vertical + horizontal));
 
 
                 //The code where the arm go up and down
 
-                if (lift=true) {
-                    Arm.setPower(1);
+                if (gamepad1.a) {
+                    Arm1.setPower(1);
+                    Arm1.setTargetPosition(-950);
+                    Arm1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                } else {
 
-
+                    Arm1.setPower(0);
 
                 }
-                if (down=true){
-                    Arm.setPower(-1);
+                if (gamepad1.b){
+                    Arm1.setPower(1);
+                    Arm1.setTargetPosition(-15);
+                    Arm1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                }else {
 
+                    Arm1.setPower(0);
 
                 }
         }
