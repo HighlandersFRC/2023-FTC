@@ -1,16 +1,21 @@
 package org.firstinspires.ftc.teamcode;
 
-import android.os.Handler;
-
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
+import org.firstinspires.ftc.teamcode.Commands.CommandGroup;
+import org.firstinspires.ftc.teamcode.Commands.DriveForward;
+import org.firstinspires.ftc.teamcode.Commands.Scheduler;
+import org.firstinspires.ftc.teamcode.Commands.Wait;
+
 @com.qualcomm.robotcore.eventloop.opmode.Autonomous
 public class Autonomous extends LinearOpMode {
-    private DcMotor Left_Front = null;
-    private DcMotor Right_Front = null;
-    private DcMotor Left_Back = null;
-    private DcMotor Right_Back = null;
+    private DcMotor Left_Front;
+    private DcMotor Right_Front;
+    private DcMotor Left_Back;
+    private DcMotor Right_Back;
+
+    Scheduler scheduler = new Scheduler();
 
     @Override
     public void runOpMode() {
@@ -20,14 +25,15 @@ public class Autonomous extends LinearOpMode {
         Right_Back = hardwareMap.dcMotor.get("Right_Back");
 
         waitForStart();
-
-        if (opModeIsActive()) {
-
-            Left_Front.setPower((double) 0.5);
-            Right_Front.setPower((double) 0.5);
-            Left_Back.setPower((double) 0.5);
-            Right_Back.setPower((double) 0.5);
-
+        //scheduler.add(new DriveForward(hardwareMap, 1, 1000));
+        scheduler.add(new CommandGroup(
+                scheduler,
+                new DriveForward(hardwareMap, 1, 1000),
+                new Wait(2000),
+                new DriveForward(hardwareMap, -1, 1000)
+        ));
+        while (opModeIsActive()) {
+            scheduler.update();
         }
     }
 }
