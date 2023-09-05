@@ -4,9 +4,7 @@ package org.firstinspires.ftc.teamcode.Commands;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-import org.firstinspires.ftc.teamcode.Commands.Command;
-
-public class DriveForward extends Command {
+public class Drive extends Command {
     private DcMotor Left_Back;
     private DcMotor Right_Back;
     private DcMotor Left_Front;
@@ -15,7 +13,7 @@ public class DriveForward extends Command {
     double speed;
     long time;
     long endTime;
-    public DriveForward(HardwareMap hardwareMap, double speed, long time){
+    public Drive(HardwareMap hardwareMap, double speed, long time){
         Left_Front = hardwareMap.dcMotor.get("Left_Front");
         Right_Front = hardwareMap.dcMotor.get("Right_Front");
         Left_Back = hardwareMap.dcMotor.get("Left_Back");
