@@ -42,7 +42,7 @@ public class FieldCentricMecanumTeleOp extends LinearOpMode {
         while (opModeIsActive()) {
             double y = -gamepad1.left_stick_y; // Remember, Y stick value is reversed
             double x = gamepad1.left_stick_x;
-            double rx = gamepad1.right_stick_x;
+            double rx = -gamepad1.right_stick_x;
 
             // This button choice was made so that i   t is hard to hit on accident,
             // it can be freely changed based on preference.
@@ -53,7 +53,7 @@ public class FieldCentricMecanumTeleOp extends LinearOpMode {
 
 
             double botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
-            double botHeadingRadian = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS)+Math.PI/2.0;
+            double botHeadingRadian = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
 
             // Rotate the movement direction counter to the bot's rotation
             double rotX = x * Math.cos(-botHeadingRadian) - y * Math.sin(-botHeadingRadian);
