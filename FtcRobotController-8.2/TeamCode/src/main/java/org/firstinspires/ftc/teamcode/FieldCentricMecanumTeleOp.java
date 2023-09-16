@@ -13,7 +13,7 @@ public class FieldCentricMecanumTeleOp extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         // Declare our motors
-        // Make sure your ID's match your configuration
+        // Make sure your ID's match your configuration, ok?
         DcMotor Left_Front = hardwareMap.dcMotor.get("Left_Front");
         DcMotor Left_Back = hardwareMap.dcMotor.get("Left_Back");
         DcMotor Right_Front = hardwareMap.dcMotor.get("Right_Front");
