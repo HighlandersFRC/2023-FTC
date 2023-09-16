@@ -52,11 +52,11 @@ public class FieldCentricMecanumTeleOp extends LinearOpMode {
             }
 
             double botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
-            double botHeading_Radian = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
+            double botHeadingRadian = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS)- Math.PI/2.0;
 
-            // Rotate the movement direction counter to the bot's rotatio+pn
-            double rotX = x * Math.cos(-botHeading) - y * Math.sin(-botHeading);
-            double rotY = x * Math.sin(-botHeading) + y * Math.cos(-botHeading);
+            // Rotate the movement direction counter to the bot's rotation
+            double rotX = x * Math.cos(-botHeadingRadian) - y * Math.sin(-botHeadingRadian);
+            double rotY = x * Math.sin(-botHeadingRadian) + y * Math.cos(-botHeadingRadian);
 
             rotX = rotX * 1.1;  // Counteract imperfect strafing
 
@@ -82,7 +82,11 @@ public class FieldCentricMecanumTeleOp extends LinearOpMode {
             telemetry.addData("IMU", imu);
             telemetry.addData("denominator", denominator);
             telemetry.addData("botHeading", botHeading);
-            telemetry.addData("botHeading_Radian", botHeading_Radian);
+            telemetry.addData("botHeadingRadian", botHeadingRadian);
+            telemetry.addData("frontLeftPower", frontLeftPower);
+            telemetry.addData("backLeftPower", backLeftPower);
+            telemetry.addData("frontRightPower", frontRightPower);
+            telemetry.addData("backRightPower", backRightPower);
             telemetry.update();
 
 
