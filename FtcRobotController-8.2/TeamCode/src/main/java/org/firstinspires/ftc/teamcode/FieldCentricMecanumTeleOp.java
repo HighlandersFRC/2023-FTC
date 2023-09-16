@@ -44,22 +44,22 @@ public class FieldCentricMecanumTeleOp extends LinearOpMode {
             double x = gamepad1.left_stick_x;
             double rx = gamepad1.right_stick_x;
 
-            // This button choice was made so that it is hard to hit on accident,
+            // This button choice was made so that i   t is hard to hit on accident,
             // it can be freely changed based on preference.
             // The equivalent button is start on Xbox-style controllers.
             if (gamepad1.options) {
                 imu.resetYaw();
             }
 
+
             double botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
-            double botHeadingRadian = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS)- Math.PI/2.0;
+            double botHeadingRadian = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS)+Math.PI/2.0;
 
             // Rotate the movement direction counter to the bot's rotation
             double rotX = x * Math.cos(-botHeadingRadian) - y * Math.sin(-botHeadingRadian);
             double rotY = x * Math.sin(-botHeadingRadian) + y * Math.cos(-botHeadingRadian);
 
             rotX = rotX * 1.1;  // Counteract imperfect strafing
-
             // Denominator is the largest motor power (absolute value) or 1
             // This ensures all the powers maintain the same ratio,
             // but only if at least one is out of the range [-1, 1]
@@ -87,6 +87,7 @@ public class FieldCentricMecanumTeleOp extends LinearOpMode {
             telemetry.addData("backLeftPower", backLeftPower);
             telemetry.addData("frontRightPower", frontRightPower);
             telemetry.addData("backRightPower", backRightPower);
+            telemetry.addData("time", time);
             telemetry.update();
 
 
