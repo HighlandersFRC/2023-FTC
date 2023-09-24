@@ -12,7 +12,7 @@ import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
 import org.firstinspires.ftc.teamcode.PID1;
 
 @TeleOp
-
+//23477
 public class Mecanum extends LinearOpMode {
     private DcMotor Left_Front;
     private DcMotor Right_Front;
@@ -22,13 +22,14 @@ public class Mecanum extends LinearOpMode {
     private DcMotor Right_Intake;
     private DcMotor Arm1;
     private DcMotor Arm2;
-    private OpticalDistanceSensor distance_Sensor;
+
+    // private OpticalDistanceSensor distance_Sensor;
     PID1 PID = new PID1();
 
     @Override
     public void runOpMode() {
 
-        distance_Sensor = hardwareMap.opticalDistanceSensor.get("distanceSensor");
+        //distance_Sensor = hardwareMap.opticalDistanceSensor.get("distanceSensor");
         Left_Front = hardwareMap.dcMotor.get("Left_Front");
         Right_Front = hardwareMap.dcMotor.get("Right_Front");
         Left_Back = hardwareMap.dcMotor.get("Left_Back");
@@ -56,50 +57,38 @@ public class Mecanum extends LinearOpMode {
             Arm1.setPower(PID.getResult() - 0.001);
             Arm2.setPower(PID.getResult() - 0.001);
             if (gamepad1.a){
-                PID.setSetPoint(-940);
+                PID.setSetPoint(-350);
             }
             if (gamepad1.b){
-                PID.setSetPoint(-15);
+                PID.setSetPoint(250);
             }
 
             if (gamepad1.x){
-                PID.setSetPoint(-550);
+                PID.setSetPoint(-75);
             }
             if (gamepad1.y){
-                PID.setSetPoint(-275);
+                PID.setSetPoint(-175);
             }
             Right_Intake.setPower(-leftTrigger);
             Left_Intake.setPower(leftTrigger);
             Right_Intake.setPower(-rightTrigger);
             Left_Intake.setPower(rightTrigger);
 
-          /*  else {
-                Right_Intake.setPower(0);
-
-
-
-                Left_Intake.setPower(0);
-            }*/
-//            if (gamepad1.y){
-//                Left_Intake.setPower(0.5);
-//                Right_Intake.setPower(-0.5);
-//            }
-//            //double directionFacing =
-            double y = -gamepad1.left_stick_y;
-            double x = gamepad1.left_stick_x * 1.1;
+            double y = -gamepad1.left_stick_y / 2 * 0.75;
+            double x = gamepad1.left_stick_x * 1.1 * 0.75;
             double rx = -gamepad1.right_stick_x;
 
-          if (Math.abs(gamepad1.left_stick_x) < 0.01){
-              Left_Front.setPower(0);
-              Left_Back.setPower(0);
-              Right_Front.setPower(0);
-              Right_Back.setPower(0);
-          }
-          if (Math.abs(gamepad1.left_stick_y) < 0.01){
-              Left_Front.setPower(0);
-              Left_Back.setPower(0);
-              Right_Front.setPower(0);
-              Right_Back.setPower(0);
+            if (Math.abs(gamepad1.left_stick_x) < 0.00001){
+                Left_Front.setPower(0);
+                Left_Back.setPower(0);
+                Right_Front.setPower(0);
+                Right_Back.setPower(0);
+            }
+            if (Math.abs(gamepad1.left_stick_y) < 0.00001){
+                Left_Front.setPower(0);
+                Left_Back.setPower(0);
+                Right_Front.setPower(0);
+                Right_Back.setPower(0);
             }
             double denominator = Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rx), 1);
             double frontLeftPower = (y + x + rx) / denominator;
@@ -129,14 +118,8 @@ public class Mecanum extends LinearOpMode {
             telemetry.addData("PID Result", PID.getResult());
 
             telemetry.addLine("");
-            telemetry.addData("Distance Sensor", distance_Sensor);
-
+            //telemetry.addData("Distance Sensor", distance_Sensor);
             telemetry.update();
-}
-
-         //   IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
-           //         RevHubOrientationOnRobot.LogoFacingDirection.UP,
-             //       RevHubOrientationOnRobot.UsbFacingDirection.FORWARD));
-            //imu.initialize(parameters);
         }
+    }
 }
