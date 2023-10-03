@@ -22,15 +22,15 @@ public class Rotate extends Command {
     private DcMotor Left_Front;
     private DcMotor Right_Front;
     public IMU imu;
-    public double angle;
-    public double state;
+    public double newAngle;
     double integralSum = 0;
-    double Kp = 0.7;
-    double Ki = 0.1;
-    double Kd = 0.4;
+    double Kp = 0.5;
+    double Ki = 0.2;
+    double Kd = 0.3;
     ElapsedTime timer = new ElapsedTime();
     private double lastError = 0;
-    double referenceAngle = Math.toRadians(90);
+    double radianAngle;
+    double Power;
     public Rotate(HardwareMap hardwareMap, double Angle){
         Left_Front = hardwareMap.dcMotor.get("Left_Front");
         Right_Front = hardwareMap.dcMotor.get("Right_Front");
@@ -42,7 +42,7 @@ public class Rotate extends Command {
                 RevHubOrientationOnRobot.UsbFacingDirection.FORWARD));
         imu.initialize(parameters);
         this.imu = imu;
-        this.angle = Angle;
+        this.newAngle = Angle;
     }
     public double angleWrap(double radians){
         while (radians > Math.PI){
@@ -53,29 +53,30 @@ public class Rotate extends Command {
         }
         return radians;
     }
+    public double PIDControl(double angle, double state){
+        double referenceAngle = Math.toRadians(newAngle);
+        double error = angleWrap(referenceAngle - state);
+        integralSum += error + timer.seconds();
+        double derivative = (error - lastError) / timer.seconds();
+        lastError = error;
 
+        timer.reset();
 
-    public double PIDControl(double reference, double state){
-    double error = angleWrap(reference - state);
-    integralSum += error + timer.seconds();
-    double derivative = (error - lastError) / timer.seconds();
-    lastError = error;
+        this.radianAngle = angle;
 
-    timer.reset();
-
-    double output = (error + Kp) + (derivative + Kd) + (integralSum + Ki);
-    return output;
+        double output = (error + Kp) + (derivative + Kd) + (integralSum + Ki);
+        return output;
 }
     public void start(){
-    imu.resetYaw();
+        imu.resetYaw();
     }
     public void execute(){
-    double power = PIDControl(referenceAngle, imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS));
+    double power = PIDControl(radianAngle, imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS));
         Left_Front.setPower(power);
         Left_Back.setPower(power);
         Right_Front.setPower(power);
         Right_Back.setPower(power);
-
+        this.Power = power;
     }
     public void end(){
         Left_Front.setPower(0);
@@ -84,9 +85,10 @@ public class Rotate extends Command {
         Right_Back.setPower(0);
     }
     public boolean isFinished() {
-        if (imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES) == referenceAngle){
-            return true;
+        if (newAngle - 1 <= imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES) && imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES) <=  newAngle + 1 && Power <= 0.1) {
+           return true;
+     } else {
+            return false;
         }
-    return false;
     }
 }

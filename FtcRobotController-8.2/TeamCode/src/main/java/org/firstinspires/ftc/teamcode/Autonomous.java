@@ -13,6 +13,7 @@ import org.firstinspires.ftc.teamcode.Commands.ParallelCommandGroup;
 import org.firstinspires.ftc.teamcode.Commands.Drive;
 import org.firstinspires.ftc.teamcode.Commands.Rotate;
 import org.firstinspires.ftc.teamcode.Commands.Scheduler;
+import org.firstinspires.ftc.teamcode.Commands.Turn;
 import org.firstinspires.ftc.teamcode.Commands.Wait;
 
 @com.qualcomm.robotcore.eventloop.opmode.Autonomous
@@ -32,16 +33,17 @@ public class Autonomous extends LinearOpMode {
 
         Arm1 = hardwareMap.dcMotor.get("Arm1");
         waitForStart();
-        //scheduler.add(new DriveForward(hardwareMap, 1, 1000));
         scheduler.add(new CommandGroup(scheduler,
-                new Rotate(hardwareMap, 1.5708)
+                new Turn(hardwareMap, -90),
+                new Wait(3000)
+               //new Drive(hardwareMap, 1, 1000)
+                //new Rotate(hardwareMap, -90),
+                //new Drive(hardwareMap, -1, 1000)
         ));
-        while (opModeIsActive()) {
-
+        while (opModeIsActive())
+        {
             telemetry.addData("ArmPosition", Arm1.getCurrentPosition());
             telemetry.addData("IMU", imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES));
-            telemetry.addData("IMU", imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS));
-
             telemetry.update();
             scheduler.update();
         }
