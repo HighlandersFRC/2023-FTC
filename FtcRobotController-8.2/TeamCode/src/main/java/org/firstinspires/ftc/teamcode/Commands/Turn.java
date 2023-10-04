@@ -1,12 +1,10 @@
 package org.firstinspires.ftc.teamcode.Commands;
 
-import com.qualcomm.hardware.bosch.BNO055IMUNew;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
 
-import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.PID1;
 
@@ -19,6 +17,7 @@ public class Turn extends Command{
     public double targetAngle;
     public IMU imu;
     public double currentPos;
+    public double PIDOutput;
     public Turn(HardwareMap hardwareMap, double targetAngle){
         this.targetAngle = targetAngle;
         PID.setSetPoint(targetAngle);
@@ -33,27 +32,39 @@ public class Turn extends Command{
         imu.initialize(parameters);
     }
     public void start() {
+        PID.setMaxInput(180);
+        PID.setMinInput(-180);
+        PID.setContinuous(true);
+        PID.setMinOutput(-1);
+        PID.setMaxOutput(1);
         imu.resetYaw();
  }
     public void execute() {
 
         currentPos = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
-        PID.updatePID(imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES));
-        double power = PID.getResult();
+        double power = PID.updatePID(imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES));
+        this.PIDOutput = power;
+       /* Right_Front.setPower(power);
         Left_Front.setPower(power);
         Left_Back.setPower(power);
-        Right_Front.setPower(power);
         Right_Back.setPower(power);
-    }
+    */
+        Right_Front.setPower(power);
+        Left_Front.setPower(power);
+        Left_Back.setPower(power);
+        Right_Back.setPower(power);}
 
         public void end() {
-
+            Left_Front.setPower(0);
+            Left_Back.setPower(0);
+            Right_Front.setPower(0);
+            Right_Back.setPower(0);
     }
 
     public boolean isFinished() {
-        if (PID.getSetPoint() - 1 <= imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES) && imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES) <=  PID.getSetPoint() + 1 && PID.getResult() < 0.05) {
-            return true;
-        }
+        //if (PID.getSetPoint() <=) {
+          //  return true;
+        //}
         return false;
     }
 }
