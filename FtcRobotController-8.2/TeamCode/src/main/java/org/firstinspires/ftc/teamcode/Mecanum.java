@@ -43,12 +43,14 @@ public class Mecanum extends LinearOpMode {
 
         waitForStart();
 
+
         if (isStopRequested()) return;
 
 // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
             double leftTrigger = gamepad1.left_trigger;
             double rightTrigger = gamepad1.right_trigger;
+            double intakePower = rightTrigger - leftTrigger;
 
             PID.setMaxOutput(1);
             PID.setMinOutput(-1);
@@ -58,6 +60,10 @@ public class Mecanum extends LinearOpMode {
             Arm2.setPower(PID.getResult() - 0.001);
             if (gamepad1.a){
                 PID.setSetPoint(-350);
+                Left_Front.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                Left_Back.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                Right_Back.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                Right_Front.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             }
             if (gamepad1.b){
                 PID.setSetPoint(250);
@@ -69,13 +75,10 @@ public class Mecanum extends LinearOpMode {
             if (gamepad1.y){
                 PID.setSetPoint(-175);
             }
-            Right_Intake.setPower(-leftTrigger);
-            Left_Intake.setPower(leftTrigger);
-            Right_Intake.setPower(-rightTrigger);
-            Left_Intake.setPower(rightTrigger);
+            Right_Intake.setPower(intakePower);
 
-            double y = -gamepad1.left_stick_y / 2 * 0.75;
-            double x = gamepad1.left_stick_x * 1.1 * 0.75;
+            double y = -gamepad1.left_stick_y;
+            double x = gamepad1.left_stick_x * 1.1 * 0.85;
             double rx = -gamepad1.right_stick_x;
 
             if (Math.abs(gamepad1.left_stick_x) < 0.00001){

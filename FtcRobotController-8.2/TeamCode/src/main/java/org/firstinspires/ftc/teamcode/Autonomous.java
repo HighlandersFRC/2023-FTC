@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.IMU;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.teamcode.Commands.Arm;
 import org.firstinspires.ftc.teamcode.Commands.CommandGroup;
 import org.firstinspires.ftc.teamcode.Commands.Drive;
 import org.firstinspires.ftc.teamcode.Commands.ParallelCommandGroup;
@@ -30,10 +31,11 @@ public class Autonomous extends LinearOpMode {
 
         waitForStart();
         scheduler.add(new CommandGroup(scheduler,
-                new Drive(hardwareMap,1, 0)
-               //new Drive(hardwareMap, 1, 1000)
-                //new Rotate(hardwareMap, -90),
-                //new Drive(hardwareMap, -1, 1000)
+      /*          new Drive(hardwareMap,0.75, 1),*/
+               new Turn(hardwareMap, -90),
+               new Arm(hardwareMap, 200),
+               new Drive(hardwareMap, -1, 2),
+               new Turn(hardwareMap, -90)
         ));
         while (opModeIsActive())
         {
