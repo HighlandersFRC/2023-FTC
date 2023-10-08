@@ -31,11 +31,11 @@ public class Autonomous extends LinearOpMode {
 
         waitForStart();
         scheduler.add(new CommandGroup(scheduler,
-      /*          new Drive(hardwareMap,0.75, 1),*/
-               new Turn(hardwareMap, -90),
-               new Arm(hardwareMap, 200),
-               new Drive(hardwareMap, -1, 2),
-               new Turn(hardwareMap, -90)
+                new Drive(hardwareMap,0.75, 1),
+                new Turn(hardwareMap, -90),
+                new Arm(hardwareMap, 200),
+                new Drive(hardwareMap, -1, 2),
+                new Turn(hardwareMap, -90)
         ));
         while (opModeIsActive())
         {

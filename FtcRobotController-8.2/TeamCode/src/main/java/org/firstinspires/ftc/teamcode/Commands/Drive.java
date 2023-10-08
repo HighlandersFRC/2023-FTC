@@ -60,13 +60,13 @@ public class Drive extends Command {
         PID.setMaxOutput(1);
         imu.resetYaw();
         Right_Front.setTargetPosition((int) targetPos);
-        Right_Front.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        //Right_Front.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         Left_Front.setTargetPosition((int) targetPos);
-        Left_Front.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        //Left_Front.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         Right_Back.setTargetPosition((int) targetPos);
-        Right_Back.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        //Right_Back.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         Left_Back.setTargetPosition((int) targetPos);
-        Left_Back.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        //Left_Back.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
     public void execute() {
         backRight = Math.abs(Right_Back.getCurrentPosition());
@@ -99,7 +99,7 @@ public class Drive extends Command {
     }
 
     public boolean isFinished() {
-        if (avgEncoder == targetPos) {
+        if (avgEncoder >= targetPos) {
           return true;
         }
         return false;
