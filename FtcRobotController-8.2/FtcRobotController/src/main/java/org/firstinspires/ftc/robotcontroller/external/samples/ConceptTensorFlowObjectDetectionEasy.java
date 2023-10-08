@@ -29,37 +29,36 @@
 
 package org.firstinspires.ftc.robotcontroller.external.samples;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-
+import java.util.List;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.tfod.TfodProcessor;
 
-import java.util.List;
-
-/*
- * This OpMode illustrates the basics of TensorFlow Object Detection, using
+/**
+ * This 2023-2024 OpMode illustrates the basics of TensorFlow Object Detection, using
  * the easiest way.
  *
  * Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new name.
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list.
  */
 @TeleOp(name = "Concept: TensorFlow Object Detection Easy", group = "Concept")
-//@Disabled
+@Disabled
 public class ConceptTensorFlowObjectDetectionEasy extends LinearOpMode {
 
     private static final boolean USE_WEBCAM = true;  // true for webcam, false for phone camera
 
     /**
-     * The variable to store our instance of the TensorFlow Object Detection processor.
+     * {@link #tfod} is the variable to store our instance of the TensorFlow Object Detection processor.
      */
     private TfodProcessor tfod;
 
     /**
-     * The variable to store our instance of the vision portal.
+     * {@link #visionPortal} is the variable to store our instance of the vision portal.
      */
     private VisionPortal visionPortal;
 
@@ -110,7 +109,7 @@ public class ConceptTensorFlowObjectDetectionEasy extends LinearOpMode {
         // Create the vision portal the easy way.
         if (USE_WEBCAM) {
             visionPortal = VisionPortal.easyCreateWithDefaults(
-                hardwareMap.get(WebcamName.class, "webcam1"), tfod);
+                hardwareMap.get(WebcamName.class, "Webcam 1"), tfod);
         } else {
             visionPortal = VisionPortal.easyCreateWithDefaults(
                 BuiltinCameraDirection.BACK, tfod);
@@ -119,7 +118,7 @@ public class ConceptTensorFlowObjectDetectionEasy extends LinearOpMode {
     }   // end method initTfod()
 
     /**
-     * Add telemetry about TensorFlow Object Detection (TFOD) recognitions.
+     * Function to add telemetry about TensorFlow Object Detection (TFOD) recognitions.
      */
     private void telemetryTfod() {
 
