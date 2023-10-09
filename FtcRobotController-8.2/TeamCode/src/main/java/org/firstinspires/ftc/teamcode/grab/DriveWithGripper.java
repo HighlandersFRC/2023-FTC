@@ -18,7 +18,7 @@ import org.firstinspires.ftc.teamcode.PID1;
         float leftY, rightY;
         double armPosition, gripPosition, contPower;
         double MIN_POSITION = 0, MAX_POSITION = 1;
-        PID1 PID = new PID1();
+        PID1 PID = new PID1(0,0,0);
         // called when init button is  pressed.
         @Override
         public void runOpMode() throws InterruptedException {
