@@ -46,8 +46,6 @@ import org.firstinspires.ftc.teamcode.PID1;
                 // check the gamepad buttons and if pressed, increment the appropriate position
                 // variable to change the servo location.
 
-                // move arm down on A button if not already at lowest position.
-                if (gamepad1.a && armPosition > MIN_POSITION) armPosition -= .01;
 
                 // move arm up on B button if not already at the highest position.
                 if (gamepad1.b && armPosition < MAX_POSITION) armPosition += .01;
