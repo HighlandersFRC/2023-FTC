@@ -53,20 +53,8 @@ import org.firstinspires.ftc.teamcode.PID1;
                 else
                     contPower = 0.0;
 
-                // set the servo position/power values as we have computed them.
 
                 contServo.setPower(contPower);
-
-
-                //telemetry.addData("arm servo", String.format("position=%.2f  actual=%.2f", armPosition,
-                //    armServo.getPosition()));
-
-                //telemetry.addData("grip servo", String.format("position=%.2f  actual=%.2f", gripPosition,
-                //    gripServo.getPosition()));
-
-                //telemetry.addData("arm servo", "position=%.2f  actual=%.2f", armPosition, armServo.getPosition());
-
-                //telemetry.addData("grip servo", "position=%.2f  actual=%.2f", gripPosition, gripServo.getPosition());
 
                 telemetry.update();
                 idle();
