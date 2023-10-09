@@ -43,20 +43,6 @@ import org.firstinspires.ftc.teamcode.PID1;
                ;
                 telemetry.addData("Mode", "running");
 
-                // check the gamepad buttons and if pressed, increment the appropriate position
-                // variable to change the servo location.
-
-
-                // move arm up on B button if not already at the highest position.
-                if (gamepad1.b && armPosition < MAX_POSITION) armPosition += .01;
-
-                // open the gripper on X button if not already at most open position.
-                if (gamepad1.x && gripPosition < MAX_POSITION) gripPosition = gripPosition + .01;
-
-                // close the gripper on Y button if not already at the closed position.
-                if (gamepad1.y && gripPosition > MIN_POSITION) gripPosition = gripPosition - .01;
-
-                // Set continuous servo power level and direction.
                 PID.setPID(.01,.0 ,.0);
                 if (gamepad1.x) {
 
