@@ -18,13 +18,10 @@ import org.firstinspires.ftc.teamcode.PID1;
         float leftY, rightY;
         double armPosition, gripPosition, contPower;
         double MIN_POSITION = 0, MAX_POSITION = 1;
-        PID1 PID = new PID1(0,0,0);
+        //PID1 PID = new PID1(1,1,0);
         // called when init button is  pressed.
         @Override
         public void runOpMode() throws InterruptedException {
-
-
-
             contServo = hardwareMap.crservo.get("contServo");
 
             telemetry.addData("Mode", "waiting");
@@ -43,7 +40,7 @@ import org.firstinspires.ftc.teamcode.PID1;
                ;
                 telemetry.addData("Mode", "running");
 
-                PID.setPID(.01,.0 ,.0);
+                //PID.setPID(.01,.0 ,.0);
                 if (gamepad1.x) {
 
                     contPower =1;
