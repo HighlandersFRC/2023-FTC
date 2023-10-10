@@ -19,7 +19,8 @@ public class Test extends LinearOpMode {
    //private DcMotor Left_Back;
    //private DcMotor Right_Back;
 
-    PID1 PID = new PID1();
+    PID1 PID = new PID1(1,1,1);
+
 
     @Override
 
@@ -66,12 +67,12 @@ public class Test extends LinearOpMode {
                     Arm1.setTargetPosition(PID.getSetPoint());
                     Arm1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     if (gamepad1.b) {
-                        PID.setSetPoint(1000);
+                        PID.setSetPoint(100);
                         Arm1.setPower(1);
 
                     }
                     if (gamepad1.x) {
-                        PID.setSetPoint(1000);
+                        PID.setSetPoint(100);
                         PID.updatePID(Arm1.getCurrentPosition());
                         Arm1.setPower(PID.getResult());
                         telemetry.addData("speed",speed);
@@ -84,7 +85,7 @@ public class Test extends LinearOpMode {
             }
 
     //adding data
-
+            telemetry.addData("speed",speed);
             telemetry.addData("Arm Encode", Arm1.getCurrentPosition());
             telemetry.addData("Arm Inches", ticksToInches(Arm1.getCurrentPosition()));
             telemetry.addData("PID Result", PID.getResult());
