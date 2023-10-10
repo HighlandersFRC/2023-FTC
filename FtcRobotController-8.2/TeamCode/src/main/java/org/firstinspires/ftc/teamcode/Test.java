@@ -63,7 +63,7 @@ public class Test extends LinearOpMode {
     //Code for arm
 
             while (opModeIsActive()) {
-                PID.setPID(.01,.0 ,.0);
+                PID.setPID(.0001,.0 ,.0);
                     Arm1.setTargetPosition(PID.getSetPoint());
                     Arm1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     if (gamepad1.b) {
