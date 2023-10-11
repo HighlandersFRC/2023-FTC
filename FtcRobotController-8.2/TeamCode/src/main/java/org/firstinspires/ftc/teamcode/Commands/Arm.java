@@ -9,7 +9,7 @@ import org.firstinspires.ftc.teamcode.PID1;
 public class Arm extends Command {
     private DcMotor Arm1;
     double targetPosition;
-    PID1 PID = new PID1(0.1, 0, 0);
+    PID1 PID = new PID1();
     public Arm(HardwareMap hardwareMap, double targetPosition){
         Arm1 = hardwareMap.dcMotor.get("Arm1");
         this.targetPosition = targetPosition;

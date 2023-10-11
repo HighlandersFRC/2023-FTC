@@ -25,8 +25,7 @@
  * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- */import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
-import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
+ */
 
 package org.firstinspires.ftc.teamcode.OpenCv;
 
@@ -36,7 +35,6 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
-import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.tfod.TfodProcessor;
 
@@ -49,33 +47,23 @@ import java.util.List;
  * Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new name.
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list.
  */
-@TeleOp(name = "Concept: TensorFlow Object Detection", group = "Concept")
+@TeleOp(name = "Concept: TensorFlow Object Detection v03", group = "Concept")
 //@Disabled
-public class ConceptTensorFlowObjectDetection extends LinearOpMode {
+public class ConceptTensorFlowObjectDetection1 extends LinearOpMode {
 
     private static final boolean USE_WEBCAM = true;  // true for webcam, false for phone camera
 
     /**
      * The variable to store our instance of the TensorFlow Object Detection processor.
      */
-    private static final String TFOD_MODEL_ASSET = "detect_quant.tflite";
-    private static final String[] LABELS = {
-            "Blue Cube"
-
-    };
-
-    private TFObjectDetector tfod;
-
-
-
-
-
-
+    private TfodProcessor tfod;
 
     /**
      * The variable to store our instance of the vision portal.
      */
     private VisionPortal visionPortal;
+    private static final String TFOD_MODEL_ASSET = "detect_quant.tflite";
+
 
     @Override
     public void runOpMode() {
@@ -119,11 +107,10 @@ public class ConceptTensorFlowObjectDetection extends LinearOpMode {
     private void initTfod() {
 
         // Create the TensorFlow processor by using a builder.
-       // tfod = new TfodProcessor.Builder()
+        tfod = new TfodProcessor.Builder()
 
-            // Use setModelAssetName() if the T
-                // Model is built in as an asset.
-               // .setModelFileName(Users\Administrator\Documents\2023-FTC\FtcRobotController-8.2\FtcRobotController\src\androidTest\assets)
+            // Use setModelAssetName() if the TF Model is built in as an asset.
+                .setModelFileName(TFOD_MODEL_ASSET) //if you have downloaded a custom team model to the Robot Controller.
             //.setModelAssetName(TFOD_MODEL_ASSET)
             //.setModelFileName(TFOD_MODEL_FILE)
 
@@ -132,15 +119,8 @@ public class ConceptTensorFlowObjectDetection extends LinearOpMode {
             //.setIsModelQuantized(true)
             //.setModelInputSize(300)
             //.setModelAspectRatio(16.0 / 9.0)
-            int tfodMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
-                    "tfodMonitorViewId", "id", hardwareMap.appContext.getPackageName());
-            TFObjectDetector.Parameters tfodParameters = new TFObjectDetector.Parameters(tfodMonitorViewId);
-            tfodParameters.minResultConfidence = 0.8f;
-            tfodParameters.isModelTensorFlow2 = true;
-            tfodParameters.inputSize = 320;
-            tfod = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);
-            tfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABELS);
-            //.build();
+
+            .build();
 
         // Create the vision portal by using a builder.
         VisionPortal.Builder builder = new VisionPortal.Builder();

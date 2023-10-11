@@ -29,38 +29,41 @@
 
 package org.firstinspires.ftc.robotcontroller.external.samples;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import java.util.List;
+
 import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.tfod.TfodProcessor;
 
-/**
- * This 2023-2024 OpMode illustrates the basics of TensorFlow Object Detection,
+import java.util.List;
+
+/*
+ * This OpMode illustrates the basics of TensorFlow Object Detection,
  * including Java Builder structures for specifying Vision parameters.
  *
  * Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new name.
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list.
  */
-@TeleOp(name = "Concept: TensorFlow Object Detection", group = "Concept")
-@Disabled
+@TeleOp(name = "Concept: TensorFlow Object Detection v03", group = "Concept")
+//@Disabled
 public class ConceptTensorFlowObjectDetection extends LinearOpMode {
 
     private static final boolean USE_WEBCAM = true;  // true for webcam, false for phone camera
 
     /**
-     * {@link #tfod} is the variable to store our instance of the TensorFlow Object Detection processor.
+     * The variable to store our instance of the TensorFlow Object Detection processor.
      */
     private TfodProcessor tfod;
 
     /**
-     * {@link #visionPortal} is the variable to store our instance of the vision portal.
+     * The variable to store our instance of the vision portal.
      */
     private VisionPortal visionPortal;
+    private static final String TFOD_MODEL_ASSET = "detect_quant.tflite";
+
 
     @Override
     public void runOpMode() {
@@ -107,7 +110,7 @@ public class ConceptTensorFlowObjectDetection extends LinearOpMode {
         tfod = new TfodProcessor.Builder()
 
             // Use setModelAssetName() if the TF Model is built in as an asset.
-            // Use setModelFileName() if you have downloaded a custom team model to the Robot Controller.
+                .setModelFileName(TFOD_MODEL_ASSET) //if you have downloaded a custom team model to the Robot Controller.
             //.setModelAssetName(TFOD_MODEL_ASSET)
             //.setModelFileName(TFOD_MODEL_FILE)
 
@@ -124,7 +127,7 @@ public class ConceptTensorFlowObjectDetection extends LinearOpMode {
 
         // Set the camera (webcam vs. built-in RC phone camera).
         if (USE_WEBCAM) {
-            builder.setCamera(hardwareMap.get(WebcamName.class, "Webcam 1"));
+            builder.setCamera(hardwareMap.get(WebcamName.class, "webcam1"));
         } else {
             builder.setCamera(BuiltinCameraDirection.BACK);
         }
@@ -158,7 +161,7 @@ public class ConceptTensorFlowObjectDetection extends LinearOpMode {
     }   // end method initTfod()
 
     /**
-     * Function to add telemetry about TensorFlow Object Detection (TFOD) recognitions.
+     * Add telemetry about TensorFlow Object Detection (TFOD) recognitions.
      */
     private void telemetryTfod() {
 
@@ -169,6 +172,7 @@ public class ConceptTensorFlowObjectDetection extends LinearOpMode {
         for (Recognition recognition : currentRecognitions) {
             double x = (recognition.getLeft() + recognition.getRight()) / 2 ;
             double y = (recognition.getTop()  + recognition.getBottom()) / 2 ;
+
 
             telemetry.addData(""," ");
             telemetry.addData("Image", "%s (%.0f %% Conf.)", recognition.getLabel(), recognition.getConfidence() * 100);

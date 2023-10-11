@@ -26,6 +26,10 @@ public class PID1 {
         DValue = kd;
     }
 
+    public PID1() {
+
+    }
+
     public double updatePID(double value){
         error = setPoint - value;
         if (continuous) {
