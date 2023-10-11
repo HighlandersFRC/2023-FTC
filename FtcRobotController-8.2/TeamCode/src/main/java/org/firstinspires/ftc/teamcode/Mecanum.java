@@ -24,7 +24,7 @@ public class Mecanum extends LinearOpMode {
     private DcMotor Arm2;
 
     // private OpticalDistanceSensor distance_Sensor;
-    PID1 PID = new PID1();
+    PID1 PID = new PID1(0.1, 0, 0);
 
     @Override
     public void runOpMode() {
