@@ -33,7 +33,7 @@ public class VisionTest extends LinearOpMode {
      * The variable to store our instance of the vision portal.
      */
     private VisionPortal visionPortal;
-    private static final String TFOD_MODEL_ASSET = "detect_quant";
+    private static final String TFOD_MODEL_ASSET = "detect_quant.tflite";
 
 
     @Override
