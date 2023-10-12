@@ -1,22 +1,18 @@
+/**//*
 package org.firstinspires.ftc.teamcode.Commands;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
-public class IntakeServo extends Command{
-    public Servo LServo;
-    public Servo RServo;
+public class WebcamDetection extends Command{
+    public
     Boolean Done = false;
-    public IntakeServo(HardwareMap hardwareMap){
+    public WebcamDetection(HardwareMap hardwareMap){
         LServo = hardwareMap.servo.get("LServo");
         RServo = hardwareMap.servo.get("RServo");
     }
 
     public void start(){
-        LServo.scaleRange(-180, 180);
-        LServo.setPosition(180);
-        RServo.scaleRange(-180, 180);
-        RServo.setPosition(-180);
     }
 
     public void execute(){
@@ -34,3 +30,4 @@ public class IntakeServo extends Command{
         return false;
     }
 }
+*/
