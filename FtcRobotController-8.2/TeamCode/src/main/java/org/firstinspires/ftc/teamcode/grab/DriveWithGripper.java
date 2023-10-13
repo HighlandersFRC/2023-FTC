@@ -1,29 +1,26 @@
 package org.firstinspires.ftc.teamcode.grab;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.hardware.CRServo;
-import com.qualcomm.robotcore.util.Range;
 
-import org.firstinspires.ftc.teamcode.PID1;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.CRServo;
+import com.qualcomm.robotcore.hardware.Servo;
 
 
 @TeleOp(name = "Drive Gripper", group = "Exercises")
 //@Disabled
     public class DriveWithGripper extends LinearOpMode {
 
-
+        Servo armServo;
         CRServo contServo;
-        float leftY, rightY;
-        double armPosition, gripPosition, contPower;
-        double MIN_POSITION = 0, MAX_POSITION = 1;
+
+        double contPower;
+
         //PID1 PID = new PID1(1,1,0);
         // called when init button is  pressed.
         @Override
         public void runOpMode() throws InterruptedException {
             contServo = hardwareMap.crservo.get("contServo");
-
+            armServo = hardwareMap.servo.get("armServo");
             telemetry.addData("Mode", "waiting");
             telemetry.update();
 
@@ -31,22 +28,18 @@ import org.firstinspires.ftc.teamcode.PID1;
 
             waitForStart();
 
-            armPosition = .5;                   // set arm to half way up.
-            gripPosition = MAX_POSITION;        // set grip to full open.
-
             while (opModeIsActive()) {
 
 
-               ;
                 telemetry.addData("Mode", "running");
 
-                //PID.setPID(.01,.0 ,.0);
                 if (gamepad1.x) {
 
                     contPower =1;
                 }
                 else if (gamepad1.b)
-                    contPower = -1;
+                    armServo.setPosition(180);
+
                 else
                     contPower = 0.0;
 
