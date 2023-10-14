@@ -47,7 +47,7 @@ import java.util.List;
  * Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new name.
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list.
  */
-@TeleOp(name = "Concept: TensorFlow Object Detection v03", group = "Concept")
+@TeleOp(name = "Concept: TensorFlow Object Detection White Pixel", group = "Concept")
 //@Disabled
 public class ConceptTensorFlowObjectDetection1 extends LinearOpMode {
 
@@ -62,7 +62,11 @@ public class ConceptTensorFlowObjectDetection1 extends LinearOpMode {
      * The variable to store our instance of the vision portal.
      */
     private VisionPortal visionPortal;
-    private static final String TFOD_MODEL_ASSET = "detect_quant.tflite";
+    private static final String TFOD_MODEL_ASSET = "Centerstage.tflite";
+    private static final String[] LABELS = {
+            "Pixel"
+    };
+
 
 
     @Override
@@ -109,11 +113,11 @@ public class ConceptTensorFlowObjectDetection1 extends LinearOpMode {
         // Create the TensorFlow processor by using a builder.
         tfod = new TfodProcessor.Builder()
 
-            // Use setModelAssetName() if the TF Model is built in as an asset.
-                .setModelFileName(TFOD_MODEL_ASSET) //if you have downloaded a custom team model to the Robot Controller.
+            .setModelAssetName(TFOD_MODEL_ASSET)
+           // .setModelFileName(TFOD_MODEL_ASSET) //if you have downloaded a custom team model to the Robot Controller.
             //.setModelAssetName(TFOD_MODEL_ASSET)
             //.setModelFileName(TFOD_MODEL_FILE)
-
+                .setModelLabels(LABELS)
             //.setModelLabels(LABELS)
             //.setIsModelTensorFlow2(true)
             //.setIsModelQuantized(true)
@@ -136,7 +140,7 @@ public class ConceptTensorFlowObjectDetection1 extends LinearOpMode {
         //builder.setCameraResolution(new Size(640, 480));
 
         // Enable the RC preview (LiveView).  Set "false" to omit camera monitoring.
-        //builder.enableCameraMonitoring(true);
+        builder.enableLiveView(true);
 
         // Set the stream format; MJPEG uses less bandwidth than default YUY2.
         //builder.setStreamFormat(VisionPortal.StreamFormat.YUY2);

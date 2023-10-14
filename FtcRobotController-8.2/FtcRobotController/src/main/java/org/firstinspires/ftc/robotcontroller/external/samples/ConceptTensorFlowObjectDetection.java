@@ -62,7 +62,7 @@ public class ConceptTensorFlowObjectDetection extends LinearOpMode {
      * The variable to store our instance of the vision portal.
      */
     private VisionPortal visionPortal;
-    private static final String TFOD_MODEL_ASSET = "detect_quant.tflite";
+
 
 
     @Override
@@ -109,8 +109,7 @@ public class ConceptTensorFlowObjectDetection extends LinearOpMode {
         // Create the TensorFlow processor by using a builder.
         tfod = new TfodProcessor.Builder()
 
-            // Use setModelAssetName() if the TF Model is built in as an asset.
-                .setModelFileName(TFOD_MODEL_ASSET) //if you have downloaded a custom team model to the Robot Controller.
+                .setModelAssetName("detect_quant")         // .setModelFileName(TFOD_MODEL_ASSET) //if you have downloaded a custom team model to the Robot Controller.
             //.setModelAssetName(TFOD_MODEL_ASSET)
             //.setModelFileName(TFOD_MODEL_FILE)
 
