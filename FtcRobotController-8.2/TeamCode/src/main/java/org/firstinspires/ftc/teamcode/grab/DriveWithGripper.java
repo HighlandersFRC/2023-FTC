@@ -40,13 +40,13 @@ import com.qualcomm.robotcore.hardware.Servo;
                 }
                 if(gamepad1.y) {
                     contPower=-1;
-                    contServo.setPower(contPower);
+
                 }
                 if (gamepad1.a){
                     armServo.setPosition(0);
                 }
                     if (gamepad1.b) {
-                    armServo.setPosition(250);
+                    armServo.setPosition(220);
                 }
                 else
                     contPower = 0.0;
