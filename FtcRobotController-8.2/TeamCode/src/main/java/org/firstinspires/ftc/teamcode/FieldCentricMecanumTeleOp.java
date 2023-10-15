@@ -13,7 +13,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 @TeleOp
 public class FieldCentricMecanumTeleOp extends LinearOpMode {
     @Override
-    public void runOpMode() throws InterruptedException {
+    public void runOpMode()  throws InterruptedException {
         // Declare our motors
         // Make sure your ID's match your configuration, ok?
         DcMotor Left_Front = hardwareMap.dcMotor.get("Left_Front");
@@ -59,11 +59,11 @@ public class FieldCentricMecanumTeleOp extends LinearOpMode {
             double botHeadingRadian = -imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
             if (botHeadingRadian != 0) {
                 // Rotate the movement direction counter to the bot's rotation
-                double rotX = x * Math.cos(-botHeadingRadian) - y * Math.sin(botHeadingRadian);// Changed to positive due to things(change back when need)
-                double rotY = x * Math.sin(-botHeadingRadian) + y * Math.cos(botHeadingRadian);//Changed to positive due to things(change back when need)
+                double rotX = x * Math.cos(botHeadingRadian) - y * Math.sin(botHeadingRadian);// Changed to positive due to things(change back when need)
+                double rotY = x * Math.sin(botHeadingRadian) + y * Math.cos(botHeadingRadian);//Changed to positive due to things(change back when need)
 
                 rotX = rotX * 1.1;  // Counteract imperfect strafing
-                // Denominator is the largest motor power (absolute value) or 1
+                // Denominator is the largest motor power (absolute value) or 1rmn
                 // This ensures all the powers maintain the same ratio,
                 // but only if at least one is out of the range [-1, 1]
                 double denominator = Math.max(Math.abs(rotY) + Math.abs(rotX) + Math.abs(rx), 1.0);
@@ -83,6 +83,7 @@ public class FieldCentricMecanumTeleOp extends LinearOpMode {
             telemetry.addData("rotX", rotX);
             telemetry.addData("parameters", parameters);
             telemetry.addData("IMU", imu);
+
             telemetry.addData("denominator", denominator);
             telemetry.addData("botHeading", botHeading);
             telemetry.addData("botHeadingRadian", botHeadingRadian);
@@ -132,6 +133,7 @@ public class FieldCentricMecanumTeleOp extends LinearOpMode {
             positionLeft_Back = Left_Back.getCurrentPosition();
             positionRight_Front = Right_Front.getCurrentPosition();
             positionRight_Back = Right_Back.getCurrentPosition();
+
             // Get the target position of the armMotor
             double desiredPositionLeft_Front = Left_Front.getTargetPosition();
             double desiredPositionLeft_Back = Left_Back.getTargetPosition();
