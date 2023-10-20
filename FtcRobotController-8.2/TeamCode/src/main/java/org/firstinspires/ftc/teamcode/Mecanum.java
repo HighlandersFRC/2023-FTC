@@ -20,12 +20,14 @@ public class Mecanum extends LinearOpMode {
     private DcMotor Left_Intake;
     private DcMotor Right_Intake;
     private DcMotor Arm;
+    private OpticalDistanceSensor distance_Sensor;
 
     PID1 PID = new PID1();
 
     @Override
     public void runOpMode() {
 
+        distance_Sensor = hardwareMap.opticalDistanceSensor.get("distanceSensor");
         Left_Front = hardwareMap.dcMotor.get("Left_Front");
         Right_Front = hardwareMap.dcMotor.get("Right_Front");
         Left_Back = hardwareMap.dcMotor.get("Left_Back");
@@ -114,10 +116,12 @@ public class Mecanum extends LinearOpMode {
             telemetry.addData("Stick Y", gamepad1.right_stick_y);
 
             telemetry.addLine("");
+            telemetry.addData("Distance Sensor", distance_Sensor);
+
             telemetry.update();
 }
 
-           //IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
+         //   IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
            //         RevHubOrientationOnRobot.LogoFacingDirection.UP,
              //       RevHubOrientationOnRobot.UsbFacingDirection.FORWARD));
             //imu.initialize(parameters);
