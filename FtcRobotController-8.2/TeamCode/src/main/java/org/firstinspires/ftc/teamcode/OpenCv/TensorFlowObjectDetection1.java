@@ -49,7 +49,7 @@ import java.util.List;
  */
 @TeleOp(name = "Concept: TensorFlow Object Detection White Pixel", group = "Concept")
 //@Disabled
-public class ConceptTensorFlowObjectDetection1 extends LinearOpMode {
+public class TensorFlowObjectDetection1 extends LinearOpMode {
 
     private static final boolean USE_WEBCAM = true;  // true for webcam, false for phone camera
 

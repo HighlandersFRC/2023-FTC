@@ -64,14 +64,14 @@ public class Vision extends LinearOpMode {
 
         while (!isStopRequested() && opModeIsActive()){
 
-         //   visionPortal.saveNextFrameRaw("Test");
+            visionPortal.saveNextFrameRaw("Test");
 
             if(tagProcessor.getDetections().size() > 0) {
                 AprilTagDetection tag = tagProcessor.getDetections().get(0);
 
 
 
-                int id = tag.id; // This assumes 'tag' is an object with an 'id' property.
+                int id = tag.id; //'tag' is an object with an 'id' property.
                 DistanceUnit Unit = DistanceUnit.METER ;
 
 
@@ -82,7 +82,6 @@ public class Vision extends LinearOpMode {
                 telemetry.addData("x", tag.ftcPose.x);
                 telemetry.addData("y", tag.ftcPose.y);
                 telemetry.addData("z", tag.ftcPose.z);
-
                 telemetry.addData("Unit", Unit);
                 telemetry.addData("tagID", tag.id);
                 telemetry.addData("exposure", exposure.isExposureSupported());
