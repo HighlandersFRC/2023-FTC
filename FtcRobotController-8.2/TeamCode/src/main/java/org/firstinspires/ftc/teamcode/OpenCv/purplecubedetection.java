@@ -46,8 +46,7 @@ import java.util.List;
  *
  * Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new name.
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list.
- */
-@TeleOp(name = "Concept: TensorFlow Object Detection White Pixel", group = "Concept")
+ */@TeleOp(name = " Detection Purple CUbe", group = "Concept")
 //@Disabled
 public class purplecubedetection extends LinearOpMode {
 
@@ -64,8 +63,8 @@ public class purplecubedetection extends LinearOpMode {
     private VisionPortal visionPortal;
     private static final String TFOD_MODEL_ASSET = "detect_quant.tflite";
     private static final String[] LABELS = {
-            "Cube",
-            
+            "Cube"
+
     };
 
 
