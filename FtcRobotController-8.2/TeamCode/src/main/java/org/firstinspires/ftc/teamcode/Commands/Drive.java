@@ -78,10 +78,10 @@ public class Drive extends Command {
         currentPos = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
         double deviation = PID.updatePID(imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES));
 
-        Right_Front.setPower(-speed + deviation);
-        Left_Front.setPower(speed - deviation);
-        Right_Back.setPower(-speed - deviation);
-        Left_Back.setPower(speed + deviation);
+        Right_Front.setPower(-(-speed + deviation));
+        Left_Front.setPower(-(speed - deviation));
+        Right_Back.setPower(-(-speed - deviation));
+        Left_Back.setPower(-(speed + deviation));
         /*
         if (currentPos >= -5 && currentPos <= 5){
             Right_Front.setPower(-speed);
@@ -99,7 +99,7 @@ public class Drive extends Command {
     }
 
     public boolean isFinished() {
-        if (avgEncoder >= targetPos) {
+        if (avgEncoder - 10>= targetPos) {
           return true;
         }
         return false;

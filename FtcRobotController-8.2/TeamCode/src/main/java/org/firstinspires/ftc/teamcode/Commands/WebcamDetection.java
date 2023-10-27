@@ -1,15 +1,17 @@
-/**//*
+
 package org.firstinspires.ftc.teamcode.Commands;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+
 public class WebcamDetection extends Command{
-    public
+    public WebcamName Webcam1;
     Boolean Done = false;
     public WebcamDetection(HardwareMap hardwareMap){
-        LServo = hardwareMap.servo.get("LServo");
-        RServo = hardwareMap.servo.get("RServo");
+        Webcam1 = hardwareMap.get(WebcamName.class,"webcam1");
+        
     }
 
     public void start(){
@@ -30,4 +32,3 @@ public class WebcamDetection extends Command{
         return false;
     }
 }
-*/

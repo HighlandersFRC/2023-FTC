@@ -13,10 +13,10 @@ public class IntakeServo extends Command{
     }
 
     public void start(){
-        LServo.scaleRange(-180, 180);
-        LServo.setPosition(180);
-        RServo.scaleRange(-180, 180);
-        RServo.setPosition(-180);
+        LServo.scaleRange(0, 360);
+        LServo.setPosition(1);
+        RServo.scaleRange(0, 360);
+        RServo.setPosition(-1);
     }
 
     public void execute(){
