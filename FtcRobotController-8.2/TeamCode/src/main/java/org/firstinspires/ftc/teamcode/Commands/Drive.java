@@ -10,6 +10,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.teamcode.PID1;
+import org.firstinspires.ftc.teamcode.Tools.Vector;
 
 public class Drive extends Command {
     PID1 PID = new PID1(0.07, 0.0, 0.2);
@@ -46,6 +47,14 @@ public class Drive extends Command {
                 RevHubOrientationOnRobot.UsbFacingDirection.FORWARD));
         imu.initialize(parameters);
     }
+    Vector lvector;
+    double turn;
+    public Drive(Vector vector, double turn) {
+        super();
+        lvector = vector;
+        this.turn = turn;
+    }
+
     public void start() {
         Right_Front.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         Left_Front.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -69,19 +78,11 @@ public class Drive extends Command {
         Left_Back.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
     public void execute() {
-        backRight = Math.abs(Right_Back.getCurrentPosition());
-        backLeft = Math.abs(Left_Back.getCurrentPosition());
-        frontLeft = Math.abs(Left_Front.getCurrentPosition());
-        frontRight = Math.abs(Right_Front.getCurrentPosition());
-        avgEncoder = (backRight + backLeft + frontLeft + frontRight) / 4;
-        DrivePID.updatePID(avgEncoder);
-        currentPos = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
-        double deviation = PID.updatePID(imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES));
-
-        Right_Front.setPower(-speed);
-        Left_Front.setPower(speed);
-        Right_Back.setPower(-speed);
-        Left_Back.setPower(speed);
+    double[] speeds = drive(lvector, turn);
+        Right_Front.setPower(speeds[0]);
+        Left_Front.setPower(speeds[1]);
+        Right_Back.setPower(speeds[2]);
+        Left_Back.setPower(speeds[3]);
         /*
         if (currentPos >= -5 && currentPos <= 5){
             Right_Front.setPower(-speed);
@@ -89,6 +90,7 @@ public class Drive extends Command {
             Left_Back.setPower(speed);
             Right_Back.setPower(-speed);
         }*/
+
     }
 
     public void end() {
@@ -103,5 +105,20 @@ public class Drive extends Command {
           return true;
         }
         return false;
+    }
+
+    public double[] drive(Vector drivevector, double turn){
+        double drive = drivevector.magnitude();
+        double strafe = drivevector.getTheta();
+        double twist = turn;
+        double[] speeds = {
+                (drive + strafe + twist),
+                (drive - strafe - twist),
+                (drive - strafe + twist),
+                (drive + strafe - twist)
+        };
+        return speeds;
+
+
     }
 }

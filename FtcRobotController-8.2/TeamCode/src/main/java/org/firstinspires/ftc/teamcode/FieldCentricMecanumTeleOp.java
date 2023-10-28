@@ -53,9 +53,9 @@ public class FieldCentricMecanumTeleOp extends LinearOpMode {
         if (isStopRequested()) return;
 
         while (opModeIsActive()) {
-            double y = -gamepad1.left_stick_y * 0.95;
-            double x = gamepad1.left_stick_x * 0.95;
-            double rx = gamepad1.right_stick_x * 0.95;
+            double y = -gamepad1.left_stick_y;
+            double x = gamepad1.left_stick_x;
+            double rx = gamepad1.right_stick_x;
 
             timeElapsed  = System.currentTimeMillis();
             if (timeElapsed >= 1){
@@ -164,3 +164,4 @@ public class FieldCentricMecanumTeleOp extends LinearOpMode {
         }
     }
 }
+
