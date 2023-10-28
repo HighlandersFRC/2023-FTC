@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.I2cDevice;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -16,12 +17,21 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 public class FieldCentricMecanumTeleOp extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
+        PID1 PID = new PID1();
         // Declare our motors
         DcMotor Left_Front = hardwareMap.dcMotor.get("Left_Front");
         DcMotor Left_Back = hardwareMap.dcMotor.get("Left_Back");
         DcMotor Right_Front = hardwareMap.dcMotor.get("Right_Front");
         DcMotor Right_Back = hardwareMap.dcMotor.get("Right_Back");
         I2cDevice navx = hardwareMap.i2cDevice.get("navx");
+        DcMotor Left_Intake = hardwareMap.dcMotor.get("Left_Intake");
+        DcMotor Right_Intake = hardwareMap.dcMotor.get("Right_Intake");
+        Servo LServo = hardwareMap.servo.get("LServo");
+        Servo RServo = hardwareMap.servo.get("RServo");
+        DcMotor Arm1 = hardwareMap.dcMotor.get("Arm1");
+        DcMotor Arm2 = hardwareMap.dcMotor.get("Arm2");
+        CRServo intakeServo = hardwareMap.crservo.get("intakeServo");
+
 
         Right_Front.setDirection(DcMotorSimple.Direction.REVERSE);
         Right_Back.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -37,6 +47,8 @@ public class FieldCentricMecanumTeleOp extends LinearOpMode {
         imu.initialize(parameters);
 
         waitForStart();
+        
+        long timeElapsed = 0;
 
         if (isStopRequested()) return;
 
@@ -45,6 +57,66 @@ public class FieldCentricMecanumTeleOp extends LinearOpMode {
             double x = gamepad1.left_stick_x * 0.95;
             double rx = -gamepad1.right_stick_x * 0.95;
 
+            timeElapsed  = System.currentTimeMillis();
+            if (timeElapsed >= 1){
+
+            }
+            double leftTrigger = gamepad1.left_trigger;
+            double rightTrigger = gamepad1.right_trigger;
+            LServo.scaleRange(-180, 180);
+            RServo.scaleRange(-180, 180);
+            double intakePower = (rightTrigger - leftTrigger) * 0.75;
+
+            PID.setMaxOutput(1);
+            PID.setMinOutput(-1);
+            PID.setPID(0.003,0 ,0.001);
+            PID.updatePID(Arm1.getCurrentPosition());
+            Arm1.setPower(PID.getResult() - 0.001);
+            Arm2.setPower(PID.getResult() - 0.001);
+
+            if (!(rightTrigger == 0)){
+                intakeServo.setPower(1);
+            }
+            if (!(leftTrigger == 0)){
+                intakeServo.setPower(-1);
+            }
+            /*
+            if (gamepad1.dpad_left){
+                intakeServo.setPower(-1);
+            }
+            else {
+                if (gamepad1.dpad_right){
+                    intakeServo.setPower(1);
+                }
+                else
+                {
+                    intakeServo.setPower(0);
+                }
+            }
+*/
+            if (gamepad1.dpad_up){
+                LServo.setPosition(-120);
+                RServo.setPosition(120);
+            }
+            if (gamepad1.dpad_down){
+                LServo.setPosition(1);
+                RServo.setPosition(-1);
+            }
+            if (gamepad2.a){
+                PID.setSetPoint(-350);
+
+            }
+            if (gamepad2.b){
+                PID.setSetPoint(250);
+            }
+
+            if (gamepad2.x){
+                PID.setSetPoint(-75);
+            }
+            if (gamepad2.y){
+                PID.setSetPoint(-175);
+            }
+            Right_Intake.setPower(-intakePower);
 
             if (gamepad1.options) {
                 imu.resetYaw();
