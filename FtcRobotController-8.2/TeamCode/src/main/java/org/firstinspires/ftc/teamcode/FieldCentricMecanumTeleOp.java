@@ -93,7 +93,7 @@ public class FieldCentricMecanumTeleOp extends LinearOpMode {
                     intakeServo.setPower(0);
                 }
             }
-*/
+      */
             if (gamepad1.dpad_up){
                 LServo.setPosition(-120);
                 RServo.setPosition(120);
@@ -137,6 +137,7 @@ public class FieldCentricMecanumTeleOp extends LinearOpMode {
                 double denominator = Math.max(Math.abs(rotY) + Math.abs(rotX) + Math.abs(rx), 1.0);
                 double frontLeftPower = (rotY + rotX + rx) / denominator;
                 double backLeftPower = (rotY - rotX + rx) / denominator;
+
                 double frontRightPower = (rotY - rotX - rx) / denominator;
                 double backRightPower = (rotY + rotX - rx) / denominator;
 
