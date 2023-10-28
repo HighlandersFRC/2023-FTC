@@ -21,9 +21,7 @@ import org.firstinspires.ftc.teamcode.Commands.Wait;
 public class Autonomous extends LinearOpMode {
 
     Scheduler scheduler = new Scheduler();
-/*
     DcMotor Arm1;
-*/
     PID1 PID = new PID1(0.03, 0.0, 0.0);
 
     @Override
