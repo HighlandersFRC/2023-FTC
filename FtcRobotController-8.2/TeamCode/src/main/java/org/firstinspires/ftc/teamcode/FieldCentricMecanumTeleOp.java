@@ -23,7 +23,7 @@ public class FieldCentricMecanumTeleOp extends LinearOpMode {
         DcMotor Left_Back = hardwareMap.dcMotor.get("Left_Back");
         DcMotor Right_Front = hardwareMap.dcMotor.get("Right_Front");
         DcMotor Right_Back = hardwareMap.dcMotor.get("Right_Back");
-        I2cDevice navx = hardwareMap.i2cDevice.get("navx");
+        //I2cDevice navx = hardwareMap.i2cDevice.get("NavX");
         DcMotor Left_Intake = hardwareMap.dcMotor.get("Left_Intake");
         DcMotor Right_Intake = hardwareMap.dcMotor.get("Right_Intake");
         Servo LServo = hardwareMap.servo.get("LServo");
@@ -55,7 +55,7 @@ public class FieldCentricMecanumTeleOp extends LinearOpMode {
         while (opModeIsActive()) {
             double y = -gamepad1.left_stick_y * 0.95;
             double x = gamepad1.left_stick_x * 0.95;
-            double rx = -gamepad1.right_stick_x * 0.95;
+            double rx = gamepad1.right_stick_x * 0.95;
 
             timeElapsed  = System.currentTimeMillis();
             if (timeElapsed >= 1){
@@ -127,8 +127,8 @@ public class FieldCentricMecanumTeleOp extends LinearOpMode {
             double botHeadingRadian = -imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
             if (botHeadingRadian != 0) {
                 // Rotate the movement direction counter to the bot's rotation
-                double rotX = x * Math.cos(botHeadingRadian) - y * Math.sin(botHeadingRadian);// Changed to positive due to things(change back when need)
-                double rotY = x * Math.sin(botHeadingRadian) + y * Math.cos(botHeadingRadian);//Changed to positive due to things(change back when need)
+                double rotX = x * Math.cos(-botHeadingRadian) - y * Math.sin(-botHeadingRadian);// Changed to positive due to things(change back when need)
+                double rotY = x * Math.sin(-botHeadingRadian) + y * Math.cos(-botHeadingRadian);//Changed to positive due to things(change back when need)
 
                 rotX = rotX * 1.1;  // Counteract imperfect strafing
                 // Denominator is the largest motor power (absolute value) or 1rmn
