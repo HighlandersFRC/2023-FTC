@@ -127,8 +127,8 @@ public class FieldCentricMecanumTeleOp extends LinearOpMode {
             double botHeadingRadian = -imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
             if (botHeadingRadian != 0) {
                 // Rotate the movement direction counter to the bot's rotation
-                double rotX = x * Math.cos(-botHeadingRadian) - y * Math.sin(-botHeadingRadian);// Changed to positive due to things(change back when need)
-                double rotY = x * Math.sin(-botHeadingRadian) + y * Math.cos(-botHeadingRadian);//Changed to positive due to things(change back when need)
+                double rotX = x * Math.cos(botHeadingRadian) - y * Math.sin(botHeadingRadian);// Changed to positive due to things(change back when need)
+                double rotY = x * Math.sin(botHeadingRadian) + y * Math.cos(botHeadingRadian);//Changed to positive due to things(change back when need)
 
                 rotX = rotX * 1.1;  // Counteract imperfect strafing
                 // Denominator is the largest motor power (absolute value) or 1rmn
@@ -137,13 +137,12 @@ public class FieldCentricMecanumTeleOp extends LinearOpMode {
                 double denominator = Math.max(Math.abs(rotY) + Math.abs(rotX) + Math.abs(rx), 1.0);
                 double frontLeftPower = (rotY + rotX + rx) / denominator;
                 double backLeftPower = (rotY - rotX + rx) / denominator;
-
                 double frontRightPower = (rotY - rotX - rx) / denominator;
                 double backRightPower = (rotY + rotX - rx) / denominator;
 
-                Left_Front.setPower(frontLeftPower);
-                Left_Back.setPower(backLeftPower);
-                Right_Front.setPower(frontRightPower);
+                Left_Front.setPower(-frontLeftPower);
+                Left_Back.setPower(-backLeftPower);
+                Right_Front.setPower(-frontRightPower);
                 Right_Back.setPower(backRightPower);
                 telemetry.addData("y", y);
                 telemetry.addData("x", x);
@@ -161,10 +160,7 @@ public class FieldCentricMecanumTeleOp extends LinearOpMode {
                 telemetry.addData("frontRightPower", frontRightPower);
                 telemetry.addData("backRightPower", backRightPower);
                 telemetry.addData("time", time);
-                telemetry.update();
-
-
-            } else continue;
+                telemetry.update();}
         }
     }
 }
