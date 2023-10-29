@@ -32,7 +32,7 @@ public class Vision extends LinearOpMode {
                 .setDrawCubeProjection(true)
                 .setDrawTagID(true)
                 .setDrawTagOutline(true)
-               //.setLensIntrinsics(515.155, 515.155, 284.375, 216.698)
+                //.setLensIntrinsics(515.155, 515.155, 284.375, 216.698)
                 .setLensIntrinsics(510.678, 510.678, 318.787, 228.335) //(secondary calc chasis bot)
                 .setTagLibrary(AprilTagGameDatabase.getCurrentGameTagLibrary())
                 .setTagFamily(AprilTagProcessor.TagFamily.TAG_36h11)
@@ -64,14 +64,14 @@ public class Vision extends LinearOpMode {
 
         while (!isStopRequested() && opModeIsActive()){
 
-            visionPortal.saveNextFrameRaw("Test");
+            //   visionPortal.saveNextFrameRaw("Test");
 
             if(tagProcessor.getDetections().size() > 0) {
                 AprilTagDetection tag = tagProcessor.getDetections().get(0);
 
 
 
-                int id = tag.id; //'tag' is an object with an 'id' property.
+                int id = tag.id; // This assumes 'tag' is an object with an 'id' property.
                 DistanceUnit Unit = DistanceUnit.METER ;
 
 
@@ -82,6 +82,31 @@ public class Vision extends LinearOpMode {
                 telemetry.addData("x", tag.ftcPose.x);
                 telemetry.addData("y", tag.ftcPose.y);
                 telemetry.addData("z", tag.ftcPose.z);
+
+                telemetry.addData("Unit", Unit);
+                telemetry.addData("tagID", tag.id);
+                telemetry.addData("exposure", exposure.isExposureSupported());
+                telemetry.addData("roll", tag.ftcPose.roll);
+                telemetry.addData("pitch", tag.ftcPose.pitch);
+                telemetry.addData("yaw", tag.ftcPose.yaw);
+
+            } else if (tagProcessor.getDetections().size() >= 1) {
+                AprilTagDetection tag = tagProcessor.getDetections().get(1);
+
+
+
+                int id = tag.id; // This assumes 'tag' is an object with an 'id' property.
+                DistanceUnit Unit = DistanceUnit.METER ;
+
+
+
+
+
+                telemetry.addLine(String.format("XYZ %6.2f %6.2f %6.2f", tag.ftcPose.x, tag.ftcPose.y, tag.ftcPose.z));
+                telemetry.addData("x", tag.ftcPose.x);
+                telemetry.addData("y", tag.ftcPose.y);
+                telemetry.addData("z", tag.ftcPose.z);
+
                 telemetry.addData("Unit", Unit);
                 telemetry.addData("tagID", tag.id);
                 telemetry.addData("exposure", exposure.isExposureSupported());
@@ -90,6 +115,31 @@ public class Vision extends LinearOpMode {
                 telemetry.addData("yaw", tag.ftcPose.yaw);
 
 
+
+
+            } else if (tagProcessor.getDetections().size() >= 2) {
+                AprilTagDetection tag = tagProcessor.getDetections().get(2);
+
+
+
+                int id = tag.id; // This assumes 'tag' is an object with an 'id' property.
+                DistanceUnit Unit = DistanceUnit.METER ;
+
+
+
+
+
+                telemetry.addLine(String.format("XYZ %6.2f %6.2f %6.2f", tag.ftcPose.x, tag.ftcPose.y, tag.ftcPose.z));
+                telemetry.addData("x", tag.ftcPose.x);
+                telemetry.addData("y", tag.ftcPose.y);
+                telemetry.addData("z", tag.ftcPose.z);
+
+                telemetry.addData("Unit", Unit);
+                telemetry.addData("tagID", tag.id);
+                telemetry.addData("exposure", exposure.isExposureSupported());
+                telemetry.addData("roll", tag.ftcPose.roll);
+                telemetry.addData("pitch", tag.ftcPose.pitch);
+                telemetry.addData("yaw", tag.ftcPose.yaw);
             }
 
             telemetry.update();
@@ -104,7 +154,6 @@ public class Vision extends LinearOpMode {
     }
 
 }
-
 
 
 

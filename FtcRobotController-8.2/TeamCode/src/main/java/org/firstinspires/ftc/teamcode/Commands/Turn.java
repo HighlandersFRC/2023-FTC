@@ -14,7 +14,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 import org.firstinspires.ftc.teamcode.PID1;
 
 public class Turn extends Command{
-    PID1 PID = new PID1(0.03, 0.0, 0.0);
+    PID1 PID = new PID1(0.3, 0.0, 0.01);
     public DcMotor Left_Back;
     public DcMotor Right_Back;
     public DcMotor Left_Front;
@@ -52,9 +52,9 @@ public class Turn extends Command{
         double power = PID.updatePID(imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES));
         this.PIDOutput = power;
 
-        Right_Front.setPower(power);
-        Left_Front.setPower(power);
-        Left_Back.setPower(power);
+        Right_Front.setPower(-power);
+        Left_Front.setPower(-power);
+        Left_Back.setPower(-power);
         Right_Back.setPower(power);
     }
 
@@ -66,7 +66,7 @@ public class Turn extends Command{
     }
 
     public boolean isFinished() {
-        if (PID.getResult() <= 0.1 && imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES) >= Math.abs(PID.getSetPoint())) {
+        if (PID.getResult() <= 0.01 || imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES) == -PID.getSetPoint()) {
             return true;
         }
         return false;

@@ -34,8 +34,8 @@ public class Autonomous extends LinearOpMode {
 
         waitForStart();
         scheduler.add(new CommandGroup(scheduler,
-              new Drive(hardwareMap, 1, 1000000000)
-              /*  new IntakeServo(hardwareMap),
+               new Turn(hardwareMap, -90)
+               /* new IntakeServo(hardwareMap),
                 new ParallelCommandGroup(scheduler, new Drive(hardwareMap,0.75, 1.4), new Intake(hardwareMap, 1000, -0.5)),
                 new ParallelCommandGroup(scheduler, new Turn(hardwareMap, 45), new Intake(hardwareMap, 1000, -0.5)),
                 new ParallelCommandGroup(scheduler, new Drive(hardwareMap, 0.5, 0.2), new Intake(hardwareMap,2000, -0.5)),
@@ -43,8 +43,9 @@ public class Autonomous extends LinearOpMode {
                 new Arm(hardwareMap, 200),
                 new Drive(hardwareMap, -1, 2),
                 new Turn(hardwareMap, 45),
-                new Drive(hardwareMap, 1, 3)
-        */));
+                new Drive(hardwareMap, 1, 3)*/
+/*                new Turn(hardwareMap, 90)*/
+        ));
         while (opModeIsActive())
         {
             PID.setSetPoint(-180);
@@ -53,7 +54,6 @@ public class Autonomous extends LinearOpMode {
             PID.setMinInput(-180);
             PID.setContinuous(true);
 
-            telemetry.addData("Current Command", scheduler.getActive().toString());
             telemetry.addData("IMU", imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES));
             telemetry.addData("PID result", PID.getResult());
             telemetry.update();
