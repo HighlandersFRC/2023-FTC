@@ -46,7 +46,7 @@ import java.util.List;
  *
  * Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new name.
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list.
- */@TeleOp(name = " Detection Purple CUbe", group = "Concept")
+ */@TeleOp(name = " Detection Purple Cube", group = "Concept")
 //@Disabled
 public class purplecubedetection extends LinearOpMode {
 
@@ -61,9 +61,13 @@ public class purplecubedetection extends LinearOpMode {
      * The variable to store our instance of the vision portal.
      */
     private VisionPortal visionPortal;
-    private static final String TFOD_MODEL_ASSET = "detect_quant.tflite";
+    private static final String TFOD_MODEL_ASSET = "detectquant.tflite";
     private static final String[] LABELS = {
-            "Cube"
+            "cube",
+            "tipped_cone",
+            "upright_cone",
+            "cursed_cone"
+
 
     };
 
@@ -89,11 +93,11 @@ public class purplecubedetection extends LinearOpMode {
                 telemetry.update();
 
                 // Save CPU resources; can resume streaming when needed.
-                if (gamepad1.dpad_down) {
-                    visionPortal.stopStreaming();
-                } else if (gamepad1.dpad_up) {
-                    visionPortal.resumeStreaming();
-                }
+             //   if (gamepad1.dpad_down) {
+               //     visionPortal.stopStreaming();
+                //} else if (gamepad1.dpad_up) {
+               //     visionPortal.resumeStreaming();
+                //}
 
                 // Share the CPU.
                 sleep(20);
