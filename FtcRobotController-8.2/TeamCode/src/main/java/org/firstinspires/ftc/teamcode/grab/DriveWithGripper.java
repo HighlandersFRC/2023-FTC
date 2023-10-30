@@ -34,14 +34,14 @@ import com.qualcomm.robotcore.hardware.Servo;
             gripServo.setPosition(gamepad1.left_stick_y);
 
             if (gamepad1.a) {
-                wristServo.setPosition(0);
+                wristServo.setPosition(60);
 
             }
             if (gamepad1.b) {
                 wristServo.setPosition(180);
             }
             if (gamepad1.left_bumper) {
-                armServo.setPosition(0);
+                armServo.setPosition(60);
             }
             if (gamepad1.right_bumper) {
                 armServo.setPosition(180);
