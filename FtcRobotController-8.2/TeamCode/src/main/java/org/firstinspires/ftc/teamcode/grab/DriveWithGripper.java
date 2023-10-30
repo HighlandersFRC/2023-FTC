@@ -1,63 +1,59 @@
 package org.firstinspires.ftc.teamcode.grab;
 
+import com.qualcomm.hardware.kauailabs.NavxMicroNavigationSensor;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Servo;
+@TeleOp
 
-@TeleOp(name = "Drive Gripper", group = "Exercises")
 //@Disabled
     public class DriveWithGripper extends LinearOpMode {
+    //make servo
+    Servo wristServo, armServo;
+    Servo gripServo;
 
-        Servo armServo;
-        Servo wristServo;
+    // called when init button is  pressed.
 
-        double contPower;
+    @Override
 
+    public void runOpMode() throws InterruptedException {
+        gripServo = hardwareMap.servo.get("gripServo");
+        wristServo = hardwareMap.servo.get("wristServo");
+        armServo = hardwareMap.servo.get("armServo");
+        NavxMicroNavigationSensor microNavigationSensor = (NavxMicroNavigationSensor) hardwareMap.i2cDevice.get("NavX");
+        telemetry.update();
+        // wait for start button.
 
-        // called when init button is  pressed.
+        waitForStart();
 
-        @Override
+        while (opModeIsActive()) {
+            telemetry.addData("time", getRuntime());
+            telemetry.addData("ArmPosition", gripServo.getPosition());
+            telemetry.addData("Mode", "running");
 
-        public void runOpMode() throws InterruptedException {
-            wristServo = hardwareMap.servo.get("wristServo");
-            armServo = hardwareMap.servo.get("armServo");
-            telemetry.addData("Mode", "waiting");
+            gripServo.setPosition(gamepad1.left_stick_y);
 
-            telemetry.update();
+            if (gamepad1.a) {
+                wristServo.setPosition(0);
 
-
-            // wait for start button.
-
-            waitForStart();
-
-            while (opModeIsActive()) {
-                wristServo.scaleRange(0,0.1);
-                telemetry.addData("time",getRuntime());
-
-                telemetry.addData("ArmPosition",wristServo.getPosition());
-                telemetry.addData("Mode", "running");
-
-                if (gamepad1.x) {
-
-                    wristServo.setPosition(1);
-                }
-                if(gamepad1.y) {
-
-                    wristServo.setPosition(.001);
-                }
-                if (gamepad1.a){
-                    armServo.setPosition(0);
-                }
-                    if (gamepad1.b) {
-                        armServo.setDirection(Servo.Direction.FORWARD);
-                        armServo.setPosition(110);
-
-                    }
-                else {
-
-                }
-                telemetry.update();
-                idle();
             }
+            if (gamepad1.b) {
+                wristServo.setPosition(180);
+            }
+            if (gamepad1.left_bumper) {
+                armServo.setPosition(0);
+            }
+            if (gamepad1.right_bumper) {
+                armServo.setPosition(180);
+            } else {
+                double v =gripServo.getPosition() ;
+                gripServo.setPosition(v);
+            }
+            telemetry.update();
+            idle();
+
         }
+
     }
+
+}
