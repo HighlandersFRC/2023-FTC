@@ -1,5 +1,5 @@
 # 2023-FTC
-import team.23479
+import org.team.23477
 
 public class robot(){
   /*
