@@ -1,12 +1,7 @@
 package org.firstinspires.ftc.teamcode;
-
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-
 import com.qualcomm.robotcore.hardware.DcMotor;
-
-
 @TeleOp
 
 public class Test extends LinearOpMode {
@@ -14,10 +9,10 @@ public class Test extends LinearOpMode {
 //Initialise motors, classes, and sensors here
 
     private DcMotor Arm1;
-   //private DcMotor Left_Front;
-   //private DcMotor Right_Front;
-   //private DcMotor Left_Back;
-   //private DcMotor Right_Back;
+   private DcMotor Left_Front;
+   private DcMotor Right_Front;
+   private DcMotor Left_Back;
+   private DcMotor Right_Back;
 
     PID1 PID = new PID1(1,1,1);
 
@@ -25,10 +20,10 @@ public class Test extends LinearOpMode {
     @Override
 
     public void runOpMode() throws InterruptedException {
-        //Left_Front = hardwareMap.dcMotor.get("Left_Front");
-        //Right_Front = hardwareMap.dcMotor.get("Right_Front");
-        //Left_Back = hardwareMap.dcMotor.get("Left_Back");
-        //Right_Back = hardwareMap.dcMotor.get("Right_Back");
+        Left_Front = hardwareMap.dcMotor.get("Left_Front");
+        Right_Front = hardwareMap.dcMotor.get("Right_Front");
+        Left_Back = hardwareMap.dcMotor.get("Left_Back");
+        Right_Back = hardwareMap.dcMotor.get("Right_Back");
         Arm1 = hardwareMap.dcMotor.get("Arm1");
 
     // Wait for the game to start (driver presses PLAY)
@@ -63,12 +58,12 @@ public class Test extends LinearOpMode {
     //Code for arm
 
             while (opModeIsActive()) {
-                PID.setPID(.0001,.0 ,.0);
+                PID.setPID(.1,.0 ,.0);
                     Arm1.setTargetPosition(PID.getSetPoint());
                     Arm1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     if (gamepad1.b) {
                         PID.setSetPoint(100);
-                        Arm1.setPower(1);
+                        Arm1.setPower(PID.getSetPoint());
 
                     }
                     if (gamepad1.x) {
