@@ -63,7 +63,7 @@ public class Camera_test extends LinearOpMode
     int Right = 2;
 
 
-    AprilTagDetection tagOfInterest = null;
+    AprilTagDetection tagOfInterest;
 
 
     public void runOpMode()
