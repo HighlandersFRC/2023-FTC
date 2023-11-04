@@ -93,5 +93,8 @@ public class PID1 {
         }
         return input;
     }
+    public double getError(){
+        return error;
+    }
 
 }

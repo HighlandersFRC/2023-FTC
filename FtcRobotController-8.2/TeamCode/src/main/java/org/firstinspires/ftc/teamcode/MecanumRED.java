@@ -15,19 +15,12 @@ import org.firstinspires.ftc.teamcode.PID1;
 
 @TeleOp
 //23477
-public class Mecanum extends LinearOpMode {
+public class MecanumRED extends LinearOpMode {
     private DcMotor Left_Front;
     private DcMotor Right_Front;
     private DcMotor Left_Back;
     private DcMotor Right_Back;
-    private DcMotor Arm_Motor;
-    private DcMotor Right_Intake;
-    private DcMotor Arm1;
-    private DcMotor Arm2;
-    private Servo LServo;
-    private Servo RServo;
-    private CRServo intakeServo;
-    private Servo armServo;
+
 
     // private OpticalDistanceSensor distance_Sensor;
     PID1 PID = new PID1(0.1, 0, 0);
@@ -40,14 +33,7 @@ public class Mecanum extends LinearOpMode {
         Right_Front = hardwareMap.dcMotor.get("Right_Front");
         Left_Back = hardwareMap.dcMotor.get("Left_Back");
         Right_Back = hardwareMap.dcMotor.get("Right_Back");
-        Arm_Motor = hardwareMap.dcMotor.get("Arm_Motor");
-        Right_Intake = hardwareMap.dcMotor.get("Right_Intake");
-        LServo = hardwareMap.servo.get("LServo");
-        RServo = hardwareMap.servo.get("RServo");
-        Arm1 = hardwareMap.dcMotor.get("Arm1");
-        Arm2 = hardwareMap.dcMotor.get("Arm2");
-        intakeServo = hardwareMap.crservo.get("intakeServo");
-        armServo = hardwareMap.servo.get("armServo");
+
 
 
         waitForStart();
@@ -57,74 +43,20 @@ public class Mecanum extends LinearOpMode {
         if (isStopRequested()) return;
 
         while (opModeIsActive()) {
-            timeElapsed = System.currentTimeMillis();
-            if (timeElapsed >= 1) {
+            timeElapsed  = System.currentTimeMillis();
+            if (timeElapsed >= 1){
 
             }
             double leftTrigger = gamepad1.left_trigger;
             double rightTrigger = gamepad1.right_trigger;
-            LServo.scaleRange(-180, 180);
-            RServo.scaleRange(-180, 180);
-            armServo.scaleRange(-180, 180);
+
             double intakePower = (rightTrigger - leftTrigger) * 0.75;
 
             PID.setMaxOutput(1);
             PID.setMinOutput(-1);
-            PID.setPID(0.003, 0, 0.001);
-            PID.updatePID(Arm1.getCurrentPosition());
-            Arm1.setPower(PID.getResult() - 0.001);
-            Arm2.setPower(PID.getResult() - 0.001);
-
-            if (!(rightTrigger == 0)) {
-                intakeServo.setPower(1);
-            }
-            if (!(leftTrigger == 0)) {
-                intakeServo.setPower(-1);
-            }
-            /*
-            if (gamepad1.dpad_left){
-                intakeServo.setPower(-1);
-            }
-            else {
-                if (gamepad1.dpad_right){
-                    intakeServo.setPower(1);
-                }
-                else
-                {
-                    intakeServo.setPower(0);
-                }
-            }
-*/
-            if (gamepad1.dpad_up) {
-                LServo.setPosition(-120);
-                RServo.setPosition(120);
-            }
-            if (gamepad1.dpad_down) {
-                LServo.setPosition(1);
-                RServo.setPosition(-1);
-            }
-            if (gamepad2.a) {
-                /*PID.setSetPoint(-350);*/
-                Arm_Motor.setPower(0.5);
-                /*armServo.setPosition(90);*/
-            } else {
-                if (gamepad2.b) {
-                    /*PID.setSetPoint(250);*/
-                    Arm_Motor.setPower(-0.5);
-                } else {
-                    Arm_Motor.setPower(0);
-                }
-            }
+            PID.setPID(0.003,0 ,0.001);
 
 
-
-            if (gamepad2.x){
-             /*   PID.setSetPoint(-75);*/
-            }
-            if (gamepad2.y){
-/*                PID.setSetPoint(-175);*/
-            }
-            Right_Intake.setPower(-intakePower);
 
             double y = -gamepad1.left_stick_y;
             double x = gamepad1.left_stick_x * 1.1;
@@ -151,16 +83,13 @@ public class Mecanum extends LinearOpMode {
             Left_Front.setPower(-frontLeftPower);
             Left_Back.setPower(-backLeftPower);
             Right_Front.setPower(frontRightPower);
-            Right_Back.setPower(-backRightPower);
+            Right_Back.setPower(backRightPower);
 
             telemetry.addLine("Motor Positions");
             telemetry.addData("Front-Left Position", Left_Front.getCurrentPosition());
             telemetry.addData("Front-Right Position", Right_Front.getCurrentPosition());
             telemetry.addData("Back-Left Position", Left_Back.getCurrentPosition());
             telemetry.addData("Back-Right Position", Right_Back.getCurrentPosition());
-            telemetry.addData("Arm One Encoder", Arm1.getCurrentPosition());
-            telemetry.addData("Arm Two Encoder", Arm2.getCurrentPosition());
-            telemetry.addData("Intake Pos", LServo.getPosition());
 
             telemetry.addLine("");
             telemetry.addLine("Controller Inputs");

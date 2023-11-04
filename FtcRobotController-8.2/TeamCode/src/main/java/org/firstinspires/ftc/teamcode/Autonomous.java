@@ -47,13 +47,13 @@ public class Autonomous extends LinearOpMode {
 /*                new Turn(hardwareMap, 90)*/
         ));
         while (opModeIsActive())
-        {
+        {/*
             PID.setSetPoint(-180);
             PID.updatePID(imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES));
             PID.setMaxInput(180);
             PID.setMinInput(-180);
             PID.setContinuous(true);
-
+*/
             telemetry.addData("IMU", imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES));
             telemetry.addData("PID result", PID.getResult());
             telemetry.update();
