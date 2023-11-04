@@ -22,7 +22,7 @@ public class MyFIRSTJavaOpMode extends LinearOpMode {
     private DcMotor motorTest;
     private TouchSensor touchSensor;
 
-    PID1 PIDTest = new PID1(0.1, 0, 0);
+    PID1 PIDTest = new PID1();
 
 
     @Override
