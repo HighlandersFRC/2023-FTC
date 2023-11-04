@@ -10,7 +10,6 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.hardware.kauailabs.NavxMicroNavigationSensor;
-
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
 @TeleOp
