@@ -47,7 +47,7 @@ import java.util.List;
  * Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new name.
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list.
  */
-@TeleOp(name = "Concept: TensorFlow Object Detection", group = "Concept")
+@TeleOp(name = "Concept: TensorFlow Object Detection v03", group = "Concept")
 //@Disabled
 public class ConceptTensorFlowObjectDetection extends LinearOpMode {
 
@@ -62,6 +62,8 @@ public class ConceptTensorFlowObjectDetection extends LinearOpMode {
      * The variable to store our instance of the vision portal.
      */
     private VisionPortal visionPortal;
+
+
 
     @Override
     public void runOpMode() {
@@ -107,8 +109,7 @@ public class ConceptTensorFlowObjectDetection extends LinearOpMode {
         // Create the TensorFlow processor by using a builder.
         tfod = new TfodProcessor.Builder()
 
-            // Use setModelAssetName() if the TF Model is built in as an asset.
-            // Use setModelFileName() if you have downloaded a custom team model to the Robot Controller.
+                .setModelAssetName("detect_quant")         // .setModelFileName(TFOD_MODEL_ASSET) //if you have downloaded a custom team model to the Robot Controller.
             //.setModelAssetName(TFOD_MODEL_ASSET)
             //.setModelFileName(TFOD_MODEL_FILE)
 
