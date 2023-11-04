@@ -9,9 +9,11 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.Commands.Arm;
 import org.firstinspires.ftc.teamcode.Commands.CommandGroup;
 import org.firstinspires.ftc.teamcode.Commands.Drive;
+import org.firstinspires.ftc.teamcode.Commands.IntakeServo;
 import org.firstinspires.ftc.teamcode.Commands.ParallelCommandGroup;
 import org.firstinspires.ftc.teamcode.Commands.Scheduler;
 import org.firstinspires.ftc.teamcode.Commands.Turn;
+import org.firstinspires.ftc.teamcode.Commands.Wait;
 
 @com.qualcomm.robotcore.eventloop.opmode.Autonomous
 
@@ -31,11 +33,14 @@ public class Autonomous extends LinearOpMode {
 
         waitForStart();
         scheduler.add(new CommandGroup(scheduler,
-      /*          new Drive(hardwareMap,0.75, 1),*/
-               new Turn(hardwareMap, -90),
-               new Arm(hardwareMap, 200),
-               new Drive(hardwareMap, -1, 2),
-               new Turn(hardwareMap, -90)
+                new IntakeServo(hardwareMap)
+                /*new Drive(hardwareMap,0.75, 0.75),
+                new Turn(hardwareMap, 45),
+                new Wait(1000),
+                new Drive(hardwareMap, 0.5, 0.2),
+                new Arm(hardwareMap, 200),
+        new Drive(hardwareMap, -1, 2),
+                new Turn(hardwareMap, -90)*/
         ));
         while (opModeIsActive())
         {
@@ -45,6 +50,7 @@ public class Autonomous extends LinearOpMode {
             PID.setMinInput(-180);
             PID.setContinuous(true);
 
+            telemetry.addData("Current Command", scheduler.getActive());
             telemetry.addData("IMU", imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES));
             telemetry.addData("PID result", PID.getResult());
             telemetry.update();

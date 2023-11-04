@@ -69,20 +69,15 @@ public class Drive extends Command {
         PID.setMaxOutput(1);
         imu.resetYaw();
         Right_Front.setTargetPosition((int) targetPos);
-        Right_Front.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        //Right_Front.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         Left_Front.setTargetPosition((int) targetPos);
-        Left_Front.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        //Left_Front.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         Right_Back.setTargetPosition((int) targetPos);
-        Right_Back.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        //Right_Back.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         Left_Back.setTargetPosition((int) targetPos);
-        Left_Back.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        //Left_Back.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
-    public void execute() {
-    double[] speeds = drive(lvector, turn);
-        Right_Front.setPower(speeds[0]);
-        Left_Front.setPower(speeds[1]);
-        Right_Back.setPower(speeds[2]);
-        Left_Back.setPower(speeds[3]);
+
         /*
         if (currentPos >= -5 && currentPos <= 5){
             Right_Front.setPower(-speed);
@@ -101,7 +96,7 @@ public class Drive extends Command {
     }
 
     public boolean isFinished() {
-        if (avgEncoder == targetPos) {
+        if (avgEncoder >= targetPos) {
           return true;
         }
         return false;
