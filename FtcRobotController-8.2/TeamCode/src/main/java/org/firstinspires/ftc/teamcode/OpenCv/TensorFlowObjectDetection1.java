@@ -1,31 +1,4 @@
-/* Copyright (c) 2019 FIRST. All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without modification,
- * are permitted (subject to the limitations in the disclaimer below) provided that
- * the following conditions are met:
- *
- * Redistributions of source code must retain the above copyright notice, this list
- * of conditions and the following disclaimer.
- *
- * Redistributions in binary form must reproduce the above copyright notice, this
- * list of conditions and the following disclaimer in the documentation and/or
- * other materials provided with the distribution.
- *
- * Neither the name of FIRST nor the names of its contributors may be used to endorse or
- * promote products derived from this software without specific prior written permission.
- *
- * NO EXPRESS OR IMPLIED LICENSES TO ANY PARTY'S PATENT RIGHTS ARE GRANTED BY THIS
- * LICENSE. THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
- * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
- * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE
- * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
- * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
- * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
- * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
- * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
- * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- */
+
 
 package org.firstinspires.ftc.teamcode.OpenCv;
 
@@ -62,9 +35,10 @@ public class TensorFlowObjectDetection1 extends LinearOpMode {
      * The variable to store our instance of the vision portal.
      */
     private VisionPortal visionPortal;
-    private static final String TFOD_MODEL_ASSET = "Centerstage.tflite";
+    private static final String TFOD_MODEL_ASSET = "model_20231104_112255.tflite";
     private static final String[] LABELS = {
-            "Pixel"
+            "Cube",
+            "cube"
     };
 
 
@@ -89,11 +63,11 @@ public class TensorFlowObjectDetection1 extends LinearOpMode {
                 telemetry.update();
 
                 // Save CPU resources; can resume streaming when needed.
-              //  if (gamepad1.dpad_down) {
-               //     visionPortal.stopStreaming();
-               // } else if (gamepad1.dpad_up) {
-              //      visionPortal.resumeStreaming();
-              //  }
+                if (gamepad1.dpad_down) {
+                    visionPortal.stopStreaming();
+                } else if (gamepad1.dpad_up) {
+                    visionPortal.resumeStreaming();
+               }
 
                 // Share the CPU.
                 sleep(20);
@@ -118,10 +92,10 @@ public class TensorFlowObjectDetection1 extends LinearOpMode {
             //.setModelAssetName(TFOD_MODEL_ASSET)
             //.setModelFileName(TFOD_MODEL_FILE)
                 .setModelLabels(LABELS)
-            //.setModelLabels(LABELS)
+            .setModelLabels(LABELS)
             //.setIsModelTensorFlow2(true)
-            //.setIsModelQuantized(true)
-            //.setModelInputSize(300)
+            .setIsModelQuantized(true)
+            .setModelInputSize(360)
             //.setModelAspectRatio(16.0 / 9.0)
 
             .build();
