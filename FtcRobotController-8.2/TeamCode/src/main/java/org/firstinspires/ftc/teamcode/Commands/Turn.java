@@ -7,19 +7,16 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
-import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
-import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
-import org.firstinspires.ftc.teamcode.PID1;
+import org.firstinspires.ftc.teamcode.PID;
 
-public class Turn extends Command{
-    PID1 PID = new PID1(0.001, 0.0, 0.0001);
+    public class Turn extends Command{
+    PID PID = new PID(0.06, 0.0, 0.0);
     public DcMotor Left_Back;
     public DcMotor Right_Back;
     public DcMotor Left_Front;
     public DcMotor Right_Front;
     public double targetAngle;
+    public double newPos;
     public IMU imu;
     public NavxMicroNavigationSensor navX;
     public double currentPos;
@@ -42,21 +39,25 @@ public class Turn extends Command{
         PID.setMaxInput(180);
         PID.setMinInput(-180);
         PID.setContinuous(true);
-        PID.setMinOutput(-1);
-        PID.setMaxOutput(1);
+        PID.setMinOutput(-0.25);
+        PID.setMaxOutput(0.25);
         imu.resetYaw();
  }
     public void execute() {
         /*currentPos = navX.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);*/
         currentPos = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
+//        if (currentPos < 0){
+//            double translatedPos = currentPos + 180;
+//            this.newPos = translatedPos;
+//        }
         double power = PID.updatePID(imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES));
         this.PIDOutput = power;
-        System.out.println(power);
+        System.out.println(power + "  " + PID.getError());
 
-        Right_Front.setPower(-power);
-        Left_Front.setPower(-power);
-        Left_Back.setPower(-power);
-        Right_Back.setPower(power);
+        Right_Front.setPower(power);
+        Left_Front.setPower(power);
+        Left_Back.setPower(power);
+        Right_Back.setPower(-power);
     }
 
         public void end() {
@@ -67,8 +68,10 @@ public class Turn extends Command{
     }
 
     public boolean isFinished() {
-        if (PID.getResult() < 0.01 && Math.abs(currentPos - targetAngle) < 6) {
-            return true;
+        if (!(PID.getError() == 0)) {
+            if ((Math.abs(PID.getError())) < 1) {
+                return true;
+            }
         }
         return false;
     }

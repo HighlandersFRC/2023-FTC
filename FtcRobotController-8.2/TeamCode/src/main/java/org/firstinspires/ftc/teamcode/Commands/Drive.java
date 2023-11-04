@@ -6,14 +6,11 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
-import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
-import org.firstinspires.ftc.teamcode.PID1;
+import org.firstinspires.ftc.teamcode.PID;
 
 public class Drive extends Command {
-    PID1 PID = new PID1(0.07, 0.0, 0.2);
-    PID1 DrivePID = new PID1(0.03, 0.0, 0.0);
+    org.firstinspires.ftc.teamcode.PID PID = new PID(0.07, 0.0, 0.2);
+    org.firstinspires.ftc.teamcode.PID DrivePID = new PID(0.03, 0.0, 0.0);
 
     public DcMotor Left_Back;
     public DcMotor Right_Back;
@@ -60,20 +57,20 @@ public class Drive extends Command {
         PID.setMaxOutput(1);
         imu.resetYaw();
         Right_Front.setTargetPosition((int) targetPos);
-        //Right_Front.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        Right_Front.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         Left_Front.setTargetPosition((int) targetPos);
-        //Left_Front.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        Left_Front.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         Right_Back.setTargetPosition((int) targetPos);
-        //Right_Back.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        Right_Back.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         Left_Back.setTargetPosition((int) targetPos);
-        //Left_Back.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        Left_Back.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
     public void execute() {
         backRight = Math.abs(Right_Back.getCurrentPosition());
         backLeft = Math.abs(Left_Back.getCurrentPosition());
         frontLeft = Math.abs(Left_Front.getCurrentPosition());
         frontRight = Math.abs(Right_Front.getCurrentPosition());
-        avgEncoder = (backRight + backLeft + frontLeft + frontRight) / 4;
+        avgEncoder = (backRight + frontLeft + frontRight) / 3;
         DrivePID.updatePID(avgEncoder);
         currentPos = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
         double deviation = PID.updatePID(imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES));

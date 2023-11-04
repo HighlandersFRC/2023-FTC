@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
-public class PID1 {
+public class PID {
     private double error;
     private double totalError;
     private double prevError;
@@ -20,7 +20,7 @@ public class PID1 {
     private double output;
     private double result;
 
-    public PID1(double kp, double ki, double kd){
+    public PID(double kp, double ki, double kd){
         PValue = kp;
         IValue = ki;
         DValue = kd;
@@ -94,7 +94,7 @@ public class PID1 {
         return input;
     }
     public double getError(){
-        return error;
+        return prevError;
     }
 
 }

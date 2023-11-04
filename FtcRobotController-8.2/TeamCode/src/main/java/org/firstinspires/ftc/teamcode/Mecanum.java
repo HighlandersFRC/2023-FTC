@@ -1,17 +1,11 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DistanceSensor;
-import com.qualcomm.robotcore.hardware.HardwareDevice;
-import com.qualcomm.robotcore.hardware.IMU;
-import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
-
-import org.firstinspires.ftc.teamcode.PID1;
 
 @TeleOp
 //23477
@@ -30,7 +24,8 @@ public class Mecanum extends LinearOpMode {
     private Servo armServo;
 
     // private OpticalDistanceSensor distance_Sensor;
-    PID1 PID = new PID1(0.1, 0, 0);
+    org.firstinspires.ftc.teamcode.PID PID = new PID(1, 0, 0);
+    org.firstinspires.ftc.teamcode.PID PID2 = new PID(1, 0.0, 0.0);
 
     @Override
     public void runOpMode() {
@@ -53,27 +48,39 @@ public class Mecanum extends LinearOpMode {
         waitForStart();
         long timeElapsed = 0;
 
-
+//arm 1 is positive 600 max extension
+        //arm 2 is -510 max extension
         if (isStopRequested()) return;
 
         while (opModeIsActive()) {
+            Right_Front.setDirection(DcMotorSimple.Direction.REVERSE);
+            Right_Back.setDirection(DcMotorSimple.Direction.REVERSE);
+
             timeElapsed = System.currentTimeMillis();
             if (timeElapsed >= 1) {
 
             }
             double leftTrigger = gamepad1.left_trigger;
             double rightTrigger = gamepad1.right_trigger;
+            double lstick2 = gamepad2.left_stick_y;
             LServo.scaleRange(-180, 180);
             RServo.scaleRange(-180, 180);
             armServo.scaleRange(-180, 180);
-            double intakePower = (rightTrigger - leftTrigger) * 0.75;
+            double intakePower = (rightTrigger - leftTrigger);
 
             PID.setMaxOutput(1);
             PID.setMinOutput(-1);
             PID.setPID(0.003, 0, 0.001);
+            PID2.setMaxOutput(1);
+            PID2.setMinOutput(-1);
+            PID2.setPID(0.003, 0, 0.001);
             PID.updatePID(Arm1.getCurrentPosition());
-            Arm1.setPower(PID.getResult() - 0.001);
-            Arm2.setPower(PID.getResult() - 0.001);
+            PID2.updatePID(Arm2.getCurrentPosition());
+        /*    Arm1.setPower(PID.getResult() - 0.001);
+            Arm2.setPower(PID.getResult() - 0.001);*/
+            Arm2.setDirection(DcMotorSimple.Direction.REVERSE);
+            /*Arm1.setPower(-lstick2);
+            Arm2.setPower(lstick2);*/
 
             if (!(rightTrigger == 0)) {
                 intakeServo.setPower(1);
@@ -103,18 +110,27 @@ public class Mecanum extends LinearOpMode {
                 LServo.setPosition(1);
                 RServo.setPosition(-1);
             }
-            if (gamepad2.a) {
-                /*PID.setSetPoint(-350);*/
-                Arm_Motor.setPower(0.5);
+            if (gamepad1.a) {
+                Arm2.setPower(1);
+                Arm1.setPower(1);
+
+                /*PID.setSetPoint(600);
+                PID2.setSetPoint(600);*/
+/*
+ Arm_Motor.setPower(0.5);*/
                 /*armServo.setPosition(90);*/
             } else {
-                if (gamepad2.b) {
-                    /*PID.setSetPoint(250);*/
-                    Arm_Motor.setPower(-0.5);
+                if (gamepad1.b) {
+/*                    PID.setSetPoint(-500);
+                    PID2.setSetPoint(271);*/
+                    Arm2.setPower(-1);
+                    Arm1.setPower(-1);
+                    /*Arm_Motor.setPower(-0.5);*/
                 } else {
                     Arm_Motor.setPower(0);
                 }
             }
+
 
 
 
@@ -148,10 +164,10 @@ public class Mecanum extends LinearOpMode {
             double frontRightPower = (y - x - rx) / denominator;
             double backRightPower = (y + x - rx) / denominator;
 
-            Left_Front.setPower(-frontLeftPower);
-            Left_Back.setPower(-backLeftPower);
+            Left_Front.setPower(frontLeftPower);
+            Left_Back.setPower(backLeftPower);
             Right_Front.setPower(frontRightPower);
-            Right_Back.setPower(-backRightPower);
+            Right_Back.setPower(backRightPower);
 
             telemetry.addLine("Motor Positions");
             telemetry.addData("Front-Left Position", Left_Front.getCurrentPosition());
