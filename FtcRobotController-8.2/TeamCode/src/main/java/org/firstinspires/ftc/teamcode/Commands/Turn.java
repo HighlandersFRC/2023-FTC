@@ -16,7 +16,6 @@ import org.firstinspires.ftc.teamcode.PID;
     public DcMotor Left_Front;
     public DcMotor Right_Front;
     public double targetAngle;
-    public double newPos;
     public IMU imu;
     public NavxMicroNavigationSensor navX;
     public double currentPos;
@@ -46,10 +45,7 @@ import org.firstinspires.ftc.teamcode.PID;
     public void execute() {
         /*currentPos = navX.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);*/
         currentPos = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
-//        if (currentPos < 0){
-//            double translatedPos = currentPos + 180;
-//            this.newPos = translatedPos;
-//        }
+
         double power = PID.updatePID(imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES));
         this.PIDOutput = power;
         System.out.println(power + "  " + PID.getError());

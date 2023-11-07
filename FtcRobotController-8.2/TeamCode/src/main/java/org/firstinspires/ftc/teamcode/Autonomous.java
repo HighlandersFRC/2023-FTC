@@ -20,7 +20,7 @@ public class Autonomous extends LinearOpMode {
 
     Scheduler scheduler = new Scheduler();
     DcMotor Arm1;
-    org.firstinspires.ftc.teamcode.PID PID = new PID(0.03, 0.0, 0.0);
+    PID PID = new PID(0.03, 0.0, 0.0);
 
     @Override
     public void runOpMode() {

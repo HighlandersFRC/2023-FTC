@@ -10,6 +10,7 @@ public class Intake extends Command {
     public double speed;
     public long endTime;
 
+
     public Intake(HardwareMap hardwareMap, long Time, double Speed) {
         Intake = hardwareMap.dcMotor.get("Right_Intake");
         this.speed = Speed;
@@ -20,7 +21,6 @@ public class Intake extends Command {
         Intake.setPower(-speed);
         endTime = System.currentTimeMillis() + time;
     }
-
     public void execute() {
 
     }
