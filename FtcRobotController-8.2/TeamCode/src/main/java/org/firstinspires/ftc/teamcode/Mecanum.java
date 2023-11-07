@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
@@ -26,6 +27,7 @@ public class Mecanum extends LinearOpMode {
     // private OpticalDistanceSensor distance_Sensor;
     org.firstinspires.ftc.teamcode.PID PID = new PID(1, 0, 0);
     org.firstinspires.ftc.teamcode.PID PID2 = new PID(1, 0.0, 0.0);
+    PID ArmPID = new PID(0.5, 0.0, 0.025);
 
     @Override
     public void runOpMode() {
@@ -37,13 +39,12 @@ public class Mecanum extends LinearOpMode {
         Right_Back = hardwareMap.dcMotor.get("Right_Back");
         Arm_Motor = hardwareMap.dcMotor.get("Arm_Motor");
         Right_Intake = hardwareMap.dcMotor.get("Right_Intake");
-        LServo = hardwareMap.servo.get("LServo");
         RServo = hardwareMap.servo.get("RServo");
         Arm1 = hardwareMap.dcMotor.get("Arm1");
         Arm2 = hardwareMap.dcMotor.get("Arm2");
+        LServo = hardwareMap.servo.get("LServo");
         intakeServo = hardwareMap.crservo.get("intakeServo");
         armServo = hardwareMap.servo.get("armServo");
-
 
         waitForStart();
         long timeElapsed = 0;
@@ -76,8 +77,12 @@ public class Mecanum extends LinearOpMode {
             PID2.setPID(0.003, 0, 0.001);
             PID.updatePID(Arm1.getCurrentPosition());
             PID2.updatePID(Arm2.getCurrentPosition());
+            ArmPID.setMaxOutput(1);
+            ArmPID.setMinOutput(-1);
+            ArmPID.updatePID(Arm_Motor.getCurrentPosition());
         /*    Arm1.setPower(PID.getResult() - 0.001);
             Arm2.setPower(PID.getResult() - 0.001);*/
+            Arm_Motor.setPower(ArmPID.getResult());
             Arm2.setDirection(DcMotorSimple.Direction.REVERSE);
             /*Arm1.setPower(-lstick2);
             Arm2.setPower(lstick2);*/
@@ -101,7 +106,14 @@ public class Mecanum extends LinearOpMode {
                     intakeServo.setPower(0);
                 }
             }
+
 */
+            if (gamepad1.x){
+                ArmPID.setSetPoint(0);
+            }
+            if (gamepad1.y){
+                ArmPID.setSetPoint(-90);
+            }
             if (gamepad1.dpad_up) {
                 LServo.setPosition(-120);
                 RServo.setPosition(120);
@@ -123,11 +135,10 @@ public class Mecanum extends LinearOpMode {
                 if (gamepad1.b) {
 /*                    PID.setSetPoint(-500);
                     PID2.setSetPoint(271);*/
-                    Arm2.setPower(-1);
-                    Arm1.setPower(-1);
+
                     /*Arm_Motor.setPower(-0.5);*/
                 } else {
-                    Arm_Motor.setPower(0);
+
                 }
             }
 
@@ -177,6 +188,7 @@ public class Mecanum extends LinearOpMode {
             telemetry.addData("Arm One Encoder", Arm1.getCurrentPosition());
             telemetry.addData("Arm Two Encoder", Arm2.getCurrentPosition());
             telemetry.addData("Intake Pos", LServo.getPosition());
+            telemetry.addData("ArmRotateAbsEncoder", Arm_Motor.getCurrentPosition());
 
             telemetry.addLine("");
             telemetry.addLine("Controller Inputs");
