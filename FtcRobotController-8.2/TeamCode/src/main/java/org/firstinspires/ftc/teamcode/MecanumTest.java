@@ -1,9 +1,12 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.IMU;
+
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
 @TeleOp
 public class MecanumTest extends LinearOpMode {
@@ -23,7 +26,14 @@ public class MecanumTest extends LinearOpMode {
         Right_Front = hardwareMap.dcMotor.get("Right_Front");
         Left_Back = hardwareMap.dcMotor.get("Left_Back");
         Right_Back = hardwareMap.dcMotor.get("Right_Back");
+
         imu = hardwareMap.get(IMU.class, "imu");
+
+        //imu parameters
+        IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
+                RevHubOrientationOnRobot.LogoFacingDirection.UP,
+                RevHubOrientationOnRobot.UsbFacingDirection.FORWARD)
+        );
 
         while (opModeIsActive()) {
 
@@ -31,6 +41,11 @@ public class MecanumTest extends LinearOpMode {
             double leftStickX = gamepad1.left_stick_x;
             double leftStickY = -gamepad1.left_stick_y;
             double rightStickX = gamepad1.right_stick_x;
+
+            //getting bot orientation
+            double BotYaw = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
+            double BotPitch = imu.getRobotYawPitchRollAngles().getPitch(AngleUnit.DEGREES);
+            double BotRoll = imu.getRobotYawPitchRollAngles().getRoll(AngleUnit.DEGREES);
 
             //preventing random drifting
             if (Math.abs(leftStickX) < 0.0001){
@@ -73,6 +88,10 @@ public class MecanumTest extends LinearOpMode {
             telemetry.addData("Left Stick X", x);
             telemetry.addData("Left Stick Y", y);
             telemetry.addData("Right Stick X", rx);
+
+            telemetry.addData("IMU Pitch", BotPitch);
+            telemetry.addData("IMU Roll", BotRoll);
+            telemetry.addData("IMU Yaw", BotYaw);
 
             telemetry.update();
         }
