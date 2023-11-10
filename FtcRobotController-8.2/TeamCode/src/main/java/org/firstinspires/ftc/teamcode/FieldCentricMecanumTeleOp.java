@@ -20,21 +20,6 @@ import org.firstinspires.ftc.vision.tfod.TfodProcessor;
 
 @TeleOp
 public class FieldCentricMecanumTeleOp extends LinearOpMode {
-    private static final boolean USE_WEBCAM = true;  // true for webcam, false for phone camera
-
-    /**
-     * The variable to store our instance of the TensorFlow Object Detection processor.
-     */
-    private TfodProcessor tfod;
-
-    /**
-     * The variable to store our instance of the vision portal.
-     */
-    private VisionPortal visionPortal;
-    private static final String TFOD_MODEL_ASSET = "Centerstage.tflite";
-    private static final String[] LABELS = {
-            "Pixel"
-    };
 
     @Override
     public void runOpMode() throws InterruptedException {
