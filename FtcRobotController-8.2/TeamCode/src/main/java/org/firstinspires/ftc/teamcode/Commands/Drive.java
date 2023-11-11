@@ -12,9 +12,10 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.teamcode.PID1;
 import org.firstinspires.ftc.teamcode.Tools.Vector;
 
-public class Drive extends Command {
+public abstract class Drive extends Command {
     PID1 PID = new PID1(0.07, 0.0, 0.2);
     PID1 DrivePID = new PID1(0.03, 0.0, 0.0);
+
 
     public DcMotor Left_Back;
     public DcMotor Right_Back;
@@ -86,7 +87,7 @@ public class Drive extends Command {
             Right_Back.setPower(-speed);
         }*/
 
-    }
+
 
     public void end() {
         Left_Front.setPower(0);

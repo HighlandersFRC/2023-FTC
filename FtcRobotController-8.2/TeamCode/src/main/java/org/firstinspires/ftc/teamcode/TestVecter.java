@@ -54,7 +54,12 @@ public class TestVecter extends LinearOpMode {
             Vector l = new Vector(lx, ly);
             double botHeading = -imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
             double botHeadingRadian = -imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
-            Drive drive = new Drive(l, rx);
+            Drive drive = new Drive(l, rx) {
+                @Override
+                public void execute() {
+
+                }
+            };
             drive.execute();
 
         }

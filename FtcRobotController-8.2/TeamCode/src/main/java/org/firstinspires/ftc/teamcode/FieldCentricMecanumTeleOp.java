@@ -37,9 +37,9 @@ public class FieldCentricMecanumTeleOp extends LinearOpMode {
         DcMotor Arm2 = hardwareMap.dcMotor.get("Arm2");
         CRServo intakeServo = hardwareMap.crservo.get("intakeServo");
 
-
         Right_Front.setDirection(DcMotorSimple.Direction.REVERSE);
         Right_Back.setDirection(DcMotorSimple.Direction.REVERSE);
+
 
 
         // Retrieve the IMU from the hardware map
@@ -64,7 +64,7 @@ public class FieldCentricMecanumTeleOp extends LinearOpMode {
 
 
         waitForStart();
-        
+
         long timeElapsed = 0;
 
         if (isStopRequested()) return;
