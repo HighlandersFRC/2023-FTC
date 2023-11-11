@@ -1,3 +1,4 @@
+/*
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
@@ -8,7 +9,7 @@ import com.qualcomm.robotcore.hardware.IMU;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.Commands.Arm;
 import org.firstinspires.ftc.teamcode.Commands.CommandGroup;
-import org.firstinspires.ftc.teamcode.Commands.Drive;
+
 import org.firstinspires.ftc.teamcode.Commands.IntakeServo;
 import org.firstinspires.ftc.teamcode.Commands.ParallelCommandGroup;
 import org.firstinspires.ftc.teamcode.Commands.Scheduler;
@@ -34,13 +35,15 @@ public class Autonomous extends LinearOpMode {
         waitForStart();
         scheduler.add(new CommandGroup(scheduler,
                 new IntakeServo(hardwareMap)
-                /*new Drive(hardwareMap,0.75, 0.75),
+                */
+/*new Drive(hardwareMap,0.75, 0.75),
                 new Turn(hardwareMap, 45),
                 new Wait(1000),
                 new Drive(hardwareMap, 0.5, 0.2),
                 new Arm(hardwareMap, 200),
         new Drive(hardwareMap, -1, 2),
-                new Turn(hardwareMap, -90)*/
+                new Turn(hardwareMap, -90)*//*
+
         ));
         while (opModeIsActive())
         {
@@ -57,4 +60,4 @@ public class Autonomous extends LinearOpMode {
             scheduler.update();
         }
     }
-}
+}*/

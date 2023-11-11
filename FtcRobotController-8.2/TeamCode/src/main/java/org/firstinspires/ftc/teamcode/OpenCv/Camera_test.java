@@ -33,7 +33,6 @@ import org.openftc.apriltag.AprilTagDetection;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
-import org.openftc.easyopencv.OpenCvInternalCamera;
 
 import java.util.ArrayList;
 
@@ -63,7 +62,7 @@ public class Camera_test extends LinearOpMode
     int Right = 2;
 
 
-    AprilTagDetection tagOfInterest;
+    AprilTagDetection tagOfInterest = null;
 
 
     public void runOpMode()

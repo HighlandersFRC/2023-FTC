@@ -12,8 +12,30 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.hardware.kauailabs.NavxMicroNavigationSensor;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
+import org.firstinspires.ftc.teamcode.Commands.Arm;
+import org.firstinspires.ftc.vision.VisionPortal;
+import org.firstinspires.ftc.vision.tfod.TfodProcessor;
+
+
+
 @TeleOp
 public class FieldCentricMecanumTeleOp extends LinearOpMode {
+    private static final boolean USE_WEBCAM = true;  // true for webcam, false for phone camera
+
+    /**
+     * The variable to store our instance of the TensorFlow Object Detection processor.
+     */
+    private TfodProcessor tfod;
+
+    /**
+     * The variable to store our instance of the vision portal.
+     */
+    private VisionPortal visionPortal;
+    private static final String TFOD_MODEL_ASSET = "Centerstage.tflite";
+    private static final String[] LABELS = {
+            "Pixel"
+    };
+
     @Override
     public void runOpMode() throws InterruptedException {
         PID1 PID = new PID1();
@@ -23,7 +45,6 @@ public class FieldCentricMecanumTeleOp extends LinearOpMode {
         DcMotor Right_Front = hardwareMap.dcMotor.get("Right_Front");
         DcMotor Right_Back = hardwareMap.dcMotor.get("Right_Back");
         //I2cDevice navx = hardwareMap.i2cDevice.get("NavX");
-        DcMotor Left_Intake = hardwareMap.dcMotor.get("Left_Intake");
         DcMotor Right_Intake = hardwareMap.dcMotor.get("Right_Intake");
         Servo LServo = hardwareMap.servo.get("LServo");
         Servo RServo = hardwareMap.servo.get("RServo");
@@ -44,6 +65,18 @@ public class FieldCentricMecanumTeleOp extends LinearOpMode {
                 RevHubOrientationOnRobot.UsbFacingDirection.UP));
         // Without this, the REV Hub's orientation is assumed to be logo up / USB forward
         imu.initialize(parameters);
+        // Find a motor in the hardware map named "Arm Motor"
+
+        // Reset the motor encoder so that it reads zero ticks
+        Right_Intake.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        Arm1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        Arm2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        // Turn the motor back on, required if you use STOP_AND_RESET_ENCODER
+        Right_Intake.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        Arm1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        Arm2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
 
         waitForStart();
         
@@ -52,9 +85,28 @@ public class FieldCentricMecanumTeleOp extends LinearOpMode {
         if (isStopRequested()) return;
 
         while (opModeIsActive()) {
+            double CPR = 288;
             double y = -gamepad1.left_stick_y;
             double x = gamepad1.left_stick_x;
             double rx = gamepad1.right_stick_x;
+            // Get the current position of the motor
+            int position_Right_Intake = Right_Intake.getCurrentPosition();
+            int position_Arm1 = Arm1.getCurrentPosition();
+            int position_Arm2 = Arm2.getCurrentPosition();
+            double revolutions_Right_Intake = position_Right_Intake/CPR;
+            double revolutions_Arm1 = position_Arm1/CPR;
+            double revolutions_Arm2 = position_Arm2/CPR;
+            double angle_Right_Intake = revolutions_Right_Intake * 360;
+            double angle_Arm1 = revolutions_Arm1 * 360;
+            double angle_Arm2= revolutions_Arm2 * 360;
+            double angleNormalized_Right_Intake = angle_Right_Intake % 360;
+            double angleNormalized_Arm1 = angle_Arm1 % 360;
+            double angleNormalized_Arm2 = angle_Arm2 % 360;
+
+
+
+
+
 
             timeElapsed  = System.currentTimeMillis();
             if (timeElapsed >= 1){
@@ -80,19 +132,19 @@ public class FieldCentricMecanumTeleOp extends LinearOpMode {
                 intakeServo.setPower(-1);
             }
             /*
-            if (gamepad1.dpad_left){
-                intakeServo.setPower(-1);
-            }
-            else {
-                if (gamepad1.dpad_right){
-                    intakeServo.setPower(1);
-                }
-                else
-                {
-                    intakeServo.setPower(0);
-                }
-            }
-      */
+             if (gamepad1.dpad_left){
+                 intakeServo.setPower(-1);
+             }
+             else {
+                 if (gamepad1.dpad_right){
+                     intakeServo.setPower(1);
+                 }
+                 else
+                 {
+                     intakeServo.setPower(0);
+                 }
+             }
+            */
             if (gamepad1.dpad_up){
                 LServo.setPosition(-120);
                 RServo.setPosition(120);
@@ -139,6 +191,8 @@ public class FieldCentricMecanumTeleOp extends LinearOpMode {
                 double frontRightPower = (rotY - rotX - rx) / denominator;
                 double backRightPower = (rotY + rotX - rx) / denominator;
 
+
+
                 Left_Front.setPower(-frontLeftPower);
                 Left_Back.setPower(-backLeftPower);
                 Right_Front.setPower(-frontRightPower);
@@ -159,7 +213,22 @@ public class FieldCentricMecanumTeleOp extends LinearOpMode {
                 telemetry.addData("frontRightPower", frontRightPower);
                 telemetry.addData("backRightPower", backRightPower);
                 telemetry.addData("time", time);
+
+                telemetry.addData("Encoder Position Right Intake", position_Right_Intake);
+                telemetry.addData("Encoder Position Arm1", position_Arm1 );
+                telemetry.addData("Encoder Position Arm2", position_Arm2);
+                telemetry.addData("Encoder Revolutions Right Intake", revolutions_Right_Intake );
+                telemetry.addData("Encoder Revolutions Arm1", revolutions_Arm1 );
+                telemetry.addData("Encoder Revolutions Arm2", revolutions_Arm2);
+                telemetry.addData("Encoder Angle (Degrees) Right Intake", angle_Right_Intake );
+                telemetry.addData("Encoder Angle (Degrees) Arm1", angle_Arm1 );
+                telemetry.addData("Encoder Angle (Degrees) Arm2", angle_Arm2);
+                telemetry.addData("Encoder Angle Right Intake - Normalized (Degrees) ", angleNormalized_Right_Intake );
+                telemetry.addData("Encoder Angle Arm2- Normalized (Degrees)", angleNormalized_Arm1 );
+                telemetry.addData("Encoder Angle Arm2- Normalized (Degrees)", angleNormalized_Arm2);
+
                 telemetry.update();}
+
         }
     }
 }
