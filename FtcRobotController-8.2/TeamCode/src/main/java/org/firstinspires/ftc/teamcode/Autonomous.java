@@ -13,6 +13,7 @@ import org.firstinspires.ftc.teamcode.Commands.IntakeServo;
 import org.firstinspires.ftc.teamcode.Commands.ParallelCommandGroup;
 import org.firstinspires.ftc.teamcode.Commands.Scheduler;
 import org.firstinspires.ftc.teamcode.Commands.Turn;
+import org.firstinspires.ftc.teamcode.Commands.pixelIntake;
 
 @com.qualcomm.robotcore.eventloop.opmode.Autonomous
 
@@ -34,15 +35,11 @@ public class Autonomous extends LinearOpMode {
         waitForStart();
 
         scheduler.add(new CommandGroup(scheduler,
-                new Drive(hardwareMap, 1, 1.4),
-                new ParallelCommandGroup(scheduler, new Drive(hardwareMap,0.75, 1.4), new Intake(hardwareMap, 21, -0.5)),
-                new ParallelCommandGroup(scheduler, new Turn(hardwareMap, 45), new Intake(hardwareMap, 1000, -0.5)),
-                new ParallelCommandGroup(scheduler, new Drive(hardwareMap, 0.5, 0.2), new Intake(hardwareMap,2000, -0.5)),
-                new Drive(hardwareMap, 0.5, -1),
-/*                new Arm(hardwareMap, 200),*/
-                new Drive(hardwareMap, -1, 2),
-                new Turn(hardwareMap, 45),
-                new Drive(hardwareMap, 1, 3)
+                new IntakeServo(hardwareMap),
+                new Drive(hardwareMap, 0.5, 2.3),
+                new Turn(hardwareMap, 90),
+                new ParallelCommandGroup(scheduler, new pixelIntake(hardwareMap, 5, -1), new Intake(hardwareMap, 5, -1)),
+                new Drive(hardwareMap, 0.5, 2)
         ));
         while (opModeIsActive())
         {
