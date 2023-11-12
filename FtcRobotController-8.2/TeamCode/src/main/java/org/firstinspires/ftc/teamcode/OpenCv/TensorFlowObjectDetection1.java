@@ -29,9 +29,14 @@ public class TensorFlowObjectDetection1 extends LinearOpMode {
      * The variable to store our instance of the vision portal.
      */
     private VisionPortal visionPortal;
-    private static final String TFOD_MODEL_ASSET = "model_20231104_142520.tflite";
+    private static final String TFOD_MODEL_ASSET = "model_20231111_163542.tflite";
     private static final String[] LABELS = {
-            "BCUBE"
+            "BLUECUBE",
+            "REDCUBE",
+            "WHITEPIXEL",
+            "PURPLEPIXEL",
+            "GREENPIXEL",
+            "YELLOWPIXEL"
     };
 
 
