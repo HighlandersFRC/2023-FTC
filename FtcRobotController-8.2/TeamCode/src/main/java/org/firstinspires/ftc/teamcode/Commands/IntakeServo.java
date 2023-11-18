@@ -13,8 +13,7 @@ public class IntakeServo extends Command{
     }
 
     public void start(){
-
-        RServo.setPosition(-1);
+        LServo.setPosition(0);
     }
 
     public void execute(){

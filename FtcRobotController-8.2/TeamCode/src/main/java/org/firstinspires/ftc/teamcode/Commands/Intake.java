@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 public class Intake extends Command {
     public DcMotor Intake;
+
     public long time;
     public double speed;
     public long endTime;
@@ -13,6 +14,7 @@ public class Intake extends Command {
 
     public Intake(HardwareMap hardwareMap, long Time, double Speed) {
         Intake = hardwareMap.dcMotor.get("Right_Intake");
+
         this.speed = Speed;
         this.time = Time;
     }

@@ -6,11 +6,11 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.PID;
 
-public class Arm extends Command {
+public class Elevator extends Command {
     private DcMotor Arm1;
     double targetPosition;
     org.firstinspires.ftc.teamcode.PID PID = new PID(0.1, 0, 0);
-    public Arm(HardwareMap hardwareMap, double targetPosition){
+    public Elevator(HardwareMap hardwareMap, double targetPosition){
         Arm1 = hardwareMap.dcMotor.get("Arm1");
         this.targetPosition = targetPosition;
     }

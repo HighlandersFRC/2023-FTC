@@ -2,11 +2,14 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.AnalogInput;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
+
+import java.util.Base64;
 
 @TeleOp
 //23477
@@ -23,12 +26,18 @@ public class Mecanum extends LinearOpMode {
     private Servo RServo;
     private CRServo intakeServo;
     private CRServo intakeServo2;
-    private Servo armServo;
-    private CRServo WristServo;
+    private Servo WristServo;
+    private long startTime = System.currentTimeMillis();
+    private long endTime = startTime + 50;
+    public double avgEncoder;
+    public double backLeft;
+    public double backRight;
+    public double frontLeft;
+    public double frontRight;
 
     org.firstinspires.ftc.teamcode.PID PID = new PID(1, 0, 0);
     org.firstinspires.ftc.teamcode.PID PID2 = new PID(1, 0.0, 0.0);
-    PID ArmPID = new PID(0.03, 0.0, 0.0);
+    PID ArmPID = new PID(0.001, 0.0, 0.0);
 
     @Override
     public void runOpMode() {
@@ -39,34 +48,39 @@ public class Mecanum extends LinearOpMode {
         Right_Back = hardwareMap.dcMotor.get("Right_Back");
         Arm_Motor = hardwareMap.dcMotor.get("Arm_Motor");
         Right_Intake = hardwareMap.dcMotor.get("Right_Intake");
+        LServo = hardwareMap.servo.get("LServo");
         RServo = hardwareMap.servo.get("RServo");
         Arm1 = hardwareMap.dcMotor.get("Arm1");
         Arm2 = hardwareMap.dcMotor.get("Arm2");
         intakeServo = hardwareMap.crservo.get("intakeServo");
         intakeServo2 = hardwareMap.crservo.get("intakeServo2");
-        armServo = hardwareMap.servo.get("armServo");
-        WristServo = hardwareMap.crservo.get("WristServo");
+        WristServo = hardwareMap.servo.get("WristServo");
 
         waitForStart();
-        long timeElapsed = 0;
-
 //arm 1 is positive 600 max extension
         //arm 2 is -510 max extension
         if (isStopRequested()) return;
 
         while (opModeIsActive()) {
-            if (!gamepad1.x && !gamepad1.y){
-                 ArmPID.setSetPoint(Arm_Motor.getCurrentPosition());
+            backRight = Right_Back.getCurrentPosition();
+            backLeft = Left_Back.getCurrentPosition();
+            frontLeft = Left_Front.getCurrentPosition();
+            frontRight  = Right_Front.getCurrentPosition();
+            avgEncoder = (backRight + frontLeft + frontRight) / 3;
+            //arm2 is reversed
+            if (System.currentTimeMillis() <= endTime + 5 && !gamepad1.x && !gamepad1.y){
+                ArmPID.setSetPoint(Arm_Motor.getCurrentPosition());
             }
             Right_Front.setDirection(DcMotorSimple.Direction.REVERSE);
             Right_Back.setDirection(DcMotorSimple.Direction.REVERSE);
+            Left_Back.setDirection(DcMotorSimple.Direction.REVERSE);
 
             double leftTrigger = gamepad1.left_trigger;
             double rightTrigger = gamepad1.right_trigger;
             double lstick2 = gamepad2.left_stick_y;
             LServo.scaleRange(-180, 180);
             RServo.scaleRange(-180, 180);
-            armServo.scaleRange(-180, 180);
+            WristServo.scaleRange(-150, 150);
 
             double r2Trigger =  gamepad2.right_trigger;
             double l2Trigger =  gamepad2.left_trigger;
@@ -78,67 +92,57 @@ public class Mecanum extends LinearOpMode {
             PID2.setMaxOutput(1);
             PID2.setMinOutput(-1);
             PID2.setPID(0.003, 0, 0.001);
-            ArmPID.setMaxOutput(1);
-            ArmPID.setMinOutput(-1);
+            ArmPID.setMaxOutput(0.75);
+            ArmPID.setMinOutput(-0.75);
             ArmPID.updatePID(Arm_Motor.getCurrentPosition());
         /*    Arm1.setPower(PID.getResult() - 0.001);
             Arm2.setPower(PID.getResult() - 0.001);*/
-            Arm_Motor.setPower(ArmPID.getResult());
-            Arm2.setDirection(DcMotorSimple.Direction.REVERSE);
-            Arm_Motor.setDirection(DcMotorSimple.Direction.REVERSE);
+            Arm1.setPower(gamepad2.left_stick_y);
+            Arm2.setPower(-gamepad2.left_stick_y);
 
-            if (!(rightTrigger == 0)) {
-                intakeServo.setPower(1);
-            }else {
-                if (!(leftTrigger == 0)) {
-                    intakeServo.setPower(-1);
-                } else {
-                    intakeServo.setPower(0);
-                }
-            }
-            if (intakePower > 0){
-                intakeServo.setPower(1);
-                intakeServo2.setPower(-1);
-            }else{
-                if (intakePower < 0) {
-                    intakeServo.setPower(-1);
-                    intakeServo2.setPower(1);
-                }else {
-                    intakeServo.setPower(0);
-                    intakeServo2.setPower(0);
-                }
-            }
+            Arm_Motor.setPower(-ArmPID.getResult());
+            Arm2.setDirection(DcMotorSimple.Direction.REVERSE);
+
+            intakeServo.setPower(intakePower);
+            intakeServo2.setPower(-intakePower);
 
             if (gamepad1.x){
-                ArmPID.setSetPoint(2989);
-            }
+                ArmPID.setSetPoint(ArmConstants.armIntake);
+            } else
             if (gamepad1.y){
-                ArmPID.setSetPoint(387);
+                ArmPID.setSetPoint(ArmConstants.armPlace);
             }
+            if (gamepad2.a){
+                ArmPID.setSetPoint(800);
+            }
+            if (gamepad2.b){
+                ArmPID.setSetPoint(2000);
+            }
+
             if(gamepad1.a){
-                WristServo.setPower(1);
-            }else{
-                if(gamepad1.b){
-                    WristServo.setPower(-1);
-                }else {
-                    WristServo.setPower(0);
-                }
+                WristServo.setPosition(0.38);
+                WristServo.setDirection(Servo.Direction.REVERSE);
             }
+            else
+                if(gamepad1.b){
+                    WristServo.setPosition(0);
+                    WristServo.setDirection(Servo.Direction.REVERSE);
+                }
 
             if (gamepad1.dpad_up) {
-                LServo.setPosition(-120);
-                RServo.setPosition(120);
+                LServo.setPosition(-80);
+                RServo.setPosition(80);
             }
             if (gamepad1.dpad_down) {
-                LServo.setPosition(1);
-                RServo.setPosition(-1);
+                LServo.setPosition(-1);
+                RServo.setPosition(1);
             }
 
-            Right_Intake.setPower(-intakePower);
+            Right_Intake.setPower(intakePower);
 
-            double y = -gamepad1.left_stick_y;
-            double x = -gamepad1.left_stick_x * 1.1;
-            double rx = gamepad1.right_stick_x;
+            double y = gamepad1.left_stick_y;
+            double x = gamepad1.left_stick_x * 1.1;
+            double rx = -gamepad1.right_stick_x;
 
             if (Math.abs(gamepad1.left_stick_x) < 0.00001){
                 Left_Front.setPower(0);
@@ -158,10 +162,10 @@ public class Mecanum extends LinearOpMode {
             double frontRightPower = (y - x - rx) / denominator;
             double backRightPower = (y + x - rx) / denominator;
 
-            Left_Front.setPower(-frontLeftPower);
-            Left_Back.setPower(-backLeftPower);
+            Left_Front.setPower(frontLeftPower);
+            Left_Back.setPower(backLeftPower);
             Right_Front.setPower(frontRightPower);
-            Right_Back.setPower(-backRightPower);
+            Right_Back.setPower(backRightPower);
 
             telemetry.addLine("Motor Positions");
             telemetry.addData("Front-Left Position", Left_Front.getCurrentPosition());
@@ -170,8 +174,8 @@ public class Mecanum extends LinearOpMode {
             telemetry.addData("Back-Right Position", Right_Back.getCurrentPosition());
             telemetry.addData("Arm One Encoder", Arm1.getCurrentPosition());
             telemetry.addData("Arm Two Encoder", Arm2.getCurrentPosition());
-            telemetry.addData("Intake Pos", LServo.getPosition());
             telemetry.addData("ArmRotateAbsEncoder", Arm_Motor.getCurrentPosition());
+            telemetry.addData("Wrist Servo Position", WristServo.getPosition());
 
             telemetry.addLine("");
             telemetry.addLine("Controller Inputs");

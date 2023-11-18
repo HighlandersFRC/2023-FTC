@@ -5,33 +5,54 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.teamcode.ArmConstants;
+import org.firstinspires.ftc.teamcode.PID;
+
 public class pixelIntake extends Command {
     public CRServo armServo;
     public CRServo armServo2;
     public long time;
     public double speed;
     public long endTime;
+    public String LR;
+    public DcMotor Arm_Motor;
+    PID ArmPID = new PID(0.001, 0, 0);
 
 
-    public pixelIntake(HardwareMap hardwareMap, long Time, double Speed) {
-        armServo = hardwareMap.crservo.get("armServo");
-        armServo2 = hardwareMap.crservo.get("armServo2");
+
+    public pixelIntake(HardwareMap hardwareMap, long Time, double Speed, String LR) {
+        armServo = hardwareMap.crservo.get("intakeServo");
+        armServo2 = hardwareMap.crservo.get("intakeServo2");
         this.speed = Speed;
         this.time = Time;
+        this.LR = LR;
+        Arm_Motor = hardwareMap.dcMotor.get("Arm_Motor");
+        ArmPID.setSetPoint(ArmConstants.prevSetPoint);
     }
 
     public void start() {
-        armServo.setPower(speed);
-        armServo2.setPower(-speed);
+        if (LR == "L") {
+            armServo.setPower(speed);
+        }else
+            if(LR == "R"){
+                armServo2.setPower(-speed);
+        }else
+            if (LR == "LR"){
+                armServo.setPower(speed);
+                armServo2.setPower(-speed);
+            }
+
+
         endTime = System.currentTimeMillis() + time;
     }
     public void execute() {
-
+/*        ArmPID.updatePID(Arm_Motor.getCurrentPosition());
+        Arm_Motor.setPower(ArmPID.getResult());*/
     }
 
     public void end() {
-        armServo.setPower(speed);
-        armServo2.setPower(-speed);
+        armServo.setPower(0);
+        armServo2.setPower(0);
     }
 
     public boolean isFinished() {
