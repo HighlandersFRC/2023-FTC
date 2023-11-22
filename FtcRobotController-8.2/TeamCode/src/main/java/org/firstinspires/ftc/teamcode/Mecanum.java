@@ -53,7 +53,9 @@ public class Mecanum extends LinearOpMode {
         intakeServo2 = hardwareMap.crservo.get("intakeServo2");
         WristServo = hardwareMap.servo.get("WristServo");
         armEncoder = hardwareMap.analogInput.get("absEncoer");
+/*
         Arm_Motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+*/
 
         waitForStart();
 //arm 1 is positive 600 max extension
@@ -62,9 +64,11 @@ public class Mecanum extends LinearOpMode {
 
         while (opModeIsActive()) {
             //arm2 is reversed
+
             if (System.currentTimeMillis() <= endTime + 5 && !gamepad1.x && !gamepad1.y){
-                ArmPID.setSetPoint(Arm_Motor.getCurrentPosition());
+                ArmPID.setSetPoint(ArmConstants.armIntake);
             }
+
             Right_Front.setDirection(DcMotorSimple.Direction.REVERSE);
             Right_Back.setDirection(DcMotorSimple.Direction.REVERSE);
             Left_Back.setDirection(DcMotorSimple.Direction.REVERSE);

@@ -10,14 +10,14 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.Commands.CommandGroup;
 import org.firstinspires.ftc.teamcode.Commands.Drive;
 import org.firstinspires.ftc.teamcode.Commands.Intake;
-import org.firstinspires.ftc.teamcode.Commands.IntakeServo;
+import org.firstinspires.ftc.teamcode.Commands.DeployIntake;
+import org.firstinspires.ftc.teamcode.Commands.MoveWrist;
 import org.firstinspires.ftc.teamcode.Commands.ParallelCommandGroup;
 import org.firstinspires.ftc.teamcode.Commands.RotateArm;
 import org.firstinspires.ftc.teamcode.Commands.Scheduler;
 import org.firstinspires.ftc.teamcode.Commands.Turn;
 import org.firstinspires.ftc.teamcode.Commands.Wait;
-import org.firstinspires.ftc.teamcode.Commands.pixelIntake;
-import org.firstinspires.ftc.teamcode.Commands.wristDown;
+import org.firstinspires.ftc.teamcode.Commands.PixelTray;
 
 @com.qualcomm.robotcore.eventloop.opmode.Autonomous
 
@@ -46,19 +46,19 @@ public class BlueMiddle extends LinearOpMode {
         waitForStart();
 
         scheduler.add(new CommandGroup(scheduler,
-                new ParallelCommandGroup(scheduler, new Drive(hardwareMap, 0.2, 0.5), new CommandGroup(scheduler, new Wait(1000), new IntakeServo(hardwareMap))),
+                new ParallelCommandGroup(scheduler, new Drive(hardwareMap, 0.2, 0.55), new CommandGroup(scheduler, new Wait(1000), new DeployIntake(hardwareMap, "Deploy"))),
                 new Turn(hardwareMap, 180),
                 new Drive(hardwareMap, 0.1, -0.4),
 /*                new RotateArm(hardwareMap, ArmConstants.armIntake),*/
-                new wristDown(hardwareMap, 0.32),
+                new MoveWrist(hardwareMap, 0.32),
                 //new ArmRotaate(hardwareMap, -4532)
                 //new pixelIntake(hardwareMap, -1, "LR")
-                new ParallelCommandGroup(scheduler, new pixelIntake(hardwareMap, 3000, -1, "L"), new Intake(hardwareMap, 3000, -1)),
+                new ParallelCommandGroup(scheduler, new PixelTray(hardwareMap, 3000, -1, "L"), new Intake(hardwareMap, 3000, -1)),
                 new Turn(hardwareMap, -90),
                 new Drive(hardwareMap, 0.2, 0.5),
-                new wristDown(hardwareMap, 0),
+                new MoveWrist(hardwareMap, 0),
 /*                new RotateArm(hardwareMap, ArmConstants.armPlace),*/
-                new ParallelCommandGroup(scheduler, new pixelIntake(hardwareMap, 3000, -1, "R"), new RotateArm(hardwareMap, ArmConstants.armPlace))
+                new ParallelCommandGroup(scheduler, new PixelTray(hardwareMap, 3000, -1, "R"), new RotateArm(hardwareMap, ArmConstants.armPlace))
         ));
         while (opModeIsActive())
         {

@@ -3,11 +3,11 @@ package org.firstinspires.ftc.teamcode.Commands;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
-public class IntakeServoUp extends Command{
+public class RetractIntake extends Command{
     public Servo LServo;
     public Servo RServo;
     Boolean Done = false;
-    public IntakeServoUp(HardwareMap hardwareMap){
+    public RetractIntake(HardwareMap hardwareMap){
         LServo = hardwareMap.servo.get("LServo");
         RServo = hardwareMap.servo.get("RServo");
     }

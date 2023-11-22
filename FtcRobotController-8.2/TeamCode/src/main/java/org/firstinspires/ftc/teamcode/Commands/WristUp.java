@@ -3,16 +3,16 @@ package org.firstinspires.ftc.teamcode.Commands;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
-public class wristDisable extends Command{
+public class WristUp extends Command{
     public Servo WristServo;
 
-    public wristDisable(HardwareMap hardwareMap){
+    public WristUp(HardwareMap hardwareMap){
 
         WristServo = hardwareMap.servo.get("WristServo");
     }
     public void start() {
-        WristServo.setDirection(Servo.Direction.FORWARD);
-        WristServo.setPosition(1);
+        WristServo.setDirection(Servo.Direction.REVERSE);
+        WristServo.setPosition(0);
 
     }
 

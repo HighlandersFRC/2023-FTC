@@ -51,7 +51,6 @@ public class Drive extends Command {
         Right_Back.setDirection(DcMotorSimple.Direction.REVERSE);
         Left_Back.setDirection(DcMotorSimple.Direction.REVERSE);
         Arm_Motor = hardwareMap.dcMotor.get("Arm_Motor");
-        ArmPID.setSetPoint(ArmConstants.prevSetPoint);
     }
     public void start() {
 

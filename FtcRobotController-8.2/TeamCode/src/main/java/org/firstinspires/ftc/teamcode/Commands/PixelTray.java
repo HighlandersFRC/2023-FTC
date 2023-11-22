@@ -3,12 +3,11 @@ package org.firstinspires.ftc.teamcode.Commands;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.ArmConstants;
 import org.firstinspires.ftc.teamcode.PID;
 
-public class pixelIntake extends Command {
+public class PixelTray extends Command {
     public CRServo armServo;
     public CRServo armServo2;
     public long time;
@@ -20,7 +19,7 @@ public class pixelIntake extends Command {
 
 
 
-    public pixelIntake(HardwareMap hardwareMap, long Time, double Speed, String LR) {
+    public PixelTray(HardwareMap hardwareMap, long Time, double Speed, String LR) {
         armServo = hardwareMap.crservo.get("intakeServo");
         armServo2 = hardwareMap.crservo.get("intakeServo2");
         this.speed = Speed;

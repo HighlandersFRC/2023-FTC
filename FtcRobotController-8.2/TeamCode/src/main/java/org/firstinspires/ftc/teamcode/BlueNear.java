@@ -1,7 +1,5 @@
 package org.firstinspires.ftc.teamcode;
 
-import android.graphics.PixelFormat;
-
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -12,20 +10,20 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.Commands.CommandGroup;
 import org.firstinspires.ftc.teamcode.Commands.Drive;
 import org.firstinspires.ftc.teamcode.Commands.Intake;
-import org.firstinspires.ftc.teamcode.Commands.IntakeServo;
-import org.firstinspires.ftc.teamcode.Commands.IntakeServoUp;
+import org.firstinspires.ftc.teamcode.Commands.DeployIntake;
+import org.firstinspires.ftc.teamcode.Commands.RetractIntake;
 import org.firstinspires.ftc.teamcode.Commands.ParallelCommandGroup;
 import org.firstinspires.ftc.teamcode.Commands.RotateArm;
 import org.firstinspires.ftc.teamcode.Commands.Scheduler;
 import org.firstinspires.ftc.teamcode.Commands.Turn;
 import org.firstinspires.ftc.teamcode.Commands.Wait;
-import org.firstinspires.ftc.teamcode.Commands.pixelIntake;
-import org.firstinspires.ftc.teamcode.Commands.wristDisable;
-import org.firstinspires.ftc.teamcode.Commands.wristDown;
+import org.firstinspires.ftc.teamcode.Commands.MoveWrist;
+import org.firstinspires.ftc.teamcode.Commands.PixelTray;
+import org.firstinspires.ftc.teamcode.Commands.WristUp;
 
 @com.qualcomm.robotcore.eventloop.opmode.Autonomous
 
-public class BlueRight extends LinearOpMode {
+public class BlueNear extends LinearOpMode {
 
     Scheduler scheduler = new Scheduler();
     DcMotor Arm1;
@@ -51,18 +49,20 @@ public class BlueRight extends LinearOpMode {
         waitForStart();
 
         scheduler.add(new CommandGroup(scheduler,
-                new ParallelCommandGroup(scheduler, new Drive(hardwareMap, 0.2, 0.65), new CommandGroup(scheduler, new Wait(1000), new IntakeServo(hardwareMap))),
-                new wristDown(hardwareMap, 0.56),
+                new ParallelCommandGroup(scheduler, new Drive(hardwareMap, 0.2, 0.65), new CommandGroup(scheduler, new Wait(1000), new DeployIntake(hardwareMap, "Deploy"))),
+                new MoveWrist(hardwareMap, 0.75),
                 new Turn(hardwareMap, 90),
                 new Drive(hardwareMap, -0.1, 0.38),
-                new ParallelCommandGroup(scheduler, new Drive(hardwareMap, 0.5, -0.2), new pixelIntake(hardwareMap, 3000, -1, "L"), new Intake(hardwareMap, 2000, -1)),
-                new IntakeServoUp(hardwareMap),
+                new ParallelCommandGroup(scheduler, new Drive(hardwareMap, 0.3, -0.2), new PixelTray(hardwareMap, 3000, -1, "L"), new CommandGroup(scheduler, new Wait(1000), new Intake(hardwareMap, 2000, 0.3))),
+                new WristUp(hardwareMap),
+                new Wait(1000),
+                new RetractIntake(hardwareMap),
                 new Drive(hardwareMap, 0.2, 0.4),
-                new IntakeServo(hardwareMap),
+                /*moves the servos on the intake up*/new DeployIntake(hardwareMap, "Deploy"),
                 new Drive(hardwareMap, 0.2, 0.11),
                 new RotateArm(hardwareMap, ArmConstants.armPlace),
-                new Drive(hardwareMap, 0.1, 0.11),
-                new ParallelCommandGroup(scheduler, new pixelIntake(hardwareMap, 3000, -1, "R"), new RotateArm(hardwareMap, ArmConstants.armPlace))
+                new Drive(hardwareMap, 0.1, 0.336),
+                new ParallelCommandGroup(scheduler, new PixelTray(hardwareMap, 3000, -1, "R"), new RotateArm(hardwareMap, ArmConstants.armPlace))
         ));
         while (opModeIsActive())
         {
