@@ -39,7 +39,7 @@ public class Turn extends Command{
         PID.setMaxOutput(1);
         imu.resetYaw();
  }
-    public void execute() {
+    public boolean execute() {
         currentPos = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
         double power = PID.updatePID(imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES));
         this.PIDOutput = power;
@@ -48,6 +48,7 @@ public class Turn extends Command{
         Left_Front.setPower(power);
         Left_Back.setPower(power);
         Right_Back.setPower(power);
+        return false;
     }
 
         public void end() {

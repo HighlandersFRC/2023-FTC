@@ -1,20 +1,12 @@
 package org.firstinspires.ftc.teamcode.Commands;
 
-import com.qualcomm.hardware.bosch.BHI260IMU;
-import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.checkerframework.checker.units.qual.Angle;
-import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.robotcore.internal.opmode.TelemetryImpl;
-import org.firstinspires.ftc.teamcode.PID1;
 
 public class Rotate extends Command {
     private DcMotor Left_Back;
@@ -70,13 +62,14 @@ public class Rotate extends Command {
     public void start(){
         imu.resetYaw();
     }
-    public void execute(){
+    public boolean execute(){
     double power = PIDControl(radianAngle, imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS));
         Left_Front.setPower(power);
         Left_Back.setPower(power);
         Right_Front.setPower(power);
         Right_Back.setPower(power);
         this.Power = power;
+        return false;
     }
     public void end(){
         Left_Front.setPower(0);

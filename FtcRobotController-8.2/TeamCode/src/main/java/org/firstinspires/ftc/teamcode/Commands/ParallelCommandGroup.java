@@ -19,7 +19,8 @@ public class ParallelCommandGroup extends Command {
         }
     }
 
-    public void execute() {
+    public boolean execute() {
+        return false;
     }
 
 

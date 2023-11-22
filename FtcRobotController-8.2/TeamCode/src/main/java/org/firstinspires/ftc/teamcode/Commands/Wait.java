@@ -1,8 +1,6 @@
 package org.firstinspires.ftc.teamcode.Commands;
 
 
-import org.firstinspires.ftc.teamcode.Commands.Command;
-
 public class Wait extends Command {
         long time;
     long endTime;
@@ -12,8 +10,9 @@ public class Wait extends Command {
     public void start(){
         endTime = System.currentTimeMillis() + time;
     }
-    public void execute(){
+    public boolean execute(){
 
+        return false;
     }
     public void end(){
     }

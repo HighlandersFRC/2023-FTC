@@ -19,8 +19,9 @@ public class IntakeServo extends Command{
         RServo.setPosition(-180);
     }
 
-    public void execute(){
+    public boolean execute(){
         Done = true;
+        return false;
     }
 
     public void end(){

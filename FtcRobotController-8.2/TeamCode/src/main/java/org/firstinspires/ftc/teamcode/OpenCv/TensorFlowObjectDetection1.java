@@ -28,14 +28,13 @@ public class TensorFlowObjectDetection1 extends LinearOpMode {
      * The variable to store our instance of the vision portal.
      */
     private VisionPortal visionPortal;
-    private static final String TFOD_MODEL_ASSET = "modeltrial1.tflite" +
-            ".tflite";
+    private static final String TFOD_MODEL_ASSET = "modeltrial1.tflite";
     private static final String[] LABELS = {
             "BLUECUBE",
             "REDCUBE",
             "PURPLEPIXEL",
             "YELLOWPIXEL",
-            "GREENPIXEL",
+            "GREENPIXEL"
 
     };
 
@@ -68,7 +67,7 @@ public class TensorFlowObjectDetection1 extends LinearOpMode {
                //}
 
                 // Share the CPU.
-                sleep(20);
+                sleep(10);
             }
         }
 
@@ -95,7 +94,6 @@ public class TensorFlowObjectDetection1 extends LinearOpMode {
             .setIsModelQuantized(true)
             .setModelInputSize(360)
            // .setModelAspectRatio(16.0 / 9.0)
-
             .build();
 
         // Create the vision portal by using a builder.
@@ -155,6 +153,14 @@ if (x > 280 && x < 390) {
     telemetry.addData("Location", "Center");
     return "Center";
 }
+if (Float.isNaN(x)){
+    telemetry.addData("Location", "Center");
+    return "Center";
+}
+            currentRecognitions = tfod.getFreshRecognitions();
+
+
+
 
             telemetry.addData(""," ");
             telemetry.addData("Image", "%s (%.0f %% Conf.)", recognition.getLabel(), recognition.getConfidence() * 100);
