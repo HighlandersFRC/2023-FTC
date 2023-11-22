@@ -16,7 +16,7 @@ public class wristDown extends Command{
 
     }
     public void start() {
-        WristServo.setDirection(Servo.Direction.REVERSE);
+        WristServo.setDirection(Servo.Direction.FORWARD);
         WristServo.setPosition(target);
     }
 

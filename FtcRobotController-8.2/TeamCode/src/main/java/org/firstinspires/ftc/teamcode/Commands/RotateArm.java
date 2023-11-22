@@ -5,7 +5,6 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.ArmConstants;
 import org.firstinspires.ftc.teamcode.PID;
-
 public class RotateArm extends Command {
     public double targetPosition;
     public DcMotor Arm_Motor;

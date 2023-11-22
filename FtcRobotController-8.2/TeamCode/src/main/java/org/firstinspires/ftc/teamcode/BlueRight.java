@@ -13,6 +13,7 @@ import org.firstinspires.ftc.teamcode.Commands.CommandGroup;
 import org.firstinspires.ftc.teamcode.Commands.Drive;
 import org.firstinspires.ftc.teamcode.Commands.Intake;
 import org.firstinspires.ftc.teamcode.Commands.IntakeServo;
+import org.firstinspires.ftc.teamcode.Commands.IntakeServoUp;
 import org.firstinspires.ftc.teamcode.Commands.ParallelCommandGroup;
 import org.firstinspires.ftc.teamcode.Commands.RotateArm;
 import org.firstinspires.ftc.teamcode.Commands.Scheduler;
@@ -51,16 +52,17 @@ public class BlueRight extends LinearOpMode {
 
         scheduler.add(new CommandGroup(scheduler,
                 new ParallelCommandGroup(scheduler, new Drive(hardwareMap, 0.2, 0.65), new CommandGroup(scheduler, new Wait(1000), new IntakeServo(hardwareMap))),
-                new RotateArm(hardwareMap, ArmConstants.armIntake),
-                new wristDown(hardwareMap, 0.52),
+                new wristDown(hardwareMap, 0.56),
                 new Turn(hardwareMap, 90),
-                new Drive(hardwareMap, -0.1, 0.2),
-                new ParallelCommandGroup(scheduler, new Drive(hardwareMap, 0.5, -0.2), new pixelIntake(hardwareMap, 3000, -1, "L"), new Intake(hardwareMap, 3000, -1)),
+                new Drive(hardwareMap, -0.1, 0.38),
+                new ParallelCommandGroup(scheduler, new Drive(hardwareMap, 0.5, -0.2), new pixelIntake(hardwareMap, 3000, -1, "L"), new Intake(hardwareMap, 2000, -1)),
+                new IntakeServoUp(hardwareMap),
                 new Drive(hardwareMap, 0.2, 0.4),
+                new IntakeServo(hardwareMap),
                 new Drive(hardwareMap, 0.2, 0.11),
-                new wristDown(hardwareMap, 1),
-                new RotateArm(hardwareMap, ArmConstants.armIntake),
-                new ParallelCommandGroup(scheduler, new pixelIntake(hardwareMap, 3000, -1, "R"), new RotateArm(hardwareMap, ArmConstants.armIntake))
+                new RotateArm(hardwareMap, ArmConstants.armPlace),
+                new Drive(hardwareMap, 0.1, 0.11),
+                new ParallelCommandGroup(scheduler, new pixelIntake(hardwareMap, 3000, -1, "R"), new RotateArm(hardwareMap, ArmConstants.armPlace))
         ));
         while (opModeIsActive())
         {
