@@ -10,14 +10,12 @@ import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.tfod.TfodProcessor;
-
 import java.util.List;
 
 
-@TeleOp(name = "Concept: TensorFlow Object Detection White Pixel", group = "Concept")
+@TeleOp(name = "TensorFlow Object Detection", group = "Concept")
 //@Disabled
 public class TensorFlowObjectDetection1 extends LinearOpMode {
-
     private static final boolean USE_WEBCAM = true;  // true for webcam, false for phone camera
 
     /**
@@ -25,18 +23,20 @@ public class TensorFlowObjectDetection1 extends LinearOpMode {
      */
     private TfodProcessor tfod;
 
+
     /**
      * The variable to store our instance of the vision portal.
      */
     private VisionPortal visionPortal;
-    private static final String TFOD_MODEL_ASSET = "model_20231111_163542.tflite";
+    private static final String TFOD_MODEL_ASSET = "modeltrial1.tflite" +
+            ".tflite";
     private static final String[] LABELS = {
             "BLUECUBE",
             "REDCUBE",
-            "WHITEPIXEL",
             "PURPLEPIXEL",
+            "YELLOWPIXEL",
             "GREENPIXEL",
-            "YELLOWPIXEL"
+
     };
 
 
@@ -94,7 +94,7 @@ public class TensorFlowObjectDetection1 extends LinearOpMode {
             //.setIsModelTensorFlow2(true)
             .setIsModelQuantized(true)
             .setModelInputSize(360)
-            //.setModelAspectRatio(16.0 / 9.0)
+           // .setModelAspectRatio(16.0 / 9.0)
 
             .build();
 
@@ -109,22 +109,22 @@ public class TensorFlowObjectDetection1 extends LinearOpMode {
         }
 
 
-        //builder.setCameraResolution(new Size(640, 480));
+
 
         // Enable the RC preview (LiveView).  Set "false" to omit camera monitoring.
         builder.enableLiveView(true);
-
-
+        builder.setStreamFormat(VisionPortal.StreamFormat.YUY2);
+        builder.setAutoStopLiveView(false);
         builder.addProcessor(tfod);
 
 
         visionPortal = builder.build();
 
         // Set confidence threshold for TFOD recognitions, at any time.
-        //tfod.setMinResultConfidence(0.75f);
+        tfod.setMinResultConfidence(0.75f);
 
 
-        //visionPortal.setProcessorEnabled(tfod, true);
+        visionPortal.setProcessorEnabled(tfod, true);
 
     }   // end method initTfod()
 
@@ -143,17 +143,17 @@ public class TensorFlowObjectDetection1 extends LinearOpMode {
             float x = (recognition.getLeft() + recognition.getRight()) / 2 ;
             float y = (recognition.getTop()  + recognition.getBottom()) / 2 ;
 
-if (x < 250) {
+if (x < 280) {
     telemetry.addData("Location", "Left");
     return "Left";
 }
-if (x > 430) {
+if (x > 390) {
     telemetry.addData("Location", "Right");
     return "Right";
 }
-if (x > 250 && x < 430) {
-    telemetry.addData("Location", "Middle");
-    return "Middle";
+if (x > 280 && x < 390) {
+    telemetry.addData("Location", "Center");
+    return "Center";
 }
 
             telemetry.addData(""," ");
@@ -164,6 +164,11 @@ if (x > 250 && x < 430) {
 
         return null;
 
-    }   // end method telemetryTfod()
+    }   //end method telemetryTfod()
 
 }   // end class
+/*
+*
+
+*/
+//135

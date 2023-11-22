@@ -123,6 +123,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.controls.ExposureControl;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.controls.GainControl;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
@@ -150,24 +151,25 @@ public class Vision extends LinearOpMode {
                 .setLensIntrinsics(510.678, 510.678, 318.787, 228.335) //(secondary calc chasis bot)
                 .setTagLibrary(AprilTagGameDatabase.getCurrentGameTagLibrary())
                 .setTagFamily(AprilTagProcessor.TagFamily.TAG_36h11)
+                .setOutputUnits(DistanceUnit.METER, AngleUnit.RADIANS)
                 .build();
 
         VisionPortal visionPortal = new VisionPortal.Builder()
                 .addProcessor(tagProcessor)
                 .setCamera(hardwareMap.get(WebcamName.class, "webcam1"))
-                .setCameraResolution(new Size(640,480))
+                .setCameraResolution(new Size(640, 480))
                 .setStreamFormat(VisionPortal.StreamFormat.MJPEG)
 
 
                 .build();
 
-        while (visionPortal.getCameraState() != VisionPortal.CameraState.STREAMING) {}
-
+        while (visionPortal.getCameraState() != VisionPortal.CameraState.STREAMING) {
+        }
 
 
         ExposureControl exposure = visionPortal.getCameraControl(ExposureControl.class);
         exposure.setMode(ExposureControl.Mode.Manual);
-        exposure.setExposure(15, TimeUnit.MILLISECONDS );
+        exposure.setExposure(15, TimeUnit.MILLISECONDS);
 
         GainControl gain = visionPortal.getCameraControl(GainControl.class);
         gain.setGain(255);
@@ -176,20 +178,16 @@ public class Vision extends LinearOpMode {
         waitForStart();
 
 
-        while (!isStopRequested() && opModeIsActive()){
+        while (!isStopRequested() && opModeIsActive()) {
 
             //   visionPortal.saveNextFrameRaw("Test");
 
-            if(tagProcessor.getDetections().size() > 0) {
+            if (tagProcessor.getDetections().size() > 0) {
                 AprilTagDetection tag = tagProcessor.getDetections().get(0);
 
 
-
                 int id = tag.id; // This assumes 'tag' is an object with an 'id' property.
-                DistanceUnit Unit = DistanceUnit.METER ;
-
-
-
+                DistanceUnit Unit = DistanceUnit.METER;
 
 
                 telemetry.addLine(String.format("XYZ %6.2f %6.2f %6.2f", tag.ftcPose.x, tag.ftcPose.y, tag.ftcPose.z));
@@ -205,7 +203,7 @@ public class Vision extends LinearOpMode {
                 telemetry.addData("yaw", tag.ftcPose.yaw);
 
 
-            } else if (tagProcessor.getDetections().size() >= 1) {
+          } else if (tagProcessor.getDetections().size() >= 1) {
                 AprilTagDetection tag = tagProcessor.getDetections().get(1);
 
 
@@ -260,12 +258,11 @@ public class Vision extends LinearOpMode {
             telemetry.update();
 
 
+
+            }
+
+
         }
-
-
-
-
 
     }
 
-}
