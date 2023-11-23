@@ -1,7 +1,12 @@
 package org.firstinspires.ftc.teamcode.Autos;
 
+import com.qualcomm.hardware.bosch.BHI260IMU;
+import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.IMU;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 import org.firstinspires.ftc.teamcode.ArmConstants;
 import org.firstinspires.ftc.teamcode.Commands.CommandGroup;
 import org.firstinspires.ftc.teamcode.Commands.DeployIntake;
@@ -20,11 +25,16 @@ import org.firstinspires.ftc.teamcode.Commands.WristUp;
 @com.qualcomm.robotcore.eventloop.opmode.Autonomous
 
 public class BlueNearMiddle extends LinearOpMode {
+    public IMU imu;
 
     Scheduler scheduler = new Scheduler();
 
     @Override
     public void runOpMode() {
+        IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
+                RevHubOrientationOnRobot.LogoFacingDirection.RIGHT,
+                RevHubOrientationOnRobot.UsbFacingDirection.UP));
+        imu.initialize(parameters);
 
         waitForStart();
 
@@ -35,15 +45,17 @@ public class BlueNearMiddle extends LinearOpMode {
                 new Drive(hardwareMap, -0.2, 0.539),
                 new ParallelCommandGroup(scheduler, new Drive(hardwareMap, 0.15, -0.1), new PixelTray(hardwareMap, 3000, -1, "L"), new CommandGroup(scheduler, new Wait(1000), new Intake(hardwareMap, 1000, -0.25))),
                 new WristUp(hardwareMap),
-                new Wait(1000),
-                new RetractIntake(hardwareMap),
-                new Drive(hardwareMap, 0.1, 0.32),
+                new Wait(1000)
+                /*new RetractIntake(hardwareMap),
+                new Drive(hardwareMap, 0.1, 0.22),
                 new Turn(hardwareMap, -90),
                 new Drive(hardwareMap,0.2, 0.83),
                 new RotateArm(hardwareMap, ArmConstants.armPlace),
                 new ParallelCommandGroup(scheduler, new PixelTray(hardwareMap, 3000, -1, "R"), new RotateArm(hardwareMap, ArmConstants.armPlace))
-        ));
+*/        ));
         while (opModeIsActive()) {
+            telemetry.addData("IMU", imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES));
+            telemetry.update();
             scheduler.update();
         }
     }

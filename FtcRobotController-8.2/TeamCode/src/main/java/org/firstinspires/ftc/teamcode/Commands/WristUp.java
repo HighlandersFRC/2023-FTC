@@ -13,7 +13,6 @@ public class WristUp extends Command{
     public void start() {
         WristServo.setDirection(Servo.Direction.REVERSE);
         WristServo.setPosition(0);
-
     }
 
     public void execute() {
