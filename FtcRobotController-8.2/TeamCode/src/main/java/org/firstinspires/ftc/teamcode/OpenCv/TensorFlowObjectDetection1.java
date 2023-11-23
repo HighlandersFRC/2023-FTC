@@ -157,6 +157,9 @@ if (Float.isNaN(x)){
     telemetry.addData("Location", "Center");
     return "Center";
 }
+//NOTE, for the better Left, Right, Center without the telemetry copy the one from my command named MODULETEAMPROP.java in the commands folder.
+// It may also be renamed as TEAMPROPOBJECTDETECTION.java TENSORFLOWOBJECTDETECTIONCOMMAND.java and cmd.java are NOT correct -------|^
+
             currentRecognitions = tfod.getFreshRecognitions();
 
 
