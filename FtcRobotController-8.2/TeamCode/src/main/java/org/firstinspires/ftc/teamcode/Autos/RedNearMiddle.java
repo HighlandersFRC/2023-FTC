@@ -24,7 +24,7 @@ import org.firstinspires.ftc.teamcode.Commands.WristUp;
 
 @com.qualcomm.robotcore.eventloop.opmode.Autonomous
 
-public class BlueNearMiddle extends LinearOpMode {
+public class RedNearMiddle extends LinearOpMode {
 
     Scheduler scheduler = new Scheduler();
 
@@ -43,7 +43,7 @@ public class BlueNearMiddle extends LinearOpMode {
                 new Wait(1000),
                 new RetractIntake(hardwareMap),
                 new Drive(hardwareMap, 0.1, 0.22),
-                new Turn(hardwareMap, -90),
+                new Turn(hardwareMap, 90),
                 new Drive(hardwareMap,0.2, 0.83),
                 new RotateArm(hardwareMap, ArmConstants.armPlace),
                 new ParallelCommandGroup(scheduler, new PixelTray(hardwareMap, 3000, -1, "R"), new RotateArm(hardwareMap, ArmConstants.armPlace))
