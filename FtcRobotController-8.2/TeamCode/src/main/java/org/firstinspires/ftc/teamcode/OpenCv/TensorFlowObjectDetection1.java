@@ -110,7 +110,7 @@ public class TensorFlowObjectDetection1 extends LinearOpMode {
 
 
         // Enable the RC preview (LiveView).  Set "false" to omit camera monitoring.
-        builder.enableLiveView(true);
+        builder.enableCameraMonitoring(true);
         builder.setStreamFormat(VisionPortal.StreamFormat.YUY2);
         builder.setAutoStopLiveView(false);
         builder.addProcessor(tfod);
@@ -131,32 +131,39 @@ public class TensorFlowObjectDetection1 extends LinearOpMode {
 
      * @return
      */
+
     private String telemetryTfod() {
 
         List<Recognition> currentRecognitions = tfod.getRecognitions();
         telemetry.addData("# Objects Detected", currentRecognitions.size());
-
+   Boolean go = true;
         // Step through the list of recognitions and display info for each one.
         for (Recognition recognition : currentRecognitions) {
             float x = (recognition.getLeft() + recognition.getRight()) / 2 ;
             float y = (recognition.getTop()  + recognition.getBottom()) / 2 ;
 
-if (x < 280) {
-    telemetry.addData("Location", "Left");
-    return "Left";
+            if("BLUECUBE".equals(LABELS)) {
+                return String.valueOf(go);
+            }
+if (go) {
+    if (x < 280) {
+        telemetry.addData("Location", "Left");
+        return "Left";
+    }
+    if (x > 390) {
+        telemetry.addData("Location", "Right");
+        return "Right";
+    }
+    if (x > 280 && x < 390) {
+        telemetry.addData("Location", "Center");
+        return "Center";
+    }
+    if (Float.isNaN(x)) {
+        telemetry.addData("Location", "Center");
+        return "Center";
+    }
 }
-if (x > 390) {
-    telemetry.addData("Location", "Right");
-    return "Right";
-}
-if (x > 280 && x < 390) {
-    telemetry.addData("Location", "Center");
-    return "Center";
-}
-if (Float.isNaN(x)){
-    telemetry.addData("Location", "Center");
-    return "Center";
-}
+
 //NOTE, for the better Left, Right, Center without the telemetry copy the one from my command named MODULETEAMPROP.java in the commands folder.
 // It may also be renamed as TEAMPROPOBJECTDETECTION.java TENSORFLOWOBJECTDETECTIONCOMMAND.java and cmd.java are NOT correct -------|^
 
