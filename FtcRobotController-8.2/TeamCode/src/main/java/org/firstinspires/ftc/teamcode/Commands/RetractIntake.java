@@ -14,7 +14,6 @@ public class RetractIntake extends Command{
 
     public void start(){
         LServo.setPosition(0.7);
-        LServo.setDirection(Servo.Direction.FORWARD);
     }
 
     public void execute(){
