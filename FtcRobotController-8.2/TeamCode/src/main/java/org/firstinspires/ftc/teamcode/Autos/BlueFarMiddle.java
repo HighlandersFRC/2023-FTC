@@ -1,9 +1,13 @@
 package org.firstinspires.ftc.teamcode.Autos;
 
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.hardware.bosch.BHI260IMU;
+import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.IMU;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 import org.firstinspires.ftc.teamcode.ArmConstants;
 import org.firstinspires.ftc.teamcode.Commands.CommandGroup;
 import org.firstinspires.ftc.teamcode.Commands.DeployIntake;
@@ -19,32 +23,25 @@ import org.firstinspires.ftc.teamcode.Commands.Turn;
 import org.firstinspires.ftc.teamcode.Commands.Wait;
 import org.firstinspires.ftc.teamcode.Commands.WristUp;
 
-@Autonomous
+@com.qualcomm.robotcore.eventloop.opmode.Autonomous
+public class BlueFarMiddle extends LinearOpMode {
 
-public class BlueNearLeft extends LinearOpMode {
     Scheduler scheduler = new Scheduler();
 
     @Override
     public void runOpMode() {
+
         waitForStart();
+
         scheduler.add(new CommandGroup(scheduler,
-                new ParallelCommandGroup(scheduler, new Drive(hardwareMap, 0.2, 0.75), new CommandGroup(scheduler, new Wait(1000), new DeployIntake(hardwareMap, "Deploy"))),
+                new ParallelCommandGroup(scheduler, new Drive(hardwareMap, 0.2, 0.42), new CommandGroup(scheduler, new Wait(1000), new DeployIntake(hardwareMap, "Deploy"))),
                 new MoveWrist(hardwareMap, 0.58),
-                new Turn(hardwareMap, 90),
-                new Drive(hardwareMap, 0.1, 0.3),
-                new ParallelCommandGroup(scheduler, new Drive(hardwareMap, 0.15, -0.1), new PixelTray(hardwareMap, 3000, -1, "L"), new CommandGroup(scheduler, new Wait(1000),  new Intake(hardwareMap, 1000, -0.25))),
-                new WristUp(hardwareMap),
-                new Wait(1000),
-                new RetractIntake(hardwareMap),
-                        new Drive(hardwareMap, 0.15, 0.4),
-                        new DeployIntake(hardwareMap, "Deploy"),
-                        new Wait(1000),
-                        new RotateArm(hardwareMap, ArmConstants.armPlace),
-                        new ParallelCommandGroup(scheduler, new PixelTray(hardwareMap, 3000, -1, "R"), new RotateArm(hardwareMap, ArmConstants.armPlace))
-                ));
-        while (opModeIsActive()){
+                new Turn(hardwareMap, 180),
+                new Drive(hardwareMap, -0.2, 0.539),
+                new ParallelCommandGroup(scheduler, new Drive(hardwareMap, 0.15, -0.1), new PixelTray(hardwareMap, 3000, -1, "L"), new CommandGroup(scheduler, new Wait(1000), new Intake(hardwareMap, 1000, -0.25)))
+        ));
+        while (opModeIsActive()) {
             scheduler.update();
         }
-
     }
 }

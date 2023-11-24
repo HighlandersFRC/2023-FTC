@@ -13,7 +13,7 @@ public class MoveWrist extends Command{
 
     }
     public void start() {
-        WristServo.setDirection(Servo.Direction.FORWARD);
+        WristServo.setDirection(Servo.Direction.REVERSE);
         WristServo.setPosition(target);
     }
 

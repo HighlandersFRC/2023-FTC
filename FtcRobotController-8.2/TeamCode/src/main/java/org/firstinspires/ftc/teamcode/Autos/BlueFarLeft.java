@@ -20,8 +20,7 @@ import org.firstinspires.ftc.teamcode.Commands.Wait;
 import org.firstinspires.ftc.teamcode.Commands.WristUp;
 
 @Autonomous
-
-public class BlueNearLeft extends LinearOpMode {
+public class BlueFarLeft extends LinearOpMode {
     Scheduler scheduler = new Scheduler();
 
     @Override
@@ -32,16 +31,8 @@ public class BlueNearLeft extends LinearOpMode {
                 new MoveWrist(hardwareMap, 0.58),
                 new Turn(hardwareMap, 90),
                 new Drive(hardwareMap, 0.1, 0.3),
-                new ParallelCommandGroup(scheduler, new Drive(hardwareMap, 0.15, -0.1), new PixelTray(hardwareMap, 3000, -1, "L"), new CommandGroup(scheduler, new Wait(1000),  new Intake(hardwareMap, 1000, -0.25))),
-                new WristUp(hardwareMap),
-                new Wait(1000),
-                new RetractIntake(hardwareMap),
-                        new Drive(hardwareMap, 0.15, 0.4),
-                        new DeployIntake(hardwareMap, "Deploy"),
-                        new Wait(1000),
-                        new RotateArm(hardwareMap, ArmConstants.armPlace),
-                        new ParallelCommandGroup(scheduler, new PixelTray(hardwareMap, 3000, -1, "R"), new RotateArm(hardwareMap, ArmConstants.armPlace))
-                ));
+                new ParallelCommandGroup(scheduler, new Drive(hardwareMap, 0.15, -0.1), new PixelTray(hardwareMap, 3000, -1, "L"), new CommandGroup(scheduler, new Wait(1000),  new Intake(hardwareMap, 1000, -0.25)))
+        ));
         while (opModeIsActive()){
             scheduler.update();
         }

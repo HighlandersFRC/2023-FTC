@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.Autos;
 
 import com.qualcomm.hardware.bosch.BHI260IMU;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.IMU;
 
@@ -23,6 +24,7 @@ import org.firstinspires.ftc.teamcode.Commands.Wait;
 import org.firstinspires.ftc.teamcode.Commands.WristUp;
 
 @com.qualcomm.robotcore.eventloop.opmode.Autonomous
+@Disabled
 
 public class BlueNearMiddle extends LinearOpMode {
 

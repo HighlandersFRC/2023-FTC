@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Autos;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.ArmConstants;
@@ -18,6 +19,7 @@ import org.firstinspires.ftc.teamcode.Commands.PixelTray;
 import org.firstinspires.ftc.teamcode.Commands.WristUp;
 
 @com.qualcomm.robotcore.eventloop.opmode.Autonomous
+@Disabled
 
 public class BlueNearRight extends LinearOpMode {
     Scheduler scheduler = new Scheduler();
