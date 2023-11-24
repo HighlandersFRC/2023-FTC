@@ -78,23 +78,19 @@ public class FieldCentricMecanumTeleOp extends LinearOpMode {
             int position_Right_Intake = Right_Intake.getCurrentPosition();
             int position_Arm1 = Arm1.getCurrentPosition();
             int position_Arm2 = Arm2.getCurrentPosition();
-            double revolutions_Right_Intake = position_Right_Intake/CPR;
-            double revolutions_Arm1 = position_Arm1/CPR;
-            double revolutions_Arm2 = position_Arm2/CPR;
+            double revolutions_Right_Intake = position_Right_Intake / CPR;
+            double revolutions_Arm1 = position_Arm1 / CPR;
+            double revolutions_Arm2 = position_Arm2 / CPR;
             double angle_Right_Intake = revolutions_Right_Intake * 360;
             double angle_Arm1 = revolutions_Arm1 * 360;
-            double angle_Arm2= revolutions_Arm2 * 360;
+            double angle_Arm2 = revolutions_Arm2 * 360;
             double angleNormalized_Right_Intake = angle_Right_Intake % 360;
             double angleNormalized_Arm1 = angle_Arm1 % 360;
             double angleNormalized_Arm2 = angle_Arm2 % 360;
 
 
-
-
-
-
-            timeElapsed  = System.currentTimeMillis();
-            if (timeElapsed >= 1){
+            timeElapsed = System.currentTimeMillis();
+            if (timeElapsed >= 1) {
 
             }
             double leftTrigger = gamepad1.left_trigger;
@@ -105,15 +101,15 @@ public class FieldCentricMecanumTeleOp extends LinearOpMode {
 
             PID.setMaxOutput(1);
             PID.setMinOutput(-1);
-            PID.setPID(0.003,0 ,0.001);
+            PID.setPID(0.003, 0, 0.001);
             PID.updatePID(Arm1.getCurrentPosition());
             Arm1.setPower(PID.getResult() - 0.001);
             Arm2.setPower(PID.getResult() - 0.001);
 
-            if (!(rightTrigger == 0)){
+            if (!(rightTrigger == 0)) {
                 intakeServo.setPower(1);
             }
-            if (!(leftTrigger == 0)){
+            if (!(leftTrigger == 0)) {
                 intakeServo.setPower(-1);
             }
             /*
@@ -130,26 +126,26 @@ public class FieldCentricMecanumTeleOp extends LinearOpMode {
                  }
              }
             */
-            if (gamepad1.dpad_up){
+            if (gamepad1.dpad_up) {
                 LServo.setPosition(-120);
                 RServo.setPosition(120);
             }
-            if (gamepad1.dpad_down){
+            if (gamepad1.dpad_down) {
                 LServo.setPosition(1);
                 RServo.setPosition(-1);
             }
-            if (gamepad2.a){
+            if (gamepad2.a) {
                 PID.setSetPoint(-350);
 
             }
-            if (gamepad2.b){
+            if (gamepad2.b) {
                 PID.setSetPoint(250);
             }
 
-            if (gamepad2.x){
+            if (gamepad2.x) {
                 PID.setSetPoint(-75);
             }
-            if (gamepad2.y){
+            if (gamepad2.y) {
                 PID.setSetPoint(-175);
             }
             Right_Intake.setPower(-intakePower);
@@ -177,7 +173,6 @@ public class FieldCentricMecanumTeleOp extends LinearOpMode {
                 double backRightPower = (rotY + rotX - rx) / denominator;
 
 
-
                 Left_Front.setPower(-frontLeftPower);
                 Left_Back.setPower(-backLeftPower);
                 Right_Front.setPower(-frontRightPower);
@@ -200,20 +195,20 @@ public class FieldCentricMecanumTeleOp extends LinearOpMode {
                 telemetry.addData("time", time);
 
                 telemetry.addData("Encoder Position Right Intake", position_Right_Intake);
-                telemetry.addData("Encoder Position Arm1", position_Arm1 );
+                telemetry.addData("Encoder Position Arm1", position_Arm1);
                 telemetry.addData("Encoder Position Arm2", position_Arm2);
-                telemetry.addData("Encoder Revolutions Right Intake", revolutions_Right_Intake );
-                telemetry.addData("Encoder Revolutions Arm1", revolutions_Arm1 );
+                telemetry.addData("Encoder Revolutions Right Intake", revolutions_Right_Intake);
+                telemetry.addData("Encoder Revolutions Arm1", revolutions_Arm1);
                 telemetry.addData("Encoder Revolutions Arm2", revolutions_Arm2);
-                telemetry.addData("Encoder Angle (Degrees) Right Intake", angle_Right_Intake );
-                telemetry.addData("Encoder Angle (Degrees) Arm1", angle_Arm1 );
+                telemetry.addData("Encoder Angle (Degrees) Right Intake", angle_Right_Intake);
+                telemetry.addData("Encoder Angle (Degrees) Arm1", angle_Arm1);
                 telemetry.addData("Encoder Angle (Degrees) Arm2", angle_Arm2);
-                telemetry.addData("Encoder Angle Right Intake - Normalized (Degrees) ", angleNormalized_Right_Intake );
-                telemetry.addData("Encoder Angle Arm2- Normalized (Degrees)", angleNormalized_Arm1 );
+                telemetry.addData("Encoder Angle Right Intake - Normalized (Degrees) ", angleNormalized_Right_Intake);
+                telemetry.addData("Encoder Angle Arm2- Normalized (Degrees)", angleNormalized_Arm1);
                 telemetry.addData("Encoder Angle Arm2- Normalized (Degrees)", angleNormalized_Arm2);
 
-                telemetry.update();}
-
+                telemetry.update();
+            }
         }
     }
 }
