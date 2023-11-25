@@ -12,6 +12,7 @@ public class navX2 {
 
     AHRS ahrs = new AHRS();
 
+
     private AHRS hardwareMap(String deviceName) {
         return null;
     }
@@ -19,8 +20,8 @@ public class navX2 {
     public AHRS getAhrs() {
         return ahrs;
     }
+
     I2cDevice getNavx() {
         return navx;
     }
-
 }
